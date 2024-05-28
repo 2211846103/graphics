@@ -1,3 +1,5 @@
+#define GLFW_DLL
+
 // Includes
 #include <GLFW/glfw3.h>
 #include <iostream>

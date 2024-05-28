@@ -6,9 +6,11 @@ INCLUDE_DIR := include
 SRC_DIR := src
 LIB_DIR := libs
 
-INCLUDE := $(wildcard $(INCLUDE_DIR)/*.hpp)
+LIBS_ARGS :=  $(basename -l$(wildcard *.dll))
+
+INCLUDE := -I$(INCLUDE_DIR)
 SRC := $(wildcard $(SRC_DIR)/*.cpp)
-LIBS :=  $(basename $(wildcard *.dll))
+LIBS := -L$(LIB_DIR)
 
 install: clean compile
 
@@ -17,4 +19,4 @@ clean:
 	mkdir $(BUILD_DIR)
 
 compile: $(SRC)
-	g++ $(SRC) -I ./$(INCLUDE_DIR) -L ./$(LIB_DIR) -lglfw3 -o $(BUILD_DIR)/$(PROJECT)
+	g++ $(SRC) $(INCLUDE) $(LIBS) $(LIBS_ARGS) -o $(BUILD_DIR)/$(PROJECT)
