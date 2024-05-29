@@ -16,8 +16,12 @@ LIBS := -L $(LIB_DIR)
 
 install: clean compile
 
-clean:
+clean: clearDir buildDir
+
+clearDir:
 	rm -rf $(BUILD_DIR)
+
+buildDir:
 	mkdir $(BUILD_DIR)
 	cp $(LIB_DIR)/*.dll $(BUILD_DIR)/
 
