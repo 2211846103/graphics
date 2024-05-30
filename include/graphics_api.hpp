@@ -23,7 +23,4 @@ namespace Graphics {
     class OpenGLGraphics: public GraphicsApi {
         void init(int x, int y, int width, int height);
     };
-    class OpenGLGraphics: public GraphicsApi {
-
-    };
 }
