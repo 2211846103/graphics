@@ -1,0 +1,35 @@
+interface GraphicsAPI {
+  + Initialize()
+  + CreateTexture(path: string): Texture
+  + CreateShader(vertex: string, fragment: string): Shader
+  + CreateBuffer(data: array): Buffer
+  + CreateVertexArray(): VertexArray
+  + Draw(vertexArray: VertexArray, shader: Shader, texture: Texture)
+}
+
+class OpenGLGraphicsAPI implements GraphicsAPI {
+  + Initialize()
+  + CreateTexture(path: string): Texture
+  + CreateShader(vertex: string, fragment: string): Shader
+  + CreateBuffer(data: array): Buffer
+  + CreateVertexArray(): VertexArray
+  + Draw(vertexArray: VertexArray, shader: Shader, texture: Texture)
+}
+
+class Renderer {
+  - graphicsApi: GraphicsAPI
+  + Render(scene: Scene)
+}
+
+class Scene {
+  - gameObjects: array<GameObject>
+  + AddGameObject(gameObject: GameObject)
+  + RemoveGameObject(gameObject: GameObject)
+}
+
+class GameObject {
+  - vertexArray: VertexArray
+  - shader: Shader
+  - texture: Texture
+  + Render(renderer: Renderer)
+}

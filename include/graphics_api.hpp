@@ -1,10 +1,11 @@
 #pragma once
 
+#include <graphics_components.hpp>
+
 namespace Graphics {
     // Boilerplate (Don't mind it)
     struct Texture {};
     struct Shader {};
-    struct Buffer {};
     struct VertexArray {};
 
     class GraphicsApi {
@@ -14,8 +15,10 @@ namespace Graphics {
             virtual Shader createShader(char* vertexSource, char* fragmentSource);
             virtual Buffer createBuffer(void* data);
             virtual VertexArray createVertexArray();
-            virtual void Draw(VertexArray vertexArray, Shader shader, Texture texture);
+            virtual void Draw(VertexArray& vertexArray, Shader& shader, Texture& texture);
     };
 
-    class OpenGLGraphics: public GraphicsApi {};
+    class OpenGLGraphics: public GraphicsApi {
+
+    };
 }
