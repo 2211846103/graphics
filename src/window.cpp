@@ -1,16 +1,25 @@
 #include "window.hpp"
 
-GRAPHICS::WINDOW::WINDOW(int w, int h, char* name) : _width{w}, _height{h}, _windowName{name} {
-    glfwInit();
+Graphics::Window::Window(int w, int h, char* name) : _width{w}, _height{h}, _windowName{name} {
+    initWindow();
 }
 
-GRAPHICS::WINDOW::~WINDOW() {
-    glfwDestroyWindow(window);
+Graphics::Window::~Window() {
+    glfwDestroyWindow(_window);
 
     glfwTerminate();
 }
 
-void GRAPHICS::WINDOW::initWindow() {
+bool Graphics::Window::shouldClose() {
+    return glfwWindowShouldClose(_window);
+}
+
+void Graphics::Window::update() {
+    glfwPollEvents();
+    glfwSwapBuffers(_window);
+}
+
+void Graphics::Window::initWindow() {
     glfwInit();
 
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -20,5 +29,5 @@ void GRAPHICS::WINDOW::initWindow() {
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     #endif
 
-    window = glfwCreateWindow(_width, _height, _windowName, nullptr, nullptr);
+    _window = glfwCreateWindow(_width, _height, _windowName, nullptr, nullptr);
 }

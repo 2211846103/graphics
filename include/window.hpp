@@ -2,13 +2,15 @@
 
 #include <glfw/glfw3.h>
 
-namespace GRAPHICS {
-    class WINDOW {
+namespace Graphics {
+    class Window {
         public:
-            WINDOW(int w, int h, char* name);
-            ~WINDOW();
+            Window(int w, int h, char* name);
+            ~Window();
 
             bool shouldClose();
+
+            void update();
 
         private:
             void initWindow();
@@ -17,7 +19,7 @@ namespace GRAPHICS {
             int _height;
 
             char* _windowName;
-            GLFWwindow* window;
+            GLFWwindow* _window;
     };
 
 }
