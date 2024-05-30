@@ -26,8 +26,12 @@ int main(int argc, char* argv[]) {
     while (!glfwWindowShouldClose(window))
     {
         // Checks and call events and swap the buffers
+        glClearColor(0.6f, 0.2f, 0.2f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT);
+
         glfwPollEvents();
         glfwSwapBuffers(window);
+
     }
 
     // Cleans/Deletes all GLFW resources that we allocated.
