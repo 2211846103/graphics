@@ -1,6 +1,7 @@
 # graphics
 
 ## Usage:
-
-Run ` mingw32-make ` in the main directory
-or ` make ` if you are on linux
+1. Create directory for building ` Build `
+2. Run CMake on the root directory and the build directory ` cmake -S <source> -B <build> `
+3. Choose the generator ` cmake -G <generator> `
+4. Compile the build directory
