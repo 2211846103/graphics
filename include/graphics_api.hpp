@@ -1,5 +1,7 @@
 #pragma once
 
+#include <glad/glad.h>
+
 namespace Graphics {
     // Boilerplate (Don't mind it)
     struct Texture {};
@@ -17,5 +19,7 @@ namespace Graphics {
             virtual void Draw(VertexArray vertexArray, Shader shader, Texture texture);
     };
 
-    class OpenGLGraphics: public GraphicsApi {};
+    class OpenGLGraphics: public GraphicsApi {
+        void init(int x, int y, int width, int height);
+    };
 }
