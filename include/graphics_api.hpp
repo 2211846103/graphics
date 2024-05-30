@@ -1,5 +1,7 @@
 #pragma once
 
+#include <glad/glad.h>
+
 #include <graphics_components.hpp>
 
 namespace Graphics {
@@ -18,6 +20,9 @@ namespace Graphics {
             virtual void Draw(VertexArray& vertexArray, Shader& shader, Texture& texture);
     };
 
+    class OpenGLGraphics: public GraphicsApi {
+        void init(int x, int y, int width, int height);
+    };
     class OpenGLGraphics: public GraphicsApi {
 
     };
