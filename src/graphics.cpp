@@ -1,6 +1,7 @@
 #define GLFW_DLL
 
 // Includes
+#include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
 
