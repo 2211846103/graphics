@@ -5,10 +5,12 @@
 
 #include "window.hpp"
 
+using namespace Graphics;
+
 // Main code
 int main(int argc, char* argv[]) {
 
-    Graphics::Window window(800, 600, "test");
+    Window window(800, 600, "test");
     
 
     while (!window.shouldClose())

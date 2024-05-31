@@ -5,6 +5,12 @@
 namespace Graphics {
     class Window {
         public:
+            int width;
+            int height;
+            char* windowName;
+
+            GLFWwindow* window;
+
             Window(int w, int h, char* name);
             ~Window();
 
@@ -12,14 +18,9 @@ namespace Graphics {
 
             void update();
 
-        private:
             void initWindow();
 
-            int _width;
-            int _height;
-
-            char* _windowName;
-            GLFWwindow* _window;
+            
     };
 
 }

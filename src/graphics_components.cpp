@@ -1,6 +1,8 @@
 #include <graphics_components.hpp>
 
-void Graphics::Buffer::setData(void* data) {
+using namespace Graphics;
+
+void Buffer::setData(void* data) {
     this->data = data;
 }
 

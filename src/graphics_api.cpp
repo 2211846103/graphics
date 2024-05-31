@@ -1,10 +1,12 @@
 #include <graphics_api.hpp>
 
-void init(int x, int y, int width, int height) {
-    glViewport(x, y, width, height);
+using namespace Graphics;
+
+void OpenGLGraphics::init(Window &window) {
+    glViewport(0, 0, window.width, window.height);
 }
 
-Graphics::Buffer Graphics::GraphicsApi::createBuffer(void* data) {
+Buffer GraphicsApi::createBuffer(void* data) {
     Graphics::Buffer buffer;
     buffer.setData(data);
     return buffer;
