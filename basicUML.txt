@@ -2,7 +2,7 @@ interface GraphicsAPI {
   + Initialize()
   + CreateTexture(path: string): Texture
   + CreateShader(vertex: string, fragment: string): Shader
-  + CreateBuffer(data: array): Buffer
+  + CreateBuffer(type: BufferType, data: array, usage: BufferUsage): Buffer
   + CreateVertexArray(): VertexArray
   + Draw(vertexArray: VertexArray, shader: Shader, texture: Texture)
 }

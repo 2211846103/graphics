@@ -1,17 +1,39 @@
 #pragma once
 
+#include <glad/glad.h>
+
 namespace Graphics {
+    enum BufferType {
+        VertexBuffer, IndexBuffer, UniformBuffer,
+        TextureBuffer, ShaderStorageBuffer
+    };
+
     enum BufferUsage {
-        STATIC_DRAW, DYNAMIC_DRAW, STREAM_DRAW
+        StaticDraw, DynamicDraw, StreamDraw,
+        StaticCopy, DynamicCopy, StreamCopy,
+        StaticRead, DynamicRead, StreamRead
     };
 
     class Buffer {
-        public:
-            void* data;
-            BufferUsage usage;
+        protected:
+            void* _data;
 
-            void bind();
+        public:
+            virtual void bind(BufferType type);
+            virtual void unbind();
+            virtual void setData(void* data);
+    };
+
+    class OpenGLBuffer : public Buffer {
+        private:
+            GLenum _type;
+
+        public:
+            GLuint id;
+            GLenum usage;
+
+            void bind(BufferType type);
             void unbind();
             void setData(void* data);
-    };    
+    };
 }
