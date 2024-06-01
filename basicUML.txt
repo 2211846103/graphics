@@ -33,3 +33,13 @@ class GameObject {
   - texture: Texture
   + Render(renderer: Renderer)
 }
+
+class VertexArray {
+  - vertexBuffer: Buffer
+  - indexBuffer: Buffer
+  - vertexCount: int
+  - indexCount: int
+  + Bind()
+  + Unbind()
+  + Draw()
+}

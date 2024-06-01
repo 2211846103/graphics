@@ -26,5 +26,32 @@ void OpenGLBuffer::unbind() {
 }
 
 void OpenGLBuffer::setData(void* data) {
+    this->_data = data;
     glBufferData(this->_type, sizeof(this->_data), this->_data, this->usage);
+}
+
+void OpenGLVertexArray::bind() {
+    glBindVertexArray(id);
+}
+
+void OpenGLVertexArray::unbind() {
+    glBindVertexArray(0);
+}
+
+void OpenGLVertexArray::setVertexBuffer(Buffer& vertexBuffer) {
+    this->vertexBuffer = vertexBuffer;
+}
+
+void OpenGLVertexArray::setIndexBuffer(Buffer& indexBuffer) {
+    this->indexBuffer = indexBuffer;
+}
+
+void OpenGLVertexArray::draw() {
+    bind();
+    glDrawArrays(GL_TRIANGLES, 0, this->vertexCount);
+    unbind();
+}
+
+void OpenGLVertexArray::drawIndexed() {
+    
 }

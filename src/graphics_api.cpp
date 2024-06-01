@@ -1,11 +1,19 @@
 #include <graphics_api.hpp>
 
-void Graphics::OpenGLGraphics::init(int x, int y, int width, int height) {
+using namespace Graphics;
+
+Vertex::Vertex(float x, float y, float z) {
+    this->_position[0] = x;
+    this->_position[1] = y;
+    this->_position[2] = z;
+}
+
+void OpenGLGraphics::init(int x, int y, int width, int height) {
     glViewport(x, y, width, height);
 }
 
-Graphics::Buffer Graphics::OpenGLGraphics::createBuffer(BufferType type, void* data, BufferUsage usage) {
-    Graphics::OpenGLBuffer buffer;
+Buffer OpenGLGraphics::createBuffer(BufferType type, void* data, BufferUsage usage) {
+    OpenGLBuffer buffer;
 
     switch(usage) {
         case StaticDraw:
@@ -33,6 +41,28 @@ Graphics::Buffer Graphics::OpenGLGraphics::createBuffer(BufferType type, void* d
     glGenBuffers(1, &buffer.id);
     buffer.bind(type);
     buffer.setData(data);
+    buffer.unbind();
 
     return buffer;
+}
+
+VertexArray OpenGLGraphics::createVertexArray(Vertex* vertices) {
+    OpenGLVertexArray vertexArray;
+    vertexArray.vertexCount = sizeof(vertices) / sizeof(Vertex);
+
+    Buffer vertexBuffer = createBuffer(VertexBuffer, vertices, StaticDraw);
+    vertexArray.setVertexBuffer(vertexBuffer);
+
+    glGenVertexArrays(1, &vertexArray.id);
+    vertexArray.bind();
+
+    vertexArray.vertexBuffer.bind(VertexBuffer);
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vertices->_position), (void*)0);
+
+    vertexArray.unbind();
+}
+
+void OpenGLGraphics::draw(VertexArray& vertexArray, Shader& shader, Texture& texture) {
+    
 }

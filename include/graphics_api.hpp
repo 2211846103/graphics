@@ -7,7 +7,12 @@ namespace Graphics {
     // Boilerplate (Don't mind it)
     struct Texture {};
     struct Shader {};
-    struct VertexArray {};
+
+    class Vertex {
+        public:
+            float _position[3];
+            Vertex (float x, float y, float z);
+    };
 
     class GraphicsApi {
         public:
@@ -15,13 +20,15 @@ namespace Graphics {
             virtual Texture createTexture(char* path);
             virtual Shader createShader(char* vertexSource, char* fragmentSource);
             virtual Buffer createBuffer(BufferType type, void* data, BufferUsage usage);
-            virtual VertexArray createVertexArray();
-            virtual void Draw(VertexArray& vertexArray, Shader& shader, Texture& texture);
+            virtual VertexArray createVertexArray(Vertex* vertices);
+            virtual void draw(VertexArray& vertexArray, Shader& shader, Texture& texture);
     };
 
     class OpenGLGraphics: public GraphicsApi {
         public:
             void init(int x, int y, int width, int height);
             Buffer createBuffer(BufferType type, void* data, BufferUsage usage);
+            VertexArray createVertexArray(Vertex* vertices);
+            void draw(VertexArray& vertexArray, Shader& shader, Texture& texture);
     };
 }
