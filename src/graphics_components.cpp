@@ -51,7 +51,3 @@ void OpenGLVertexArray::draw() {
     glDrawArrays(GL_TRIANGLES, 0, this->vertexCount);
     unbind();
 }
-
-void OpenGLVertexArray::drawIndexed() {
-    
-}

@@ -10,11 +10,11 @@ namespace Graphics {
 
     class Vertex {
         public:
-            float _position[3];
+            float position[3];
             Vertex (float x, float y, float z);
     };
 
-    class GraphicsApi {
+    class GraphicsAPI {
         public:
             virtual void init();
             virtual Texture createTexture(char* path);
@@ -24,7 +24,7 @@ namespace Graphics {
             virtual void draw(VertexArray& vertexArray, Shader& shader, Texture& texture);
     };
 
-    class OpenGLGraphics: public GraphicsApi {
+    class OpenGLGraphics: public GraphicsAPI {
         public:
             void init(int x, int y, int width, int height);
             Buffer createBuffer(BufferType type, void* data, BufferUsage usage);

@@ -3,9 +3,9 @@
 using namespace Graphics;
 
 Vertex::Vertex(float x, float y, float z) {
-    this->_position[0] = x;
-    this->_position[1] = y;
-    this->_position[2] = z;
+    this->position[0] = x;
+    this->position[1] = y;
+    this->position[2] = z;
 }
 
 void OpenGLGraphics::init(int x, int y, int width, int height) {
@@ -58,11 +58,11 @@ VertexArray OpenGLGraphics::createVertexArray(Vertex* vertices) {
 
     vertexArray.vertexBuffer.bind(VertexBuffer);
     glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vertices->_position), (void*)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vertices->position), (void*)0);
 
     vertexArray.unbind();
 }
 
 void OpenGLGraphics::draw(VertexArray& vertexArray, Shader& shader, Texture& texture) {
-    
+
 }
