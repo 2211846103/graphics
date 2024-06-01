@@ -1,12 +1,13 @@
 #pragma once
 
 #include <glad/glad.h>
+#include <window.hpp>
 #include <graphics_components.hpp>
+#include <shader.hpp>
 
 namespace Graphics {
     // Boilerplate (Don't mind it)
     struct Texture {};
-    struct Shader {};
 
     class Vertex {
         public:
@@ -16,7 +17,7 @@ namespace Graphics {
 
     class GraphicsAPI {
         public:
-            virtual void init();
+            virtual void init(Window &window);
             virtual Texture createTexture(char* path);
             virtual Shader createShader(char* vertexSource, char* fragmentSource);
             virtual Buffer createBuffer(BufferType type, void* data, BufferUsage usage);
@@ -26,7 +27,7 @@ namespace Graphics {
 
     class OpenGLGraphics: public GraphicsAPI {
         public:
-            void init(int x, int y, int width, int height);
+            void init(Window &window);
             Buffer createBuffer(BufferType type, void* data, BufferUsage usage);
             VertexArray createVertexArray(Vertex* vertices);
             void draw(VertexArray& vertexArray, Shader& shader, Texture& texture);

@@ -8,8 +8,8 @@ Vertex::Vertex(float x, float y, float z) {
     this->position[2] = z;
 }
 
-void OpenGLGraphics::init(int x, int y, int width, int height) {
-    glViewport(x, y, width, height);
+void OpenGLGraphics::init(Window &window) {
+    glViewport(0, 0, window.width, window.height);
 }
 
 Buffer OpenGLGraphics::createBuffer(BufferType type, void* data, BufferUsage usage) {
@@ -40,10 +40,6 @@ Buffer OpenGLGraphics::createBuffer(BufferType type, void* data, BufferUsage usa
     
     glGenBuffers(1, &buffer.id);
     buffer.bind(type);
-    buffer.setData(data);
-    buffer.unbind();
-
-    return buffer;
 }
 
 VertexArray OpenGLGraphics::createVertexArray(Vertex* vertices) {
