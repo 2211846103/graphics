@@ -17,12 +17,12 @@ namespace Graphics {
 
     class GraphicsAPI {
         public:
-            virtual void init(Window &window);
-            virtual Texture createTexture(char* path);
-            virtual Shader createShader(char* vertexSource, char* fragmentSource);
-            virtual Buffer createBuffer(BufferType type, void* data, BufferUsage usage);
-            virtual VertexArray createVertexArray(Vertex* vertices);
-            virtual void draw(VertexArray& vertexArray, Shader& shader, Texture& texture);
+            virtual void init(Window &window) {};
+            virtual Texture createTexture(char* path) {};
+            virtual Shader createShader(char* vertexSource, char* fragmentSource) {};
+            virtual Buffer createBuffer(BufferType type, void* data, BufferUsage usage) {};
+            virtual VertexArray createVertexArray(Vertex* vertices) = 0;
+            virtual void draw(VertexArray& vertexArray, Shader& shader, Texture& texture) {};
     };
 
     class OpenGLGraphics: public GraphicsAPI {

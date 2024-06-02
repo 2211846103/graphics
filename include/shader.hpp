@@ -8,19 +8,18 @@
 
 namespace Graphics {
 
-    class Shader {
-        
-    };
+    class Shader {};
 
     class OpenGLShader: public Shader {
-        unsigned int shaderProgram;
-        unsigned int vertex;
-        unsigned int fragment;
+        public:
+            unsigned int shaderProgram;
+            unsigned int vertex;
+            unsigned int fragment;
 
-        OpenGLShader(const char* vShaderPath, const char* fShaderPath);
-        ~OpenGLShader();
+            OpenGLShader(const char* vShaderPath, const char* fShaderPath);
+            ~OpenGLShader();
 
-        void useShader();
+            void useShader();
 
     };
 }

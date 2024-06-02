@@ -1,5 +1,6 @@
 #pragma once
 
+#include <glad/glad.h>
 #include <glfw/glfw3.h>
 
 namespace Graphics {
@@ -15,12 +16,9 @@ namespace Graphics {
             ~Window();
 
             bool shouldClose();
-
             void update();
-
             void initWindow();
-
-            
+            void clear(float red, float green, float blue);
     };
 
 }

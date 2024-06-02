@@ -57,6 +57,8 @@ VertexArray OpenGLGraphics::createVertexArray(Vertex* vertices) {
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vertices->position), (void*)0);
 
     vertexArray.unbind();
+
+    return vertexArray;
 }
 
 void OpenGLGraphics::draw(VertexArray& vertexArray, Shader& shader, Texture& texture) {

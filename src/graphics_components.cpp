@@ -38,11 +38,11 @@ void OpenGLVertexArray::unbind() {
     glBindVertexArray(0);
 }
 
-void OpenGLVertexArray::setVertexBuffer(Buffer& vertexBuffer) {
+void OpenGLVertexArray::setVertexBuffer(Buffer vertexBuffer) {
     this->vertexBuffer = vertexBuffer;
 }
 
-void OpenGLVertexArray::setIndexBuffer(Buffer& indexBuffer) {
+void OpenGLVertexArray::setIndexBuffer(Buffer indexBuffer) {
     this->indexBuffer = indexBuffer;
 }
 

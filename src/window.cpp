@@ -21,6 +21,11 @@ void Window::update() {
     glfwSwapBuffers(window);
 }
 
+void Window::clear(float red, float green, float blue) {
+    glClearColor(red, green, blue, 1.0);
+    glClear(GL_COLOR_BUFFER_BIT);
+}
+
 void Window::initWindow() {
     glfwInit();
 
