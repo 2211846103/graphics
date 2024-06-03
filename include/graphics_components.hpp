@@ -1,6 +1,7 @@
 #pragma once
 
 #include <glad/glad.h>
+#include <memory>
 
 namespace Graphics {
     enum BufferType {
@@ -19,9 +20,10 @@ namespace Graphics {
             void* _data;
 
         public:
-            virtual void bind(BufferType type) {};
-            virtual void unbind() {};
-            virtual void setData(void* data) {};
+            virtual void bind() = 0;
+            virtual void bind(BufferType type) = 0;
+            virtual void unbind() = 0;
+            virtual void setData(void* data) = 0;
     };
 
     class OpenGLBuffer : public Buffer {
@@ -32,33 +34,30 @@ namespace Graphics {
             GLuint id;
             GLenum usage;
 
-            void bind(BufferType type);
-            void unbind();
-            void setData(void* data);
+            void bind() override;
+            void bind(BufferType type) override;
+            void unbind() override;
+            void setData(void* data) override;
     };
 
     class VertexArray {
         public:
             int vertexCount;
             int indexCount;
-            Buffer vertexBuffer;
-            Buffer indexBuffer;
+            std::unique_ptr<Buffer> vertexBuffer;
+            std::unique_ptr<Buffer> indexBuffer;
 
-            virtual void setVertexBuffer(Buffer vertexBuffer) {};
-            virtual void setIndexBuffer(Buffer indexBuffer) {};
-            virtual void bind() {};
-            virtual void unbind() {};
-            virtual void draw() {};
+            virtual void bind() = 0;
+            virtual void unbind() = 0;
+            virtual void draw() = 0;
     };
 
     class OpenGLVertexArray : public VertexArray {
         public:
             GLuint id;
 
-            void setVertexBuffer(Buffer vertexBuffer);
-            void setIndexBuffer(Buffer indexBuffer);
-            void bind();
-            void unbind();
-            void draw();
+            void bind() override;
+            void unbind() override;
+            void draw() override;
     };
 }

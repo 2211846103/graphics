@@ -14,21 +14,22 @@ int main(int argc, char* argv[]) {
     Window window(800, 600, "test");
     graphics.init(window);
 
-    Vertex vertices[] = {
-        {0.0, 0.5, 0.0},
-        {0.5, -0.5, 0.0},
-        {-0.5, -0.5, 0.0}
+    float vertices[] = {
+        0.0, 0.5, 0.0,
+        0.5, -0.5, 0.0,
+        -0.5, -0.5, 0.0
     };
 
-    VertexArray traingle = graphics.createVertexArray(vertices);
-    OpenGLShader basicShader("../res/shaders/vertexShader.shader", "../res/shaders/fragmentShader.shader");
+    OpenGLShader basicShader("../res/shaders/shader.vert", "../res/shaders/shader.frag");
+
+    std::unique_ptr<VertexArray> triangle = graphics.createVertexArray(vertices, 3);
 
     while (!window.shouldClose())
     {
         window.clear(1.0, 1.0, 1.0);
 
         basicShader.useShader();
-        traingle.draw();
+        triangle->draw();
 
         // Checks and call events and swap the buffers
         window.update();

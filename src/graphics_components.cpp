@@ -2,6 +2,10 @@
 
 using namespace Graphics;
 
+void OpenGLBuffer::bind() {
+    glBindBuffer(this->_type, id);
+}
+
 void OpenGLBuffer::bind(BufferType type) {
     switch(type) {
         case VertexBuffer:
@@ -38,16 +42,6 @@ void OpenGLVertexArray::unbind() {
     glBindVertexArray(0);
 }
 
-void OpenGLVertexArray::setVertexBuffer(Buffer vertexBuffer) {
-    this->vertexBuffer = vertexBuffer;
-}
-
-void OpenGLVertexArray::setIndexBuffer(Buffer indexBuffer) {
-    this->indexBuffer = indexBuffer;
-}
-
 void OpenGLVertexArray::draw() {
-    bind();
     glDrawArrays(GL_TRIANGLES, 0, this->vertexCount);
-    unbind();
 }

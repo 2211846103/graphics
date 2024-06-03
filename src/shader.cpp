@@ -16,7 +16,7 @@ static char* readFile(const char* path) {
     file.seekg(0, std::ios::beg);
 
     // Get contents of the file
-    char contents[size + 1];
+    char* contents = (char*)malloc(sizeof(char) * (size + 1));
     for (int i = 0; file.get(contents[i]); i++);
     contents[size] = '\0';
 
@@ -24,25 +24,50 @@ static char* readFile(const char* path) {
 }
 
 OpenGLShader::OpenGLShader(const char* vShaderPath, const char* fShaderPath) {
-    const char* vShaderSource = readFile(vShaderPath);
-    const char* fShaderSource = readFile(fShaderPath);
+    char* vShaderSource = readFile(vShaderPath);
+    char* fShaderSource = readFile(fShaderPath);
+    int  success;
+    char infoLog[512];
     
     vertex = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(vertex, 1, &vShaderSource, NULL);
     glCompileShader(vertex);
 
+    glGetShaderiv(vertex, GL_COMPILE_STATUS, &success);
+    if (!success) {
+        glGetShaderInfoLog(vertex, 512, NULL, infoLog);
+        std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
+    }
+
     fragment = glCreateShader(GL_FRAGMENT_SHADER);
     glShaderSource(fragment, 1, &fShaderSource, NULL);
     glCompileShader(fragment);
 
+    glGetShaderiv(fragment, GL_COMPILE_STATUS, &success);
+    if (!success) {
+        glGetShaderInfoLog(fragment, 512, NULL, infoLog);
+        std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
+    }
+
+    free(vShaderSource);
+    free(fShaderSource);
+
     shaderProgram = glCreateProgram();
     glAttachShader(shaderProgram, vertex);
     glAttachShader(shaderProgram, fragment);
+    glLinkProgram(shaderProgram);
+
+    glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
+    if (!success) {
+        glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
+        std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
+    }
 }
 
 OpenGLShader::~OpenGLShader() {
     glDeleteShader(vertex);
     glDeleteShader(fragment);
+    glDeleteProgram(shaderProgram);
 }
 
 void OpenGLShader::useShader() {
