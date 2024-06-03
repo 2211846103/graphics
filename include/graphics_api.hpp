@@ -11,15 +11,17 @@ namespace Graphics {
         public:
             virtual ~GraphicsAPI() = default;
 
-            virtual Buffer* createBuffer(BufferType type, void* data, BufferUsage usage) = 0;
+            virtual Buffer* createBuffer(BufferType type, void* data, size_t size, BufferUsage usage) = 0;
             virtual Shader* createShader(const char* vPath, const char* fPath) = 0;
+            virtual VertexArray* createVertexArray(float vertices[], size_t size) = 0;
     };
 
     // Concrete Factories
     class OpenGLGraphicsAPI : public GraphicsAPI {
         public:
             OpenGLGraphicsAPI(Window& window);
-            Buffer* createBuffer(BufferType type, void* data, BufferUsage usage) override;
+            Buffer* createBuffer(BufferType type, void* data, size_t size, BufferUsage usage) override;
             Shader* createShader(const char* vPath, const char* fPath) override;
+            VertexArray* createVertexArray(float vertices[], size_t size) override;
     };
 }

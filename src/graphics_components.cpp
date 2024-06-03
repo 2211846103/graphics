@@ -2,7 +2,7 @@
 
 using namespace Graphics;
 
-OpenGLBuffer::OpenGLBuffer(BufferType type, void* data, BufferUsage usage) {
+OpenGLBuffer::OpenGLBuffer(BufferType type, void* data, size_t size, BufferUsage usage) {
     switch(usage) {
         case StaticDraw:
             this->usage = GL_STATIC_DRAW; break;
@@ -25,18 +25,34 @@ OpenGLBuffer::OpenGLBuffer(BufferType type, void* data, BufferUsage usage) {
         default:
             this->usage = 0;
     }
-    
+
+    switch(type) {
+        case VertexBuffer:
+            this->type = GL_ARRAY_BUFFER; break;
+        case IndexBuffer:
+            this->type = GL_ELEMENT_ARRAY_BUFFER; break;
+        case UniformBuffer:
+            this->type = GL_UNIFORM_BUFFER; break;
+        case TextureBuffer:
+            this->type = GL_TEXTURE_BUFFER; break;
+        case ShaderStorageBuffer:
+            this->type = GL_SHADER_STORAGE_BUFFER; break;
+        default:
+            this->type = 0;
+    }
+    this->data = data;
+
     glGenBuffers(1, &this->id);
-    bind(type);
-    setData(data);
+    glBindBuffer(this->type, this->id);
+    glBufferData(this->type, size, data, this->usage);
+}
+
+OpenGLBuffer::~OpenGLBuffer() {
+    unbind();
 }
 
 void OpenGLBuffer::bind() {
     glBindBuffer(this->type, id);
-}
-
-OpenGLBuffer::~OpenGLBuffer() {
-    OpenGLBuffer::unbind();
 }
 
 void OpenGLBuffer::bind(BufferType type) {
@@ -62,21 +78,26 @@ void OpenGLBuffer::unbind() {
     glBindBuffer(this->type, 0);
 }
 
-void OpenGLBuffer::setData(void* data) {
+void OpenGLBuffer::setData(void* data, size_t size) {
     this->data = data;
-    glBufferData(this->type, sizeof(data), data, this->usage);
+    glBufferData(this->type, size, data, this->usage);
 }
 
-OpenGLVertexArray::OpenGLVertexArray(float* vertices, int vertexCount) {
-    this->vertexCount = vertexCount;
+OpenGLVertexArray::OpenGLVertexArray(float vertices[], size_t size) {
+    this->vertexCount = size / sizeof(float);
+
     glGenVertexArrays(1, &this->id);
     bind();
 
-    Buffer* vertexBuffer = new OpenGLBuffer(VertexBuffer, vertices, StaticDraw);
+    Buffer* vertexBuffer = new OpenGLBuffer(VertexBuffer, vertices, size, StaticDraw);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, (void*)0);
     glEnableVertexAttribArray(0);
 
     this->vertexBuffer = vertexBuffer;
+}
+
+OpenGLVertexArray::~OpenGLVertexArray() {
+    unbind();
 }
 
 void OpenGLVertexArray::bind() {

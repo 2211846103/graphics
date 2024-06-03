@@ -21,25 +21,21 @@ int main(int argc, char* argv[]) {
 
     Shader* shader = graphics.createShader("../res/shaders/shader.vert", "../res/shaders/shader.frag");
 
-    unsigned int vao;
-    glGenVertexArrays(1, &vao);
-    glBindVertexArray(vao);
-    Buffer* vertexBuffer = graphics.createBuffer(VertexBuffer, vertices, StaticDraw);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, (void*)0);
-    glEnableVertexAttribArray(0);
+    VertexArray* triangle = graphics.createVertexArray(vertices, sizeof(vertices));
 
     while (!window.shouldClose()) {
         window.clear(0.5, 0.5, 0.5);
 
         shader->useShader();
-        glDrawArrays(GL_TRIANGLES, 0, 3);
+        triangle->draw();
 
         // Checks and call events and swap the buffers
         window.update();
 
     }
 
-    delete vertexBuffer;
+    delete shader;
+    delete triangle;
 
     // Cleans/Deletes all GLFW resources that we allocated.
     glfwTerminate();
