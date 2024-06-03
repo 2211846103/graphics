@@ -7,7 +7,7 @@ void OpenGLGraphics::init(Window &window) {
 }
 
 std::unique_ptr<Buffer> OpenGLGraphics::createBuffer(BufferType type, void* data, BufferUsage usage) {
-    std::unique_ptr<OpenGLBuffer> buffer = std::make_unique<OpenGLBuffer>();
+    std::unique_ptr<OpenGLBuffer> buffer(new OpenGLBuffer);
 
     switch(usage) {
         case StaticDraw:
@@ -35,13 +35,12 @@ std::unique_ptr<Buffer> OpenGLGraphics::createBuffer(BufferType type, void* data
     glGenBuffers(1, &buffer->id);
     buffer->bind(type);
     buffer->setData(data);
-    buffer->unbind();
 
     return std::move(buffer);
 }
 
 std::unique_ptr<VertexArray> OpenGLGraphics::createVertexArray(float* vertices, int vertexCount) {
-    std::unique_ptr<OpenGLVertexArray> vertexArray = std::make_unique<OpenGLVertexArray>();
+    std::unique_ptr<OpenGLVertexArray> vertexArray(new OpenGLVertexArray);
     vertexArray->vertexCount = vertexCount;
     glGenVertexArrays(1, &vertexArray->id);
     vertexArray->bind();

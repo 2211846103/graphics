@@ -43,5 +43,6 @@ void OpenGLVertexArray::unbind() {
 }
 
 void OpenGLVertexArray::draw() {
+    bind();
     glDrawArrays(GL_TRIANGLES, 0, this->vertexCount);
 }

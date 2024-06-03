@@ -22,14 +22,23 @@ int main(int argc, char* argv[]) {
 
     OpenGLShader basicShader("../res/shaders/shader.vert", "../res/shaders/shader.frag");
 
-    std::unique_ptr<VertexArray> triangle = graphics.createVertexArray(vertices, 3);
+    unsigned int vao;
+    glGenVertexArrays(1, &vao);
+    glBindVertexArray(vao);
+    
+    unsigned int vbo;
+    glGenBuffers(1, &vbo);
+    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, (void*)0);
+    glEnableVertexAttribArray(0);
 
     while (!window.shouldClose())
     {
-        window.clear(1.0, 1.0, 1.0);
+        window.clear(0.5, 0.5, 0.5);
 
         basicShader.useShader();
-        triangle->draw();
+        glDrawArrays(GL_TRIANGLES, 0, 3);
 
         // Checks and call events and swap the buffers
         window.update();
