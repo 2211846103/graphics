@@ -34,6 +34,8 @@ namespace Graphics {
             GLuint id;
             GLenum usage;
 
+            OpenGLBuffer(BufferType type, void* data, BufferUsage usage);
+
             void bind() override;
             void bind(BufferType type) override;
             void unbind() override;
@@ -44,8 +46,8 @@ namespace Graphics {
         public:
             int vertexCount;
             int indexCount;
-            std::unique_ptr<Buffer> vertexBuffer;
-            std::unique_ptr<Buffer> indexBuffer;
+            Buffer* vertexBuffer;
+            Buffer* indexBuffer;
 
             virtual void bind() = 0;
             virtual void unbind() = 0;

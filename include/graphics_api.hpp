@@ -16,7 +16,7 @@ namespace Graphics {
             virtual void init(Window &window) = 0;
             virtual std::unique_ptr<Texture> createTexture(char* path) = 0;
             virtual std::unique_ptr<Shader> createShader(char* vertexSource, char* fragmentSource) = 0;
-            virtual std::unique_ptr<Buffer> createBuffer(BufferType type, void* data, BufferUsage usage) = 0;
+            virtual Buffer* createBuffer(BufferType type, void* data, BufferUsage usage) = 0;
             virtual std::unique_ptr<VertexArray> createVertexArray(float* vertices, int vertexCount) = 0;
             virtual void draw(VertexArray* vertexArray, Shader& shader, Texture& texture) = 0;
     };
@@ -26,7 +26,7 @@ namespace Graphics {
             void init(Window &window) override;
             std::unique_ptr<Texture> createTexture(char* path) override;
             std::unique_ptr<Shader> createShader(char* vertexSource, char* fragmentSource) override;
-            std::unique_ptr<Buffer> createBuffer(BufferType type, void* data, BufferUsage usage) override;
+            Buffer* createBuffer(BufferType type, void* data, BufferUsage usage) override;
             std::unique_ptr<VertexArray> createVertexArray(float* vertices, int vertexCount) override;
             void draw(VertexArray* vertexArray, Shader& shader, Texture& texture) override;
     };

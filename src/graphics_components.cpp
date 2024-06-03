@@ -2,6 +2,35 @@
 
 using namespace Graphics;
 
+OpenGLBuffer::OpenGLBuffer(BufferType type, void* data, BufferUsage usage) {
+    switch(usage) {
+        case StaticDraw:
+            this->usage = GL_STATIC_DRAW; break;
+        case DynamicDraw:
+            this->usage = GL_DYNAMIC_DRAW; break;
+        case StreamDraw:
+            this->usage = GL_STREAM_DRAW; break;
+        case StaticCopy:
+            this->usage = GL_STATIC_COPY; break;
+        case DynamicCopy:
+            this->usage = GL_DYNAMIC_COPY; break;
+        case StreamCopy:
+            this->usage = GL_STREAM_COPY; break;
+        case StaticRead:
+            this->usage = GL_STATIC_READ; break;
+        case DynamicRead:
+            this->usage = GL_DYNAMIC_READ; break;
+        case StreamRead:
+            this->usage = GL_STREAM_READ; break;
+        default:
+            this->usage = 0;
+    }
+
+    glGenBuffers(1, &this->id);
+    bind(type);
+    setData(data);
+}
+
 void OpenGLBuffer::bind() {
     glBindBuffer(this->_type, id);
 }
