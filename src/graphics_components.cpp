@@ -27,12 +27,12 @@ OpenGLBuffer::OpenGLBuffer(BufferType type, void* data, BufferUsage usage) {
     }
     
     glGenBuffers(1, &this->id);
-    this->bind(type);
-    this->setData(data);
+    bind(type);
+    setData(data);
 }
 
-void OpenGLBuffer::bind(BufferType type) {
-    glBindBuffer(type, id);
+void OpenGLBuffer::bind() {
+    glBindBuffer(this->type, id);
 }
 
 OpenGLBuffer::~OpenGLBuffer() {
@@ -55,7 +55,7 @@ void OpenGLBuffer::bind(BufferType type) {
             this->type = 0;
     }
 
-    glBindBuffer(type, this->id);
+    glBindBuffer(this->type, this->id);
 }
 
 void OpenGLBuffer::unbind() {
@@ -76,7 +76,7 @@ OpenGLVertexArray::OpenGLVertexArray(float* vertices, int vertexCount) {
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, (void*)0);
     glEnableVertexAttribArray(0);
 
-    this->vertexBuffer;
+    this->vertexBuffer = vertexBuffer;
 }
 
 void OpenGLVertexArray::bind() {

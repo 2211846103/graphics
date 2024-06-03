@@ -17,13 +17,13 @@ namespace Graphics {
     class Buffer {
         public:
             void* data;
-
+            
             virtual ~Buffer() = default;
 
+            virtual void bind() = 0;
             virtual void bind(BufferType type) = 0;
             virtual void setData(void* data) = 0;
             virtual void unbind() = 0;
-
     };
 
     class OpenGLBuffer : public Buffer {
@@ -34,7 +34,8 @@ namespace Graphics {
 
             OpenGLBuffer(BufferType type, void* data, BufferUsage usage);
             ~OpenGLBuffer();
-            
+
+            void bind() override;
             void bind(BufferType type) override;
             void setData(void* data) override;
             void unbind() override;
@@ -45,7 +46,7 @@ namespace Graphics {
             int vertexCount;
             int indexCount;
 
-            Buffer* VertexBuffer;
+            Buffer* vertexBuffer;
             Buffer* indexBuffrt;
 
             virtual ~VertexArray() = default;

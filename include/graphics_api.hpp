@@ -17,8 +17,9 @@ namespace Graphics {
 
     // Concrete Factories
     class OpenGLGraphicsAPI : public GraphicsAPI {
-        OpenGLGraphicsAPI(Window& window);
-        Buffer* createBuffer(BufferType type, void* data, BufferUsage usage) override;
-        Shader* createShader(const char* vPath, const char* fPath) override;
+        public:
+            OpenGLGraphicsAPI(Window& window);
+            Buffer* createBuffer(BufferType type, void* data, BufferUsage usage) override;
+            Shader* createShader(const char* vPath, const char* fPath) override;
     };
 }

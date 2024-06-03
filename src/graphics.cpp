@@ -19,7 +19,7 @@ int main(int argc, char* argv[]) {
         -0.5, -0.5, 0.0
     };
 
-    OpenGLShader basicShader("../res/shaders/shader.vert", "../res/shaders/shader.frag");
+    Shader* shader = graphics.createShader("../res/shaders/shader.vert", "../res/shaders/shader.frag");
 
     unsigned int vao;
     glGenVertexArrays(1, &vao);
@@ -31,7 +31,7 @@ int main(int argc, char* argv[]) {
     while (!window.shouldClose()) {
         window.clear(0.5, 0.5, 0.5);
 
-        basicShader.useShader();
+        shader->useShader();
         glDrawArrays(GL_TRIANGLES, 0, 3);
 
         // Checks and call events and swap the buffers
