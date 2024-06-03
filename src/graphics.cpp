@@ -20,7 +20,7 @@ int main(int argc, char* argv[]) {
         {-0.5, -0.5, 0.0}
     };
 
-    //VertexArray traingle = graphics.createVertexArray(vertices);
+    VertexArray traingle = graphics.createVertexArray(vertices);
     OpenGLShader basicShader("../res/shaders/vertexShader.shader", "../res/shaders/fragmentShader.shader");
 
     while (!window.shouldClose())
@@ -28,7 +28,7 @@ int main(int argc, char* argv[]) {
         window.clear(1.0, 1.0, 1.0);
 
         basicShader.useShader();
-        //traingle.draw();
+        traingle.draw();
 
         // Checks and call events and swap the buffers
         window.update();

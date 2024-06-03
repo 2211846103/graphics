@@ -37,4 +37,6 @@ void Window::initWindow() {
     #endif
 
     window = glfwCreateWindow(width, height, windowName, nullptr, nullptr);
+    glfwMakeContextCurrent(window);
+    gladLoadGL();
 }

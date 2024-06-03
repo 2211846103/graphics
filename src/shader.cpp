@@ -2,37 +2,30 @@
 
 using namespace Graphics;
 
+static char* readFile(const char* path) {
+    // Opens file
+    std::ifstream file(path);
+    if (!file.is_open()) {
+        std::cerr << "Couldn't read " << path << std::endl;
+        return nullptr;
+    }
+
+    // Gets the size of the file
+    file.seekg(0, std::ios::end);
+    int size = file.tellg();
+    file.seekg(0, std::ios::beg);
+
+    // Get contents of the file
+    char contents[size + 1];
+    for (int i = 0; file.get(contents[i]); i++);
+    contents[size] = '\0';
+
+    return contents;
+}
+
 OpenGLShader::OpenGLShader(const char* vShaderPath, const char* fShaderPath) {
-    std::string vSource;
-    std::string fSource;
-
-    std::ifstream vShaderFile;
-    std::ifstream fShaderFile;
-
-    vShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
-    fShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
-    try
-    {
-        vShaderFile.open(vShaderPath);
-        fShaderFile.open(fShaderPath);
-        std::stringstream vShaderStream, fShaderStream;
-
-        vShaderStream << vShaderFile.rdbuf();
-        fShaderStream << fShaderFile.rdbuf();
-
-        vShaderFile.close();
-        fShaderFile.close();
-
-        vSource = vShaderStream.str();
-        fSource = fShaderStream.str();
-    }
-    catch(const std::exception& e)
-    {
-        std::cout << "ERROR::SHADER::FAILED_READING_FILE" << std::endl;
-    }
-    
-    const char* vShaderSource = vSource.c_str();
-    const char* fShaderSource = fSource.c_str();
+    const char* vShaderSource = readFile(vShaderPath);
+    const char* fShaderSource = readFile(fShaderPath);
     
     vertex = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(vertex, 1, &vShaderSource, NULL);

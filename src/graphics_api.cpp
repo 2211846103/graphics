@@ -40,12 +40,14 @@ Buffer OpenGLGraphics::createBuffer(BufferType type, void* data, BufferUsage usa
     
     glGenBuffers(1, &buffer.id);
     buffer.bind(type);
+
+    return buffer;
 }
 
 VertexArray OpenGLGraphics::createVertexArray(Vertex* vertices) {
     OpenGLVertexArray vertexArray;
     vertexArray.vertexCount = sizeof(vertices) / sizeof(Vertex);
-
+    
     Buffer vertexBuffer = createBuffer(VertexBuffer, vertices, StaticDraw);
     vertexArray.setVertexBuffer(vertexBuffer);
 
