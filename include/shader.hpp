@@ -6,7 +6,12 @@
 
 namespace Graphics {
 
-    class Shader {};
+    class Shader {
+        public:
+            virtual ~Shader() = default;
+
+            virtual void useShader() = 0;
+    };
 
     class OpenGLShader: public Shader {
         public:
@@ -15,9 +20,9 @@ namespace Graphics {
             unsigned int fragment;
 
             OpenGLShader(const char* vShaderPath, const char* fShaderPath);
-            ~OpenGLShader();
+            ~OpenGLShader() override;
 
-            void useShader();
+            void useShader() override;
 
     };
 }

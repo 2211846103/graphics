@@ -1,4 +1,4 @@
-#include <graphics_components_backup.hpp>
+#include <graphics_components.hpp>
 
 using namespace Graphics;
 
@@ -27,31 +27,31 @@ OpenGLBuffer::OpenGLBuffer(BufferType type, void* data, BufferUsage usage) {
     }
     
     glGenBuffers(1, &this->id);
-    this->bind(type);
-    this->setData(data);
+    bind(type);
+    setData(data);
 }
 
-void OpenGLBuffer::bind(BufferType type) {
-    glBindBuffer(type, id);
+void OpenGLBuffer::bind() {
+    glBindBuffer(this->type, id);
 }
 
 void OpenGLBuffer::bind(BufferType type) {
     switch(type) {
         case VertexBuffer:
-            type = GL_ARRAY_BUFFER; break;
+            this->type = GL_ARRAY_BUFFER; break;
         case IndexBuffer:
-            type = GL_ELEMENT_ARRAY_BUFFER; break;
+            this->type = GL_ELEMENT_ARRAY_BUFFER; break;
         case UniformBuffer:
-            type = GL_UNIFORM_BUFFER; break;
+            this->type = GL_UNIFORM_BUFFER; break;
         case TextureBuffer:
-            type = GL_TEXTURE_BUFFER; break;
+            this->type = GL_TEXTURE_BUFFER; break;
         case ShaderStorageBuffer:
-            type = GL_SHADER_STORAGE_BUFFER; break;
+            this->type = GL_SHADER_STORAGE_BUFFER; break;
         default:
-            type = 0;
+            this->type = 0;
     }
 
-    glBindBuffer(type, this->id);
+    glBindBuffer(this->type, this->id);
 }
 
 void OpenGLBuffer::unbind() {
@@ -72,7 +72,7 @@ OpenGLVertexArray::OpenGLVertexArray(float* vertices, int vertexCount) {
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, (void*)0);
     glEnableVertexAttribArray(0);
 
-    this->vertexBuffer;
+    this->vertexBuffer = vertexBuffer;
 }
 
 void OpenGLVertexArray::bind() {
