@@ -1,4 +1,4 @@
-#include <graphics_components.hpp>
+#include <graphics_components_backup.hpp>
 
 using namespace Graphics;
 
@@ -27,8 +27,8 @@ OpenGLBuffer::OpenGLBuffer(BufferType type, void* data, BufferUsage usage) {
     }
     
     glGenBuffers(1, &this->id);
-    bind(type);
-    setData(data);
+    this->bind(type);
+    this->setData(data);
 }
 
 void OpenGLBuffer::bind() {
@@ -51,7 +51,7 @@ void OpenGLBuffer::bind(BufferType type) {
             _type = 0;
     }
 
-    glBindBuffer(this->_type, id);
+    glBindBuffer(this->_type, this->id);
 }
 
 void OpenGLBuffer::unbind() {
@@ -61,19 +61,6 @@ void OpenGLBuffer::unbind() {
 void OpenGLBuffer::setData(void* data) {
     this->_data = data;
     glBufferData(this->_type, sizeof(this->_data), this->_data, this->usage);
-}
-
-void OpenGLVertexArray::bind() {
-    glBindVertexArray(id);
-}
-
-void OpenGLVertexArray::unbind() {
-    glBindVertexArray(0);
-}
-
-void OpenGLVertexArray::draw() {
-    bind();
-    glDrawArrays(GL_TRIANGLES, 0, this->vertexCount);
 }
 
 OpenGLVertexArray::OpenGLVertexArray(float* vertices, int vertexCount) {
@@ -86,4 +73,17 @@ OpenGLVertexArray::OpenGLVertexArray(float* vertices, int vertexCount) {
     glEnableVertexAttribArray(0);
 
     this->vertexBuffer;
+}
+
+void OpenGLVertexArray::bind() {
+    glBindVertexArray(this->id);
+}
+
+void OpenGLVertexArray::unbind() {
+    glBindVertexArray(0);
+}
+
+void OpenGLVertexArray::draw() {
+    bind();
+    glDrawArrays(GL_TRIANGLES, 0, this->vertexCount);
 }

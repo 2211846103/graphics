@@ -25,7 +25,7 @@ int main(int argc, char* argv[]) {
     unsigned int vao;
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
-    Buffer* vertexBuffer = graphics.createBuffer(VertexBuffer, (void*)vertices, StaticDraw);
+    Buffer* vertexBuffer = graphics.createBuffer(VertexBuffer, vertices, StaticDraw);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, (void*)0);
     glEnableVertexAttribArray(0);
 
