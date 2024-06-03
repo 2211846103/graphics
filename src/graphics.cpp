@@ -10,9 +10,8 @@ using namespace Graphics;
 
 // Main code
 int main(int argc, char* argv[]) {
-    OpenGLGraphics graphics;
     Window window(800, 600, "test");
-    graphics.init(window);
+    OpenGLGraphicsAPI graphics(window);
 
     float vertices[] = {
         0.0, 0.5, 0.0,
