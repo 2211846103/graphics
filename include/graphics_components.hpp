@@ -17,6 +17,8 @@ namespace Graphics {
     class Buffer {
         public:
             void* data;
+            
+            virtual ~Buffer() = default;
 
             virtual void bind() = 0;
             virtual void bind(BufferType type) = 0;
