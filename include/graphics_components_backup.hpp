@@ -1,7 +1,6 @@
 #pragma once
 
 #include <glad/glad.h>
-#include <memory>
 
 namespace Graphics {
     enum BufferType {
@@ -16,42 +15,31 @@ namespace Graphics {
     };
 
     class Buffer {
-        protected:
-            void* _data;
-
-        public:
-            virtual ~Buffer() = default;
-
-            virtual void bind() = 0;
-            virtual void bind(BufferType type) = 0;
-            virtual void unbind() = 0;
-            virtual void setData(void* data) = 0;
+        virtual void bind(BufferType type) = 0;
+        virtual void setData(void* data) = 0;
+        virtual void unbind() = 0;
     };
 
     class OpenGLBuffer : public Buffer {
-        private:
-            GLenum _type;
-
         public:
-            GLuint id;
+            unsigned int id;
+            GLenum type;
             GLenum usage;
 
             OpenGLBuffer(BufferType type, void* data, BufferUsage usage);
 
-            void bind() override;
             void bind(BufferType type) override;
-            void unbind() override;
             void setData(void* data) override;
+            void unbind() override;
     };
 
     class VertexArray {
         public:
             int vertexCount;
             int indexCount;
-            Buffer* vertexBuffer;
-            Buffer* indexBuffer;
 
-            virtual ~VertexArray() = default;
+            Buffer* VertexBuffer;
+            Buffer* indexBuffrt;
 
             virtual void bind() = 0;
             virtual void unbind() = 0;
@@ -60,12 +48,12 @@ namespace Graphics {
 
     class OpenGLVertexArray : public VertexArray {
         public:
-            GLuint id;
+            unsigned int id;
 
             OpenGLVertexArray(float* vertices, int vertexCount);
 
             void bind() override;
             void unbind() override;
             void draw() override;
-    };
+    }
 }
