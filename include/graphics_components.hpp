@@ -15,6 +15,8 @@ namespace Graphics {
     };
 
     class Buffer {
+        void* data;
+
         virtual void bind(BufferType type) = 0;
         virtual void setData(void* data) = 0;
         virtual void unbind() = 0;
