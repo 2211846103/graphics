@@ -25,12 +25,11 @@ int main(int argc, char* argv[]) {
     unsigned int vao;
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
-    graphics.createBuffer(VertexBuffer, vertices, StaticDraw);
+    Buffer* vertexBuffer = graphics.createBuffer(VertexBuffer, (void*)vertices, StaticDraw);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, (void*)0);
     glEnableVertexAttribArray(0);
 
-    while (!window.shouldClose())
-    {
+    while (!window.shouldClose()) {
         window.clear(0.5, 0.5, 0.5);
 
         basicShader.useShader();
@@ -40,6 +39,8 @@ int main(int argc, char* argv[]) {
         window.update();
 
     }
+
+    delete vertexBuffer;
 
     // Cleans/Deletes all GLFW resources that we allocated.
     glfwTerminate();

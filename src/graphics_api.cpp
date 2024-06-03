@@ -10,19 +10,8 @@ Buffer* OpenGLGraphics::createBuffer(BufferType type, void* data, BufferUsage us
     return new OpenGLBuffer(type, data, usage);
 }
 
-std::unique_ptr<VertexArray> OpenGLGraphics::createVertexArray(float* vertices, int vertexCount) {
-    std::unique_ptr<OpenGLVertexArray> vertexArray(new OpenGLVertexArray);
-    vertexArray->vertexCount = vertexCount;
-    glGenVertexArrays(1, &vertexArray->id);
-    vertexArray->bind();
-
-    Buffer* vertexBuffer = createBuffer(VertexBuffer, vertices, StaticDraw);
-
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, (void*)0);
-    glEnableVertexAttribArray(0);
-
-    vertexArray->vertexBuffer = vertexBuffer;
-    return std::move(vertexArray);
+VertexArray* OpenGLGraphics::createVertexArray(float* vertices, int vertexCount) {
+    return new OpenGLVertexArray(vertices, vertexCount);
 }
 
 void OpenGLGraphics::draw(VertexArray* vertexArray, Shader& shader, Texture& texture) {}

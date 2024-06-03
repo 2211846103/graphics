@@ -25,7 +25,7 @@ OpenGLBuffer::OpenGLBuffer(BufferType type, void* data, BufferUsage usage) {
         default:
             this->usage = 0;
     }
-
+    
     glGenBuffers(1, &this->id);
     bind(type);
     setData(data);
@@ -74,4 +74,16 @@ void OpenGLVertexArray::unbind() {
 void OpenGLVertexArray::draw() {
     bind();
     glDrawArrays(GL_TRIANGLES, 0, this->vertexCount);
+}
+
+OpenGLVertexArray::OpenGLVertexArray(float* vertices, int vertexCount) {
+    this->vertexCount = vertexCount;
+    glGenVertexArrays(1, &this->id);
+    bind();
+
+    Buffer* vertexBuffer = new OpenGLBuffer(VertexBuffer, vertices, StaticDraw);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, (void*)0);
+    glEnableVertexAttribArray(0);
+
+    this->vertexBuffer;
 }

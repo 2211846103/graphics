@@ -20,6 +20,8 @@ namespace Graphics {
             void* _data;
 
         public:
+            virtual ~Buffer() = default;
+
             virtual void bind() = 0;
             virtual void bind(BufferType type) = 0;
             virtual void unbind() = 0;
@@ -49,6 +51,8 @@ namespace Graphics {
             Buffer* vertexBuffer;
             Buffer* indexBuffer;
 
+            virtual ~VertexArray() = default;
+
             virtual void bind() = 0;
             virtual void unbind() = 0;
             virtual void draw() = 0;
@@ -57,6 +61,8 @@ namespace Graphics {
     class OpenGLVertexArray : public VertexArray {
         public:
             GLuint id;
+
+            OpenGLVertexArray(float* vertices, int vertexCount);
 
             void bind() override;
             void unbind() override;
