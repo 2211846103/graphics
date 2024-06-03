@@ -35,20 +35,24 @@ void OpenGLBuffer::bind(BufferType type) {
     glBindBuffer(type, id);
 }
 
+OpenGLBuffer::~OpenGLBuffer() {
+    OpenGLBuffer::unbind();
+}
+
 void OpenGLBuffer::bind(BufferType type) {
     switch(type) {
         case VertexBuffer:
-            type = GL_ARRAY_BUFFER; break;
+            this->type = GL_ARRAY_BUFFER; break;
         case IndexBuffer:
-            type = GL_ELEMENT_ARRAY_BUFFER; break;
+            this->type = GL_ELEMENT_ARRAY_BUFFER; break;
         case UniformBuffer:
-            type = GL_UNIFORM_BUFFER; break;
+            this->type = GL_UNIFORM_BUFFER; break;
         case TextureBuffer:
-            type = GL_TEXTURE_BUFFER; break;
+            this->type = GL_TEXTURE_BUFFER; break;
         case ShaderStorageBuffer:
-            type = GL_SHADER_STORAGE_BUFFER; break;
+            this->type = GL_SHADER_STORAGE_BUFFER; break;
         default:
-            type = 0;
+            this->type = 0;
     }
 
     glBindBuffer(type, this->id);

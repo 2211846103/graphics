@@ -15,11 +15,15 @@ namespace Graphics {
     };
 
     class Buffer {
-        void* data;
+        public:
+            void* data;
 
-        virtual void bind(BufferType type) = 0;
-        virtual void setData(void* data) = 0;
-        virtual void unbind() = 0;
+            virtual ~Buffer() = default;
+
+            virtual void bind(BufferType type) = 0;
+            virtual void setData(void* data) = 0;
+            virtual void unbind() = 0;
+
     };
 
     class OpenGLBuffer : public Buffer {
@@ -29,7 +33,8 @@ namespace Graphics {
             GLenum usage;
 
             OpenGLBuffer(BufferType type, void* data, BufferUsage usage);
-
+            ~OpenGLBuffer();
+            
             void bind(BufferType type) override;
             void setData(void* data) override;
             void unbind() override;
@@ -43,6 +48,8 @@ namespace Graphics {
             Buffer* VertexBuffer;
             Buffer* indexBuffrt;
 
+            virtual ~VertexArray() = default;
+
             virtual void bind() = 0;
             virtual void unbind() = 0;
             virtual void draw() = 0;
@@ -53,6 +60,7 @@ namespace Graphics {
             unsigned int id;
 
             OpenGLVertexArray(float* vertices, int vertexCount);
+            ~OpenGLVertexArray();
 
             void bind() override;
             void unbind() override;
