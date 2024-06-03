@@ -35,6 +35,10 @@ void OpenGLBuffer::bind() {
     glBindBuffer(this->type, id);
 }
 
+OpenGLBuffer::~OpenGLBuffer() {
+    OpenGLBuffer::unbind();
+}
+
 void OpenGLBuffer::bind(BufferType type) {
     switch(type) {
         case VertexBuffer:

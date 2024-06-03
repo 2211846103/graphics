@@ -31,6 +31,7 @@ namespace Graphics {
             GLenum usage;
 
             OpenGLBuffer(BufferType type, void* data, BufferUsage usage);
+            ~OpenGLBuffer();
 
             void bind() override;
             void bind(BufferType type) override;
@@ -46,6 +47,8 @@ namespace Graphics {
             Buffer* vertexBuffer;
             Buffer* indexBuffrt;
 
+            virtual ~VertexArray() = default;
+
             virtual void bind() = 0;
             virtual void unbind() = 0;
             virtual void draw() = 0;
@@ -56,6 +59,7 @@ namespace Graphics {
             unsigned int id;
 
             OpenGLVertexArray(float* vertices, int vertexCount);
+            ~OpenGLVertexArray();
 
             void bind() override;
             void unbind() override;
