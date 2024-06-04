@@ -16,6 +16,7 @@ bool Window::shouldClose() {
     return glfwWindowShouldClose(window);
 }
 
+// Window methods that need to be called in the render loop.
 void Window::update() {
     glfwPollEvents();
     glfwSwapBuffers(window);

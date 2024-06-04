@@ -26,27 +26,15 @@ OpenGLBuffer::OpenGLBuffer(BufferType type, void* data, size_t size, BufferUsage
             this->usage = 0;
     }
 
-    switch(type) {
-        case VertexBuffer:
-            this->type = GL_ARRAY_BUFFER; break;
-        case IndexBuffer:
-            this->type = GL_ELEMENT_ARRAY_BUFFER; break;
-        case UniformBuffer:
-            this->type = GL_UNIFORM_BUFFER; break;
-        case ShaderStorageBuffer:
-            this->type = GL_SHADER_STORAGE_BUFFER; break;
-        default:
-            this->type = 0;
-    }
-    this->data = data;
-
     glGenBuffers(1, &this->id);
-    glBindBuffer(this->type, this->id);
-    glBufferData(this->type, size, data, this->usage);
+    OpenGLBuffer::bind(type);
+    OpenGLBuffer::setData(data, size);
+
 }
 
 OpenGLBuffer::~OpenGLBuffer() {
     unbind();
+    delete this;
 }
 
 void OpenGLBuffer::bind() {
@@ -79,9 +67,8 @@ void OpenGLBuffer::setData(void* data, size_t size) {
     glBufferData(this->type, size, data, this->usage);
 }
 
-OpenGLVertexArray::OpenGLVertexArray(float vertices[], size_t size) {
-    this->vertexCount = size / sizeof(float);
-
+OpenGLVertexArray::OpenGLVertexArray(float* vertices, size_t size) {
+    this->vertexCount = size / (sizeof(float) * 3);
     glGenVertexArrays(1, &this->id);
     bind();
 
@@ -94,6 +81,7 @@ OpenGLVertexArray::OpenGLVertexArray(float vertices[], size_t size) {
 
 OpenGLVertexArray::~OpenGLVertexArray() {
     unbind();
+    delete this;
 }
 
 void OpenGLVertexArray::bind() {

@@ -2,6 +2,8 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
+#include <math.h>
+#include <shader.hpp>
 
 #include <window.hpp>
 #include <graphics_api.hpp>
@@ -26,16 +28,13 @@ int main(int argc, char* argv[]) {
     while (!window.shouldClose()) {
         window.clear(0.5, 0.5, 0.5);
 
-        shader->useShader();
+        shader->setUniform("uniColor");
         triangle->draw();
 
         // Checks and call events and swap the buffers
         window.update();
 
     }
-
-    delete shader;
-    delete triangle;
 
     // Cleans/Deletes all GLFW resources that we allocated.
     glfwTerminate();

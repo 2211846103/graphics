@@ -52,7 +52,7 @@ namespace Graphics {
             int indexCount;
 
             Buffer* vertexBuffer;
-            Buffer* indexBuffrt;
+            Buffer* indexBuffer;
 
             virtual ~VertexArray() = default;
 
@@ -65,7 +65,7 @@ namespace Graphics {
         public:
             unsigned int id;
 
-            OpenGLVertexArray(float vertices[], size_t size);
+            OpenGLVertexArray(float* vertices, size_t size);
             ~OpenGLVertexArray();
 
             void bind() override;

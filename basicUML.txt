@@ -31,15 +31,56 @@ class GameObject {
   - vertexArray: VertexArray
   - shader: Shader
   - texture: Texture
-  + Render(renderer: Renderer)
+  + Render()
 }
 
-class VertexArray {
-  - vertexBuffer: Buffer
-  - indexBuffer: Buffer
+interface VertexArray {
   - vertexCount: int
   - indexCount: int
-  + Bind()
-  + Unbind()
-  + Draw()
+  - vertexBuffer: Buffer*
+  - indexBuffer: Buffer*
+  + bind()
+  + unbind()
+  + draw()
+}
+
+class OpenGLVertexArray implements VertexArray {
+  - id: int
+  + bind()
+  + unbind()
+  + draw()
+}
+
+interface Buffer {
+  - data: void*
+  + bind()
+  + bind(type: BufferType)
+  + setData(data: void*, size: int)
+  + unbind()
+}
+
+class OpenGLBuffer implements Buffer {
+  - id: int
+  - type: GLenum
+  - usage: GLenum
+  + bind()
+  + bind(type: BufferType)
+  + setData(data: void*, size: int)
+  + unbind()
+}
+
+interface Shader {
+  + useShader()
+}
+
+class OpenGLShader implements Shader {
+  - shaderProgram: int
+  - vertex: int
+  - fragment: int
+  + useShader()
+}
+
+enum BufferType {
+  VertexBuffer, IndexBuffer, UniformBuffer,
+  TextureBuffer, ShaderStorageBuffer
 }
