@@ -49,6 +49,7 @@ OpenGLBuffer::OpenGLBuffer(BufferType type, void* data, size_t size, BufferUsage
 
 OpenGLBuffer::~OpenGLBuffer() {
     unbind();
+    delete this;
 }
 
 void OpenGLBuffer::bind() {
@@ -83,9 +84,8 @@ void OpenGLBuffer::setData(void* data, size_t size) {
     glBufferData(this->type, size, data, this->usage);
 }
 
-OpenGLVertexArray::OpenGLVertexArray(float vertices[], size_t size) {
-    this->vertexCount = size / sizeof(float);
-
+OpenGLVertexArray::OpenGLVertexArray(float* vertices, size_t size) {
+    this->vertexCount = size / (sizeof(float) * 3);
     glGenVertexArrays(1, &this->id);
     bind();
 
@@ -98,6 +98,7 @@ OpenGLVertexArray::OpenGLVertexArray(float vertices[], size_t size) {
 
 OpenGLVertexArray::~OpenGLVertexArray() {
     unbind();
+    delete this;
 }
 
 void OpenGLVertexArray::bind() {

@@ -23,6 +23,5 @@ namespace Graphics {
             ~OpenGLShader() override;
 
             void useShader() override;
-
     };
 }

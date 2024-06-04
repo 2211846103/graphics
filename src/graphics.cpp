@@ -20,7 +20,6 @@ int main(int argc, char* argv[]) {
     };
 
     Shader* shader = graphics.createShader("../res/shaders/shader.vert", "../res/shaders/shader.frag");
-
     VertexArray* triangle = graphics.createVertexArray(vertices, sizeof(vertices));
 
     while (!window.shouldClose()) {
@@ -33,9 +32,6 @@ int main(int argc, char* argv[]) {
         window.update();
 
     }
-
-    delete shader;
-    delete triangle;
 
     // Cleans/Deletes all GLFW resources that we allocated.
     glfwTerminate();
