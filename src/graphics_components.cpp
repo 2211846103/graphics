@@ -33,8 +33,6 @@ OpenGLBuffer::OpenGLBuffer(BufferType type, void* data, size_t size, BufferUsage
             this->type = GL_ELEMENT_ARRAY_BUFFER; break;
         case UniformBuffer:
             this->type = GL_UNIFORM_BUFFER; break;
-        case TextureBuffer:
-            this->type = GL_TEXTURE_BUFFER; break;
         case ShaderStorageBuffer:
             this->type = GL_SHADER_STORAGE_BUFFER; break;
         default:
@@ -63,8 +61,6 @@ void OpenGLBuffer::bind(BufferType type) {
             this->type = GL_ELEMENT_ARRAY_BUFFER; break;
         case UniformBuffer:
             this->type = GL_UNIFORM_BUFFER; break;
-        case TextureBuffer:
-            this->type = GL_TEXTURE_BUFFER; break;
         case ShaderStorageBuffer:
             this->type = GL_SHADER_STORAGE_BUFFER; break;
         default:
@@ -111,4 +107,49 @@ void OpenGLVertexArray::unbind() {
 void OpenGLVertexArray::draw() {
     bind();
     glDrawArrays(GL_TRIANGLES, 0, this->vertexCount);
+}
+
+OpenGLTexture2D::OpenGLTexture2D(const char* path, TextureFilter filter) {
+    unsigned char* imageData = stbi_load(path, &this->width, &this->height, nullptr, 4);
+
+    
+
+    glGenTextures(1, &this->_id);
+    bind();
+    setData(imageData);
+    setFilter(filter);
+    unbind();
+
+    stbi_image_free(imageData);
+}
+
+OpenGLTexture2D::~OpenGLTexture2D() {
+    unbind();
+    glDeleteTextures(1, &this->_id);
+}
+
+void OpenGLTexture2D::bind() {
+    glBindTexture(GL_TEXTURE_2D, this->_id);
+}
+
+void OpenGLTexture2D::setData(unsigned char* data) {
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, this->width, this->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+}
+
+void OpenGLTexture2D::setFilter(TextureFilter filter) {
+    switch (filter) {
+        case Linear:
+            this->_filter = GL_LINEAR; break;
+        case Nearest:
+            this->_filter = GL_NEAREST; break;
+        default:
+            this->_filter = 0;
+    }
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, this->_filter);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, this->_filter);
+}
+
+void OpenGLTexture2D::unbind() {
+    glBindTexture(GL_TEXTURE_2D, 0);
 }

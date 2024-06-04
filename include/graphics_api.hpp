@@ -14,6 +14,7 @@ namespace Graphics {
             virtual Buffer* createBuffer(BufferType type, void* data, size_t size, BufferUsage usage) = 0;
             virtual Shader* createShader(const char* vPath, const char* fPath) = 0;
             virtual VertexArray* createVertexArray(float vertices[], size_t size) = 0;
+            virtual Texture2D* createTexture2D(const char* path, TextureFilter filter) = 0;
     };
 
     // Concrete Factories
@@ -23,5 +24,6 @@ namespace Graphics {
             Buffer* createBuffer(BufferType type, void* data, size_t size, BufferUsage usage) override;
             Shader* createShader(const char* vPath, const char* fPath) override;
             VertexArray* createVertexArray(float vertices[], size_t size) override;
+            Texture2D* createTexture2D(const char* path, TextureFilter filter) override;
     };
 }
