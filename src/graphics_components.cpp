@@ -26,21 +26,8 @@ OpenGLBuffer::OpenGLBuffer(BufferType type, void* data, size_t size, BufferUsage
             this->usage = 0;
     }
 
-    switch(type) {
-        case VertexBuffer:
-            this->type = GL_ARRAY_BUFFER; break;
-        case IndexBuffer:
-            this->type = GL_ELEMENT_ARRAY_BUFFER; break;
-        case UniformBuffer:
-            this->type = GL_UNIFORM_BUFFER; break;
-        case TextureBuffer:
-            this->type = GL_TEXTURE_BUFFER; break;
-        case ShaderStorageBuffer:
-            this->type = GL_SHADER_STORAGE_BUFFER; break;
-        default:
-            this->type = 0;
-    }
-    this->data = data;
+    OpenGLBuffer::bind(type);
+    OpenGLBuffer::setData(data, size);
 
     glGenBuffers(1, &this->id);
     glBindBuffer(this->type, this->id);

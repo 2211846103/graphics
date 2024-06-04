@@ -23,6 +23,11 @@ static char* readFile(const char* path) {
     return contents;
 }
 
+/* 
+    OpenGLShader constracter that takes 
+    vertex & fragment shaders file paths
+    to compile then attach them to a shader program.
+*/
 OpenGLShader::OpenGLShader(const char* vShaderPath, const char* fShaderPath) {
     char* vShaderSource = readFile(vShaderPath);
     char* fShaderSource = readFile(fShaderPath);
@@ -72,14 +77,19 @@ OpenGLShader::~OpenGLShader() {
 
 void OpenGLShader::useShader() {
     glUseProgram(shaderProgram);
-    setUniform();
 }
 
-void OpenGLShader::setUniform() {
+void OpenGLShader::setUniform(const char* uniName) {
+    OpenGLShader::useShader();
+
     float timeValue = glfwGetTime();
     float redValue = sin(timeValue) / 2.0f + 0.5f;
+    float greenValue = 0.5f;
     float blueValue = sin(timeValue) / 3.1f + 0.3;
-    int vertexColorLocation = glGetUniformLocation(this->shaderProgram, "uniColor");
+    float opacity = 1.0f;
+    int vertexColorLocation = glGetUniformLocation(this->shaderProgram, uniName);
+    
     glUseProgram(this->shaderProgram);
-    glUniform4f(vertexColorLocation, redValue, 0.6f, blueValue, 1.0f);
+    glUniform4f(vertexColorLocation, redValue, greenValue, blueValue, opacity);
+
 }

@@ -27,7 +27,7 @@ int main(int argc, char* argv[]) {
     while (!window.shouldClose()) {
         window.clear(0.5, 0.5, 0.5);
 
-        shader->useShader();
+        shader->setUniform("uniColor");
         triangle->draw();
 
         // Checks and call events and swap the buffers
