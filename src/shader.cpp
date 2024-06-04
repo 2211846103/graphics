@@ -72,5 +72,14 @@ OpenGLShader::~OpenGLShader() {
 
 void OpenGLShader::useShader() {
     glUseProgram(shaderProgram);
+    setUniform();
 }
 
+void OpenGLShader::setUniform() {
+    float timeValue = glfwGetTime();
+    float redValue = sin(timeValue) / 2.0f + 0.5f;
+    float blueValue = sin(timeValue) / 3.1f + 0.3;
+    int vertexColorLocation = glGetUniformLocation(this->shaderProgram, "uniColor");
+    glUseProgram(this->shaderProgram);
+    glUniform4f(vertexColorLocation, redValue, 0.6f, blueValue, 1.0f);
+}

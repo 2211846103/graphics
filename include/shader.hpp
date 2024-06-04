@@ -1,8 +1,10 @@
 #pragma once
 
 #include <glad/glad.h>
+#include <GLFW/glfw3.h>
 #include <fstream>
 #include <iostream>
+#include <math.h>
 
 namespace Graphics {
 
@@ -11,6 +13,7 @@ namespace Graphics {
             virtual ~Shader() = default;
 
             virtual void useShader() = 0;
+            virtual void setUniform() = 0;
     };
 
     class OpenGLShader: public Shader {
@@ -23,6 +26,7 @@ namespace Graphics {
             ~OpenGLShader() override;
 
             void useShader() override;
+            void setUniform() override;
 
     };
 }
