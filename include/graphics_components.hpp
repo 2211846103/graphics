@@ -1,6 +1,5 @@
 #pragma once
 
-#include <stb_image.h>
 #include <glad/glad.h>
 #include <iostream>
 
@@ -15,14 +14,8 @@ namespace Graphics {
         StaticRead, DynamicRead, StreamRead
     };
 
-    enum TextureFilter {
-        Linear, Nearest
-    };
-
     class Buffer {
         public:
-            void* data;
-            
             virtual ~Buffer() = default;
 
             virtual void bind() = 0;
@@ -71,33 +64,5 @@ namespace Graphics {
             void bind() override;
             void unbind() override;
             void draw() override;
-    };
-
-    class Texture2D {
-        public:
-            int width;
-            int height;
-
-            virtual ~Texture2D() = default;
-
-            virtual void bind() = 0;
-            virtual void setData(unsigned char* data) = 0;
-            virtual void setFilter(TextureFilter filter) = 0;
-            virtual void unbind() = 0;
-    };
-
-    class OpenGLTexture2D : public Texture2D {
-        private:
-            unsigned int _id;
-            GLenum _filter;
-
-        public:
-            OpenGLTexture2D(const char* path, TextureFilter filter);
-            ~OpenGLTexture2D();
-
-            void bind() override;
-            void setData(unsigned char* data) override;
-            void setFilter(TextureFilter filter) override;
-            void unbind() override;
     };
 }
