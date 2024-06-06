@@ -2,6 +2,9 @@
 
 #include <glad/glad.h>
 #include <stb_image.h>
+#include <variant>
+#include <vector>
+#include <algorithm>
 
 namespace Graphics {
     enum TextureTarget {
@@ -24,13 +27,25 @@ namespace Graphics {
         MirroredRepeat, Repeat
     };
 
-    template <typename T>
     class TextureParam {
         private:
-            TextureParamName name;
-            T value;
+            std::variant<TextureParamValue, float, int> _value;
 
         public:
+            TextureParamName name;
+            
+            template <typename T>
             TextureParam(TextureParamName name, T value);
+    };
+
+    class TextureConfiguration {
+        private:
+            std::vector<TextureParam*> _parameters;
+
+        public:
+            void add(TextureParam* parameter);
+            void remove(TextureParamName name);
+            template <typename T>
+            T get(TextureParamName name);
     };
 }
