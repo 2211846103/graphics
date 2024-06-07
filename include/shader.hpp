@@ -17,10 +17,11 @@ namespace Graphics {
     };
 
     class OpenGLShader: public Shader {
+        private:
+            unsigned int _shaderProgram;
+            unsigned int _vertex;
+            unsigned int _fragment;
         public:
-            unsigned int shaderProgram;
-            unsigned int vertex;
-            unsigned int fragment;
 
             OpenGLShader(const char* vShaderPath, const char* fShaderPath);
             ~OpenGLShader() override;

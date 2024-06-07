@@ -34,7 +34,7 @@ OpenGLBuffer::OpenGLBuffer(BufferType type, void* data, size_t size, BufferUsage
 
 OpenGLBuffer::~OpenGLBuffer() {
     unbind();
-    delete this;
+    glDeleteBuffers(1, &this->id);
 }
 
 void OpenGLBuffer::bind() {
@@ -81,7 +81,7 @@ OpenGLVertexArray::OpenGLVertexArray(float* vertices, size_t size) {
 
 OpenGLVertexArray::~OpenGLVertexArray() {
     unbind();
-    delete this;
+    glDeleteBuffers(1, &this->id);
 }
 
 void OpenGLVertexArray::bind() {
