@@ -2,50 +2,42 @@
 
 #include <glad/glad.h>
 #include <stb_image.h>
-#include <variant>
+#include <dirent.h>
 #include <vector>
-#include <algorithm>
+#include <string>
+#include <iostream>
 
 namespace Graphics {
-    enum TextureTarget {
-        T2D, T3D, TCube,
-        T2DArray, T3DArray, TMultiSample,
-        TCompressed, TDepth, TRenderTarget
+    class TextureAPI {
+        public:
+            virtual ~TextureAPI() = default;
+
+            virtual void bind2D() = 0;
+            virtual void bind3D() = 0;
+            virtual void bindCube() = 0;
+            virtual void unbind() = 0;
+
+            virtual void load2D(const char* path, int* width, int* height) = 0;
+            virtual void load3D(const char* dir, int* width, int* height, int layers) = 0;
+            virtual void loadCube() = 0;
     };
 
-    enum TextureParamName {
-        BaseLevel, LODBias, MinFilter, MagFilter,
-        MinLOD, MaxLOD, MaxLevel, SwizzleR, SwizzleG,
-        SwizzleB, SwizzleA, SwizzleRGBA, WrapS, WrapT, WrapR
-    };
-
-    enum TextureParamValue {
-        Nearest, Linear, NearestMipmapNearest,
-        NearestMipmapLinear, LinearMipmapNearest,
-        LinearMipmapLinear, Red, Green, Blue, Alpha,
-        Zero, One, ClampToEdge, ClampToBorder,
-        MirroredRepeat, Repeat
-    };
-
-    class TextureParam {
+    class OpenGLTexture : public TextureAPI {
         private:
-            std::variant<TextureParamValue, float, int> _value;
+            unsigned int _id;
+            GLenum _target;
 
         public:
-            TextureParamName name;
-            
-            template <typename T>
-            TextureParam(TextureParamName name, T value);
-    };
+            OpenGLTexture();
+            ~OpenGLTexture();
 
-    class TextureConfiguration {
-        private:
-            std::vector<TextureParam*> _parameters;
+            void bind2D() override;
+            void bind3D() override;
+            void bindCube() override;
+            void unbind() override;
 
-        public:
-            void add(TextureParam* parameter);
-            void remove(TextureParamName name);
-            template <typename T>
-            T get(TextureParamName name);
+            void load2D(const char* path, int* width, int* height) override;
+            void load3D(const char* dir, int* width, int* height, int layers) override;
+            void loadCube() override;
     };
 }

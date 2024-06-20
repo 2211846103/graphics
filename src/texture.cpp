@@ -2,36 +2,68 @@
 
 using namespace Graphics;
 
-template <typename T>
-TextureParam::TextureParam(TextureParamName name, T value) {
-    this->name = name;
-    this->value = value;
+OpenGLTexture::OpenGLTexture() {
+    glGenTextures(1, &this->_id);
 }
 
-void TextureConfiguration::add(TextureParam* parameter) {
-    auto iter = std::find_if(this->_parameters.begin(), this->_parameters.end(), [&](TextureParam* param) {
-        return param->name == parameter->name;
-    });
-    if (iter != this->_parameters.end()) {
+OpenGLTexture::~OpenGLTexture() {
+    glDeleteTextures(1, &this->_id);
+    unbind();
+}
+
+void OpenGLTexture::bind2D() {
+    this->_target = GL_TEXTURE_2D;
+    glBindTexture(this->_target, this->_id);
+}
+
+void OpenGLTexture::bind3D() {
+    this->_target = GL_TEXTURE_3D;
+    glEnable(this->_target);
+    glBindTexture(this->_target, this->_id);
+}
+
+void OpenGLTexture::bindCube() {
+    this->_target = GL_TEXTURE_CUBE_MAP;
+    glBindTexture(this->_target, this->_id);
+}
+
+void OpenGLTexture::unbind() {
+    glBindTexture(this->_target, 0);
+    this->_target = 0;
+}
+
+void OpenGLTexture::load2D(const char* path, int* width, int* height) {
+    unsigned char* data = stbi_load(path, width, height, nullptr, 4);
+    if (!data) {
+        std::cerr << "Failed to load texture " << path << std::endl;
+    }
+
+    glTexImage2D(this->_target, 0, GL_RGBA, *width, *height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+    stbi_image_free(data);
+}
+
+void OpenGLTexture::load3D(const char* dir, int* width, int* height, int layers) {
+    DIR* folder = opendir(dir);
+    if (!folder) {
+        std::cerr << "Failed to open " << folder << std::endl;
         return;
     }
 
-    this->_parameters.push_back(parameter);
-}
+    unsigned char* data = NULL;
+    size_t currentSize = 0;
+    dirent* entry;
+    while (entry = readdir(folder)) {
+        std::string filename = entry->d_name;
+        if (filename == "." || filename == "..") {
+            continue;
+        }
+        std::string path = std::string(dir) + "/" + filename;
 
-void TextureConfiguration::remove(TextureParamName name) {
-    auto iter = std::remove_if(this->_parameters.begin(), this->_parameters.end(), [&](TextureParam* param) {
-        return param->name == name;
-    });
+        unsigned char* temp = stbi_load(path.c_str(), width, height, nullptr, 4);
+        int elementsCount = *width * *height * 4;
+        currentSize += sizeof(unsigned char) * (elementsCount - 1);
 
-    this->_parameters.erase(iter, this->_parameters.end());
-}
-
-template <typename T>
-T TextureConfiguration::get(TextureParamName name) {
-    auto iter = std::find(this->_parameters.begin(), this->_parameters.end(), [&](TextureParam* param) {
-        return param->name == name;
-    });
-
-    return (*iter)->value;
+        data = (unsigned char*)realloc(data, currentSize + sizeof(unsigned char) * elementsCount);
+        std::copy<unsigned char, unsigned char>(temp, temp+currentSize, data)
+    }
 }
