@@ -18,6 +18,14 @@ VertexArray* OpenGLGraphicsAPI::createVertexArray(float* vertices, size_t size) 
     return new OpenGLVertexArray(vertices, size);
 }
 
-Texture2D* OpenGLGraphicsAPI::createTexture2D(const char* path, TextureFilter filter) {
-    return new OpenGLTexture2D(path, filter);
+Texture2D* OpenGLGraphicsAPI::createTexture2D(const char* path) {
+    return new Texture2D(new OpenGLTexture());
+}
+
+Texture3D* OpenGLGraphicsAPI::createTexture3D(const char* path[], size_t size) {
+    return new Texture3D(new OpenGLTexture());
+}
+
+TextureCube* OpenGLGraphicsAPI::createTextureCube(const char* path[], size_t size) {
+    return new TextureCube(new OpenGLTexture());
 }

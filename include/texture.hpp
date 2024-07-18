@@ -41,17 +41,7 @@ namespace Graphics {
             void loadCube(const char* path[], size_t size, int* width, int* height) override;
     };
 
-    class Texture {
-        public:
-            virtual ~Texture() = default;
-
-            virtual void bind() = 0;
-            virtual void unbind() = 0;
-            virtual void load(const char* path) = 0;
-            virtual void load(const char* path[], size_t size) = 0;
-    };
-
-    class Texture2D : public Texture {
+    class Texture2D {
       private:
           TextureAPI* _api;
 
@@ -60,12 +50,12 @@ namespace Graphics {
 
           Texture2D(TextureAPI* api);
 
-          void bind() override;
-          void unbind() override;
-          void load(const char* path) override;
+          void bind();
+          void unbind();
+          void load(const char* path);
     };
 
-    class Texture3D : public Texture {
+    class Texture3D {
       private:
           TextureAPI* _api;
 
@@ -74,12 +64,12 @@ namespace Graphics {
 
           Texture3D(TextureAPI* api);
 
-          void bind() override;
-          void unbind() override;
-          void load(const char* path[], size_t size) override;
+          void bind();
+          void unbind();
+          void load(const char* path[], size_t size = 0);
     };
 
-    class TextureCube : public Texture {
+    class TextureCube {
         private:
             TextureAPI* _api;
 
@@ -88,8 +78,8 @@ namespace Graphics {
 
             TextureCube(TextureAPI* api);
 
-            void bind() override;
-            void unbind() override;
-            void load(const char* path[], size_t size) override;
+            void bind();
+            void unbind();
+            void load(const char* path[], size_t size = 0);
     };
 }
