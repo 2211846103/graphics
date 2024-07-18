@@ -9,6 +9,7 @@ OpenGLTexture::OpenGLTexture() {
 OpenGLTexture::~OpenGLTexture() {
     glDeleteTextures(1, &this->_id);
     unbind();
+    delete this;
 }
 
 void OpenGLTexture::bind2D() {
@@ -35,35 +36,112 @@ void OpenGLTexture::unbind() {
 void OpenGLTexture::load2D(const char* path, int* width, int* height) {
     unsigned char* data = stbi_load(path, width, height, nullptr, 4);
     if (!data) {
-        std::cerr << "Failed to load texture " << path << std::endl;
+        std::cerr << "Failed to load texture " << path[0] << std::endl;
     }
 
     glTexImage2D(this->_target, 0, GL_RGBA, *width, *height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
     stbi_image_free(data);
 }
 
-void OpenGLTexture::load3D(const char* dir, int* width, int* height, int layers) {
-    DIR* folder = opendir(dir);
-    if (!folder) {
-        std::cerr << "Failed to open " << folder << std::endl;
-        return;
+void OpenGLTexture::load3D(const char* path[], size_t size, int* width, int* height, int* depth) {
+  int textureSize = 0;
+  unsigned char* data = NULL;
+  *depth = size / sizeof(const char*);
+
+  for (int i = 0; i < *depth; i++) {
+    int iWidth, iHeight, iChannels;
+    unsigned char* iData = stbi_load(path[i], &iWidth, &iHeight, &iChannels, 4);
+    if (!iData) {
+      std::cerr << "Failed to load texture " << path[i] << std::endl;
+      return;
     }
 
-    unsigned char* data = NULL;
-    size_t currentSize = 0;
-    dirent* entry;
-    while (entry = readdir(folder)) {
-        std::string filename = entry->d_name;
-        if (filename == "." || filename == "..") {
-            continue;
-        }
-        std::string path = std::string(dir) + "/" + filename;
+    data = (unsigned char*)realloc(data, (textureSize + iWidth * iHeight * iChannels) * sizeof(unsigned char));
+    std::memcpy(data + textureSize, iData, iWidth * iHeight * iChannels * sizeof(unsigned char));
+    textureSize += iWidth * iHeight * iChannels;
 
-        unsigned char* temp = stbi_load(path.c_str(), width, height, nullptr, 4);
-        int elementsCount = *width * *height * 4;
-        currentSize += sizeof(unsigned char) * (elementsCount - 1);
-
-        data = (unsigned char*)realloc(data, currentSize + sizeof(unsigned char) * elementsCount);
-        std::copy<unsigned char, unsigned char>(temp, temp+currentSize, data)
+    stbi_image_free(iData);
+    if (i == 0) {
+      *width = iWidth;
+      *height = iHeight;
     }
+  }
+
+  glTexImage3D(this->_target, 0, GL_RGBA, *width, *height, *depth, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+  free(data);
+}
+
+void OpenGLTexture::loadCube(const char* path[], size_t size, int* width, int* height) {
+  GLenum cubeFaces[] = {
+    GL_TEXTURE_CUBE_MAP_POSITIVE_X,
+    GL_TEXTURE_CUBE_MAP_NEGATIVE_X,
+    GL_TEXTURE_CUBE_MAP_POSITIVE_Y,
+    GL_TEXTURE_CUBE_MAP_NEGATIVE_Y,
+    GL_TEXTURE_CUBE_MAP_POSITIVE_Z,
+    GL_TEXTURE_CUBE_MAP_NEGATIVE_Z
+  };
+
+  for (int i = 0; i < 6; i++) {
+    int iWidth, iHeight, iChannels;
+    unsigned char* iData = stbi_load(path[i], &iWidth, &iHeight, &iChannels, 4);
+    if (iWidth != iHeight) {
+      std::cerr << "Texture specified at " << path[i] << " doesn't have equal width and height" << std::endl;
+      return;
+    }
+    if (!iData) {
+      std::cerr << "Failed to load texture " << path[i] << std::endl;
+      return;
+    }
+
+    glTexImage2D(cubeFaces[i], 0, GL_RGBA, iWidth, iHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, iData);
+    stbi_image_free(iData);
+  }
+}
+
+Texture2D::Texture2D(TextureAPI* api) {
+  this->_api = api;
+}
+
+void Texture2D::bind() {
+  this->_api->bind2D();
+}
+
+void Texture2D::unbind() {
+  this->_api->unbind();
+}
+
+void Texture2D::load(const char* path) {
+  this->_api->load2D(path, &this->width, &this->height);
+}
+
+Texture3D::Texture3D(TextureAPI* api) {
+  this->_api = api;
+}
+
+void Texture3D::bind() {
+  this->_api->bind3D();
+}
+
+void Texture3D::unbind() {
+  this->_api->unbind();
+}
+
+void Texture3D::load(const char* path[], size_t size) {
+  this->_api->load3D(path, size, &this->width, &this->height, &this->depth);
+}
+
+TextureCube::TextureCube(TextureAPI* api) {
+  this->_api = api;
+}
+
+void TextureCube::bind() {
+  this->_api->bindCube();
+}
+
+void TextureCube::unbind() {
+  this->_api->unbind();
+}
+
+void TextureCube::load(const char* path[], size_t size) {
+  this->_api->loadCube(path, size, &this->width, &this->height);
 }

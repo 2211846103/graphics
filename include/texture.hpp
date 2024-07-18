@@ -4,7 +4,7 @@
 #include <stb_image.h>
 #include <dirent.h>
 #include <vector>
-#include <string>
+#include <cstring>
 #include <iostream>
 
 namespace Graphics {
@@ -18,8 +18,8 @@ namespace Graphics {
             virtual void unbind() = 0;
 
             virtual void load2D(const char* path, int* width, int* height) = 0;
-            virtual void load3D(const char* dir, int* width, int* height, int layers) = 0;
-            virtual void loadCube() = 0;
+            virtual void load3D(const char* path[], size_t size, int* width, int* height, int* depth) = 0;
+            virtual void loadCube(const char* path[], size_t size, int* width, int* height) = 0;
     };
 
     class OpenGLTexture : public TextureAPI {
@@ -37,7 +37,59 @@ namespace Graphics {
             void unbind() override;
 
             void load2D(const char* path, int* width, int* height) override;
-            void load3D(const char* dir, int* width, int* height, int layers) override;
-            void loadCube() override;
+            void load3D(const char* path[], size_t size, int* width, int* height, int* depth) override;
+            void loadCube(const char* path[], size_t size, int* width, int* height) override;
+    };
+
+    class Texture {
+        public:
+            virtual ~Texture() = default;
+
+            virtual void bind() = 0;
+            virtual void unbind() = 0;
+            virtual void load(const char* path) = 0;
+            virtual void load(const char* path[], size_t size) = 0;
+    };
+
+    class Texture2D : public Texture {
+      private:
+          TextureAPI* _api;
+
+      public:
+          int width, height;
+
+          Texture2D(TextureAPI* api);
+
+          void bind() override;
+          void unbind() override;
+          void load(const char* path) override;
+    };
+
+    class Texture3D : public Texture {
+      private:
+          TextureAPI* _api;
+
+      public:
+          int width, height, depth;
+
+          Texture3D(TextureAPI* api);
+
+          void bind() override;
+          void unbind() override;
+          void load(const char* path[], size_t size) override;
+    };
+
+    class TextureCube : public Texture {
+        private:
+            TextureAPI* _api;
+
+        public:
+            int width, height;
+
+            TextureCube(TextureAPI* api);
+
+            void bind() override;
+            void unbind() override;
+            void load(const char* path[], size_t size) override;
     };
 }
