@@ -56,7 +56,7 @@ namespace Graphics {
             void load3D(const char* path[], size_t size, int* width, int* height, int* depth) override;
             void loadCube(const char* path[], size_t size, int* width, int* height) override;
 
-            void loadConfig(TextureConfig* cconfig) override;
+            void loadConfig(TextureConfig* config) override;
     };
 
     class Texture {
@@ -66,8 +66,8 @@ namespace Graphics {
         public:
             int width, height;
 
-            virtual void bind();
-            virtual void unbind();
+            virtual void bind() {};
+            virtual void unbind() {};
     };
 
     class Texture2D : public Texture {
