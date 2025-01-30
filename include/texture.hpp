@@ -11,15 +11,8 @@ namespace Graphics {
     class TextureConfig {
         public:
             int base_level;
-    };
-
-    class TextureConfigBuilder {
-        public:
-            int base_level = 0;
-
-            TextureConfigBuilder* setBaseLevel(int level);
-
-            TextureConfig* build();
+            
+            void setBaseLevel(int level);
     };
 
     class TextureAPI {
@@ -66,8 +59,9 @@ namespace Graphics {
         public:
             int width, height;
 
-            virtual void bind() {};
-            virtual void unbind() {};
+            virtual void bind() = 0;
+            virtual void unbind() = 0;
+            void setConfig(TextureConfig* config);
     };
 
     class Texture2D : public Texture {

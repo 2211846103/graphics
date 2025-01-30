@@ -24,6 +24,11 @@ int main(int argc, char* argv[]) {
     Shader* shader = graphics.createShader("../res/shaders/shader.vert", "../res/shaders/shader.frag");
     VertexArray* triangle = graphics.createVertexArray(vertices, sizeof(vertices));
 
+    Texture2D* tex = graphics.createTexture2D();
+    TextureConfig config;
+    tex->setConfig(&config);
+    tex->load("");
+
     while (!window.shouldClose()) {
         window.clear(0.5, 0.5, 0.5);
 

@@ -17,3 +17,15 @@ Shader* OpenGLGraphicsAPI::createShader(const char* vPath, const char* fPath) {
 VertexArray* OpenGLGraphicsAPI::createVertexArray(float* vertices, size_t size) {
     return new OpenGLVertexArray(vertices, size);
 }
+
+Texture2D* OpenGLGraphicsAPI::createTexture2D() {
+    return new Texture2D(new OpenGLTexture());
+}
+
+Texture3D* OpenGLGraphicsAPI::createTexture3D() {
+    return new Texture3D(new OpenGLTexture());
+}
+
+TextureCube* OpenGLGraphicsAPI::createTextureCube() {
+    return new TextureCube(new OpenGLTexture());
+}

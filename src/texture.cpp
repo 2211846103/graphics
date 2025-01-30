@@ -2,16 +2,8 @@
 
 using namespace Graphics;
 
-TextureConfigBuilder* TextureConfigBuilder::setBaseLevel(int level) {
-    this->base_level = level;
-    return this;
-}
-
-TextureConfig* TextureConfigBuilder::build() {
-    TextureConfig* config = new TextureConfig();
-    config->base_level = this->base_level;
-
-    return config;
+void TextureConfig::setBaseLevel(int level) {
+  this->base_level = level;
 }
 
 OpenGLTexture::OpenGLTexture() {
@@ -112,6 +104,10 @@ void OpenGLTexture::loadCube(const char* path[], size_t size, int* width, int* h
 
 void OpenGLTexture::loadConfig(TextureConfig* config) {
   glTexParameteri(this->_target, GL_TEXTURE_BASE_LEVEL, config->base_level);
+}
+
+void Texture::setConfig(TextureConfig* config) {
+  this->_api->loadConfig(config);
 }
 
 Texture2D::Texture2D(TextureAPI* api) {
