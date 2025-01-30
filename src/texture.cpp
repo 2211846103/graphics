@@ -2,6 +2,18 @@
 
 using namespace Graphics;
 
+TextureConfigBuilder* TextureConfigBuilder::setBaseLevel(int level) {
+    this->base_level = level;
+    return this;
+}
+
+TextureConfig* TextureConfigBuilder::build() {
+    TextureConfig* config = new TextureConfig();
+    config->base_level = this->base_level;
+
+    return config;
+}
+
 OpenGLTexture::OpenGLTexture() {
     glGenTextures(1, &this->_id);
 }
@@ -96,6 +108,10 @@ void OpenGLTexture::loadCube(const char* path[], size_t size, int* width, int* h
     glTexImage2D(cubeFaces[i], 0, GL_RGBA, iWidth, iHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, iData);
     stbi_image_free(iData);
   }
+}
+
+void OpenGLTexture::loadConfig(TextureConfig* config) {
+  glTexParameteri(this->_target, GL_TEXTURE_BASE_LEVEL, config->base_level);
 }
 
 Texture2D::Texture2D(TextureAPI* api) {

@@ -2,7 +2,7 @@
 
 using namespace Graphics;
 
-Window::Window(int w, int h, char* name) : width{w}, height{h}, windowName{name} {
+Window::Window(int w, int h, const char* name) : width{w}, height{h}, windowName{name} {
     initWindow();
 }
 

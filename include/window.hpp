@@ -8,11 +8,11 @@ namespace Graphics {
         public:
             int width;
             int height;
-            char* windowName;
+            const char* windowName;
 
             GLFWwindow* window;
 
-            Window(int w, int h, char* name);
+            Window(int w, int h, const char* name);
             ~Window();
 
             bool shouldClose();
