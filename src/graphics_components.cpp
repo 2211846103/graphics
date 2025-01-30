@@ -2,6 +2,13 @@
 
 using namespace Graphics;
 
+Color::Color (float r, float g, float b, float a) {
+    this->red = r;
+    this->green = g;
+    this->blue = b;
+    this->alpha = a;
+}
+
 OpenGLBuffer::OpenGLBuffer(BufferType type, void* data, size_t size, BufferUsage usage) {
     switch(usage) {
         case StaticDraw:
