@@ -8,6 +8,7 @@
 #include <iostream>
 
 #include <shader.hpp>
+#include <graphics_components.hpp>
 
 namespace Graphics {
     enum TextureFilter {
@@ -19,6 +20,7 @@ namespace Graphics {
             int base_level = 0;
             TextureFilter min_filter = LINEAR;
             TextureFilter mag_filter = LINEAR;
+            Vector4D color;
 
             ~TextureConfig() = delete;
     };

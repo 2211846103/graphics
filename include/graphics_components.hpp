@@ -75,7 +75,7 @@ namespace Graphics {
 
     class Vector4D : public Vector {
         public:
-            float x, y, z, w;
+            float x = 0, y = 0, z = 0, w = 0;
             size_t size = sizeof(float) * 4;
 
             float* toFloat() override;
@@ -83,7 +83,7 @@ namespace Graphics {
 
     class Vector3D : public Vector {
         public:
-            float x, y, z;
+            float x = 0, y = 0, z = 0;
             size_t size = sizeof(float) * 3;
 
             float* toFloat() override;
@@ -91,7 +91,7 @@ namespace Graphics {
 
     class Vector2D : public Vector {
         public:
-            float x, y;
+            float x = 0, y = 0;
             size_t size = sizeof(float) * 2;
 
             float* toFloat() override;
