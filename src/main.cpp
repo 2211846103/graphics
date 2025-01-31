@@ -31,7 +31,7 @@ int main(int argc, char* argv[]) {
     tex2->load("../res/images/test2.jpg");
 
     while (!window.shouldClose()) {
-        window.clear(0.5, 0.5, 0.5);
+        window.clear(0.0, 0.0, 0.0);
 
         shader->useShader();
 

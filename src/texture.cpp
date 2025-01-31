@@ -107,6 +107,10 @@ void OpenGLTexture::loadCube(const char* path[], size_t size, int* width, int* h
   }
 }
 
+void OpenGLTexture::generateMipmap() {
+  glGenerateMipmap(this->_target);
+}
+
 void OpenGLTexture::activate(int unit) {
   glActiveTexture(GL_TEXTURE0 + unit);
 }
@@ -151,6 +155,10 @@ void Texture2D::bind() {
 
 void Texture2D::unbind() {
   this->_api->unbind();
+}
+
+void Texture2D::mipmap() {
+  this->_api->generateMipmap();
 }
 
 void Texture2D::load(const char* path) {

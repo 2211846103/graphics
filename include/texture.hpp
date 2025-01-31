@@ -36,6 +36,8 @@ namespace Graphics {
             virtual void load3D(const char* path[], size_t size, int* width, int* height, int* depth) = 0;
             virtual void loadCube(const char* path[], size_t size, int* width, int* height) = 0;
 
+            virtual void generateMipmap() = 0;
+
             virtual void activate(int unit) = 0;
 
             virtual void loadConfig(TextureConfig* config) = 0;
@@ -58,6 +60,8 @@ namespace Graphics {
             void load2D(const char* path, int* width, int* height) override;
             void load3D(const char* path[], size_t size, int* width, int* height, int* depth) override;
             void loadCube(const char* path[], size_t size, int* width, int* height) override;
+
+            void generateMipmap() override;
 
             void activate(int unit) override;
 
@@ -84,6 +88,7 @@ namespace Graphics {
 
           void bind() override;
           void unbind() override;
+          void mipmap();
           void load(const char* path);
     };
 
