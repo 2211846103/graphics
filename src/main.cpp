@@ -24,15 +24,19 @@ int main(int argc, char* argv[]) {
     Shader* shader = graphics.createShader("../res/shaders/shader.vert", "../res/shaders/shader.frag");
     VertexArray* square = graphics.createVertexArray(vertices, sizeof(vertices));
 
-    Texture2D* tex = graphics.createTexture2D();
-    tex->load("../res/images/test.jpg");
+    Texture2D* tex1 = graphics.createTexture2D();
+    tex1->load("../res/images/test.jpg");
+
+    Texture2D* tex2 = graphics.createTexture2D();
+    tex2->load("../res/images/test2.jpg");
 
     while (!window.shouldClose()) {
         window.clear(0.5, 0.5, 0.5);
 
         shader->useShader();
 
-        tex->activate(shader, "tex", 0);
+        tex1->activate(shader, "tex1", 0);
+        tex2->activate(shader, "tex2", 1);
 
         square->draw();
 

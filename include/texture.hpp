@@ -88,9 +88,6 @@ namespace Graphics {
     };
 
     class Texture3D : public Texture {
-      private:
-          TextureAPI* _api;
-
       public:
           int width, height, depth;
 
@@ -102,9 +99,6 @@ namespace Graphics {
     };
 
     class TextureCube : public Texture {
-        private:
-            TextureAPI* _api;
-
         public:
             int width, height;
 
