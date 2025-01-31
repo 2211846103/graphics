@@ -97,3 +97,18 @@ void OpenGLVertexArray::draw() {
     bind();
     glDrawArrays(GL_TRIANGLES, 0, this->vertexCount);
 }
+
+float* Vector4D::toFloat() {
+    float arr[] = {x, y, z, w};
+    return arr;
+}
+
+float* Vector3D::toFloat() {
+    float arr[] = {x, y, z};
+    return arr;
+}
+
+float* Vector2D::toFloat() {
+    float arr[] = {x, y};
+    return arr;
+}

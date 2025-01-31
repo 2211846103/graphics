@@ -65,4 +65,35 @@ namespace Graphics {
             void unbind() override;
             void draw() override;
     };
+
+    class Vector {
+        public:
+            size_t size;
+
+            virtual float* toFloat() = 0;
+    };
+
+    class Vector4D : public Vector {
+        public:
+            float x, y, z, w;
+            size_t size = sizeof(float) * 4;
+
+            float* toFloat() override;
+    };
+
+    class Vector3D : public Vector {
+        public:
+            float x, y, z;
+            size_t size = sizeof(float) * 3;
+
+            float* toFloat() override;
+    };
+
+    class Vector2D : public Vector {
+        public:
+            float x, y;
+            size_t size = sizeof(float) * 2;
+
+            float* toFloat() override;
+    };
 }
