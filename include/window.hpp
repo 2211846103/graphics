@@ -5,12 +5,13 @@
 
 namespace Graphics {
     class Window {
+        private:
+            GLFWwindow* _window;
+
         public:
             int width;
             int height;
             const char* windowName;
-
-            GLFWwindow* window;
 
             Window(int w, int h, const char* name);
             ~Window();

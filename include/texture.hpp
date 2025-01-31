@@ -93,7 +93,7 @@ namespace Graphics {
     class Texture {
         protected:
             TextureAPI* _api;
-            bool isConfigLoaded = false;
+            bool _isConfigLoaded = false;
 
         public:
             int width, height;
@@ -116,7 +116,7 @@ namespace Graphics {
 
     class Texture3D : public Texture {
       public:
-          int width, height, depth;
+          int depth;
 
           Texture3D(TextureAPI* api);
 
@@ -127,8 +127,6 @@ namespace Graphics {
 
     class TextureCube : public Texture {
         public:
-            int width, height;
-
             TextureCube(TextureAPI* api);
 
             void bind() override;

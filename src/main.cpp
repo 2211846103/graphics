@@ -26,7 +26,8 @@ int main(int argc, char* argv[]) {
 
     Texture2D* tex1 = graphics.createTexture2D();
     tex1->config->swizzle_r = BLUE;
-    tex1->config->swizzle_b = RED;
+    tex1->config->swizzle_g = RED;
+    tex1->config->swizzle_b = GREEN;
     tex1->load("../res/images/test2.jpg");
 
     while (!window.shouldClose()) {
