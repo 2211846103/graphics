@@ -7,19 +7,19 @@ Window::Window(int w, int h, const char* name) : width{w}, height{h}, windowName
 }
 
 Window::~Window() {
-    glfwDestroyWindow(window);
+    glfwDestroyWindow(_window);
 
     glfwTerminate();
 }
 
 bool Window::shouldClose() {
-    return glfwWindowShouldClose(window);
+    return glfwWindowShouldClose(_window);
 }
 
 // Window methods that need to be called in the render loop.
 void Window::update() {
     glfwPollEvents();
-    glfwSwapBuffers(window);
+    glfwSwapBuffers(_window);
 }
 
 void Window::clear(float red, float green, float blue) {
@@ -37,7 +37,7 @@ void Window::initWindow() {
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     #endif
 
-    window = glfwCreateWindow(width, height, windowName, nullptr, nullptr);
-    glfwMakeContextCurrent(window);
+    _window = glfwCreateWindow(width, height, windowName, nullptr, nullptr);
+    glfwMakeContextCurrent(_window);
     gladLoadGL();
 }

@@ -3,6 +3,7 @@
 using namespace Graphics;
 
 OpenGLBuffer::OpenGLBuffer(BufferType type, void* data, size_t size, BufferUsage usage) {
+    // Buffer Usage Mapping
     switch(usage) {
         case StaticDraw:
             this->usage = GL_STATIC_DRAW; break;
@@ -26,6 +27,7 @@ OpenGLBuffer::OpenGLBuffer(BufferType type, void* data, size_t size, BufferUsage
             this->usage = 0;
     }
 
+    // Create a Buffer to Store Data
     glGenBuffers(1, &this->id);
     OpenGLBuffer::bind(type);
     OpenGLBuffer::setData(data, size);
@@ -33,6 +35,7 @@ OpenGLBuffer::OpenGLBuffer(BufferType type, void* data, size_t size, BufferUsage
 }
 
 OpenGLBuffer::~OpenGLBuffer() {
+    // Unbind and Delete Buffer
     unbind();
     glDeleteBuffers(1, &this->id);
 }
@@ -42,6 +45,7 @@ void OpenGLBuffer::bind() {
 }
 
 void OpenGLBuffer::bind(BufferType type) {
+    // Buffer Type Mapping
     switch(type) {
         case VertexBuffer:
             this->type = GL_ARRAY_BUFFER; break;
@@ -55,6 +59,7 @@ void OpenGLBuffer::bind(BufferType type) {
             this->type = 0;
     }
 
+    // Bind Buffer to Generated Type
     glBindBuffer(this->type, this->id);
 }
 
@@ -63,15 +68,21 @@ void OpenGLBuffer::unbind() {
 }
 
 void OpenGLBuffer::setData(void* data, size_t size) {
+    // Assign Data to the Buffer
     glBufferData(this->type, size, data, this->usage);
 }
 
 OpenGLVertexArray::OpenGLVertexArray(float* vertices, size_t size) {
+    // Create Vertex Array and Calculate Number
+    // of Vertices
     this->vertexCount = size / (sizeof(float) * 5);
     glGenVertexArrays(1, &this->id);
     bind();
 
+    // Create a new Vertex Buffer
     Buffer* vertexBuffer = new OpenGLBuffer(VertexBuffer, vertices, size, StaticDraw);
+
+    // Specify Vertex Array Buffer Pointers
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 5, (void*)0);
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 5, (void*)(sizeof(float) * 3));
@@ -81,6 +92,7 @@ OpenGLVertexArray::OpenGLVertexArray(float* vertices, size_t size) {
 }
 
 OpenGLVertexArray::~OpenGLVertexArray() {
+    // Unbind and Delete Vertex Array
     unbind();
     glDeleteBuffers(1, &this->id);
 }
@@ -94,6 +106,7 @@ void OpenGLVertexArray::unbind() {
 }
 
 void OpenGLVertexArray::draw() {
+    // Bind Array By Triangles
     bind();
     glDrawArrays(GL_TRIANGLES, 0, this->vertexCount);
 }
