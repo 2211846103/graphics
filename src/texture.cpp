@@ -130,14 +130,14 @@ void OpenGLTexture::loadConfig(TextureConfig* config) {
   }
 }
 
-void Texture::activate(Shader* shader, int unit) {
+void Texture::activate(Shader* shader, const char* uniName, int unit) {
   this->bind();
   if (!this->isConfigLoaded) {
     this->_api->loadConfig(this->config);
     this->isConfigLoaded = true;
   }
   this->_api->activate(unit);
-  shader->setIntUniform("tex", unit);
+  shader->setIntUniform(uniName, unit);
 }
 
 Texture2D::Texture2D(TextureAPI* api) {

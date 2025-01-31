@@ -75,7 +75,7 @@ namespace Graphics {
 
             virtual void bind() = 0;
             virtual void unbind() = 0;
-            void activate(Shader* shader, int unit);
+            void activate(Shader* shader, const char* uniName, int unit);
     };
 
     class Texture2D : public Texture {

@@ -32,7 +32,7 @@ int main(int argc, char* argv[]) {
 
         shader->useShader();
 
-        tex->activate(shader, 0);
+        tex->activate(shader, "tex", 0);
 
         square->draw();
 
