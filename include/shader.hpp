@@ -13,7 +13,7 @@ namespace Graphics {
             virtual ~Shader() = default;
 
             virtual void useShader() = 0;
-            virtual void setUniform(const char* uniName) = 0;
+            virtual void setIntUniform(const char* uniName, int value) = 0;
     };
 
     class OpenGLShader: public Shader {
@@ -27,7 +27,7 @@ namespace Graphics {
             ~OpenGLShader() override;
 
             void useShader() override;
-            void setUniform(const char* uniName) override;
+            void setIntUniform(const char* uniName, int value) override;
 
     };
 }
