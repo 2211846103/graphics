@@ -19,6 +19,8 @@ namespace Graphics {
             int base_level = 0;
             TextureFilter min_filter = LINEAR;
             TextureFilter mag_filter = LINEAR;
+
+            ~TextureConfig() = delete;
     };
 
     class TextureAPI {
@@ -34,7 +36,7 @@ namespace Graphics {
             virtual void load3D(const char* path[], size_t size, int* width, int* height, int* depth) = 0;
             virtual void loadCube(const char* path[], size_t size, int* width, int* height) = 0;
 
-            virtual void activate() = 0;
+            virtual void activate(int unit) = 0;
 
             virtual void loadConfig(TextureConfig* config) = 0;
     };
@@ -57,7 +59,7 @@ namespace Graphics {
             void load3D(const char* path[], size_t size, int* width, int* height, int* depth) override;
             void loadCube(const char* path[], size_t size, int* width, int* height) override;
 
-            void activate() override;
+            void activate(int unit) override;
 
             void loadConfig(TextureConfig* config) override;
     };
@@ -65,14 +67,15 @@ namespace Graphics {
     class Texture {
         protected:
             TextureAPI* _api;
+            bool isConfigLoaded = false;
 
         public:
             int width, height;
+            TextureConfig* config;
 
             virtual void bind() = 0;
             virtual void unbind() = 0;
-            void activate(Shader* shader);
-            void setConfig(TextureConfig* config);
+            void activate(Shader* shader, int unit);
     };
 
     class Texture2D : public Texture {

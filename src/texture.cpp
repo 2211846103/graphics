@@ -45,11 +45,11 @@ void OpenGLTexture::load2D(const char* path, int* width, int* height) {
     }
 
     glTexImage2D(this->_target, 0, GL_RGBA, *width, *height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-
     stbi_image_free(data);
 }
 
 void OpenGLTexture::load3D(const char* path[], size_t size, int* width, int* height, int* depth) {
+  this->bind3D();
   int textureSize = 0;
   unsigned char* data = NULL;
   *depth = size / sizeof(const char*);
@@ -73,13 +73,13 @@ void OpenGLTexture::load3D(const char* path[], size_t size, int* width, int* hei
     }
   }
 
-  this->bind3D();
-  glTexImage3D(this->_target, 0, GL_RGBA, *width, *height, *depth, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-  this->unbind();
+  glTexImage3D(this->_target, 0, GL_RGBA, *width, *height, *depth, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);\
+
   free(data);
 }
 
 void OpenGLTexture::loadCube(const char* path[], size_t size, int* width, int* height) {
+  this->bindCube();
   GLenum cubeFaces[] = {
     GL_TEXTURE_CUBE_MAP_POSITIVE_X,
     GL_TEXTURE_CUBE_MAP_NEGATIVE_X,
@@ -101,15 +101,14 @@ void OpenGLTexture::loadCube(const char* path[], size_t size, int* width, int* h
       return;
     }
 
-    this->bindCube();
     glTexImage2D(cubeFaces[i], 0, GL_RGBA, iWidth, iHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, iData);
-    this->unbind();
+
     stbi_image_free(iData);
   }
 }
 
-void OpenGLTexture::activate() {
-  glActiveTexture(GL_TEXTURE0);
+void OpenGLTexture::activate(int unit) {
+  glActiveTexture(GL_TEXTURE0 + unit);
 }
 
 void OpenGLTexture::loadConfig(TextureConfig* config) {
@@ -131,18 +130,19 @@ void OpenGLTexture::loadConfig(TextureConfig* config) {
   }
 }
 
-void Texture::activate(Shader* shader) {
-  this->_api->activate();
-  shader->setIntUniform("tex", 0);
+void Texture::activate(Shader* shader, int unit) {
   this->bind();
-}
-
-void Texture::setConfig(TextureConfig* config) {
-  this->_api->loadConfig(config);
+  if (!this->isConfigLoaded) {
+    this->_api->loadConfig(this->config);
+    this->isConfigLoaded = true;
+  }
+  this->_api->activate(unit);
+  shader->setIntUniform("tex", unit);
 }
 
 Texture2D::Texture2D(TextureAPI* api) {
   this->_api = api;
+  this->config = new TextureConfig();
 }
 
 void Texture2D::bind() {
@@ -159,6 +159,7 @@ void Texture2D::load(const char* path) {
 
 Texture3D::Texture3D(TextureAPI* api) {
   this->_api = api;
+  this->config = new TextureConfig();
 }
 
 void Texture3D::bind() {
@@ -175,6 +176,7 @@ void Texture3D::load(const char* path[], size_t size) {
 
 TextureCube::TextureCube(TextureAPI* api) {
   this->_api = api;
+  this->config = new TextureConfig();
 }
 
 void TextureCube::bind() {
