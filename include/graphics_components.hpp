@@ -1,6 +1,7 @@
 #pragma once
 
 #include <glad/glad.h>
+#include <vector>
 #include <iostream>
 
 namespace Graphics {
@@ -70,7 +71,7 @@ namespace Graphics {
         public:
             size_t size;
 
-            virtual float* toFloat() = 0;
+            virtual std::vector<float> toFloat() = 0;
     };
 
     class Vector4D : public Vector {
@@ -78,7 +79,7 @@ namespace Graphics {
             float x = 0, y = 0, z = 0, w = 0;
             size_t size = sizeof(float) * 4;
 
-            float* toFloat() override;
+            std::vector<float> toFloat() override;
     };
 
     class Vector3D : public Vector {
@@ -86,7 +87,7 @@ namespace Graphics {
             float x = 0, y = 0, z = 0;
             size_t size = sizeof(float) * 3;
 
-            float* toFloat() override;
+            std::vector<float> toFloat() override;
     };
 
     class Vector2D : public Vector {
@@ -94,6 +95,6 @@ namespace Graphics {
             float x = 0, y = 0;
             size_t size = sizeof(float) * 2;
 
-            float* toFloat() override;
+            std::vector<float> toFloat() override;
     };
 }

@@ -119,19 +119,182 @@ void OpenGLTexture::loadConfig(TextureConfig* config) {
   // Base level
   glTexParameteri(this->_target, GL_TEXTURE_BASE_LEVEL, config->base_level);
 
+  GLenum min_filter;
   // Min Filter
   switch (config->min_filter) {
     case LINEAR:
-      glTexParameteri(this->_target, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+      min_filter = GL_LINEAR;
+      break;
+    case NEAREST:
+      min_filter = GL_NEAREST;
+      break;
+    case NEAREST_MIPMAP_LINEAR:
+      min_filter = GL_NEAREST_MIPMAP_LINEAR;
+      break;
+    case NEAREST_MIPMAP_NEAREST:
+      min_filter = GL_NEAREST_MIPMAP_NEAREST;
+      break;
+    case LINEAR_MIPMAP_LINEAR:
+      min_filter = GL_LINEAR_MIPMAP_LINEAR;
+      break;
+    case LINEAR_MIPMAP_NEAREST:
+      min_filter = GL_LINEAR_MIPMAP_NEAREST;
       break;
   }
+  glTexParameteri(this->_target, GL_TEXTURE_MIN_FILTER, min_filter);
 
   // Mag Filter
+  GLenum mag_filter;
   switch (config->mag_filter) {
     case LINEAR:
-      glTexParameteri(this->_target, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+      mag_filter = GL_LINEAR;
+      break;
+    case NEAREST:
+      mag_filter = GL_NEAREST;
+      break;
+    default:
+      std::cerr << "Invalid Magnification Filter" << std::endl;
+      exit(1);
+  }
+  glTexParameteri(this->_target, GL_TEXTURE_MAG_FILTER, mag_filter);
+
+  // LOD Bias
+  glTexParameterf(this->_target, GL_TEXTURE_LOD_BIAS, config->lod_bias);
+
+  // Min LOD
+  glTexParameterf(this->_target, GL_TEXTURE_MIN_LOD, config->min_lod);
+
+  // Max LOD
+  glTexParameterf(this->_target, GL_TEXTURE_MAX_LOD, config->max_lod);
+
+  // Max Level
+  glTexParameteri(this->_target, GL_TEXTURE_MAX_LEVEL, config->max_level);
+
+  // Swizzle R
+  GLenum rswizzle;
+  switch (config->swizzle_r) {
+    case RED:
+      rswizzle = GL_RED;
+      break;
+    case GREEN:
+      rswizzle = GL_GREEN;
+      break;
+    case BLUE:
+      rswizzle = GL_BLUE;
+      break;
+    case ALPHA:
+      rswizzle = GL_ALPHA;
       break;
   }
+  glTexParameteri(this->_target, GL_TEXTURE_SWIZZLE_R, rswizzle);
+
+  // Swizzle G
+  GLenum gswizzle;
+  switch (config->swizzle_g) {
+    case RED:
+      gswizzle = GL_RED;
+      break;
+    case GREEN:
+      gswizzle = GL_GREEN;
+      break;
+    case BLUE:
+      gswizzle = GL_BLUE;
+      break;
+    case ALPHA:
+      gswizzle = GL_ALPHA;
+      break;
+  }
+  glTexParameteri(this->_target, GL_TEXTURE_SWIZZLE_G, gswizzle);
+
+  // Swizzle B
+  GLenum bswizzle;
+  switch (config->swizzle_b) {
+    case RED:
+      bswizzle = GL_RED;
+      break;
+    case GREEN:
+      bswizzle = GL_GREEN;
+      break;
+    case BLUE:
+      bswizzle = GL_BLUE;
+      break;
+    case ALPHA:
+      bswizzle = GL_ALPHA;
+      break;
+  }
+  glTexParameteri(this->_target, GL_TEXTURE_SWIZZLE_B, bswizzle);
+
+  // Swizzle A
+  GLenum aswizzle;
+  switch (config->swizzle_a) {
+    case RED:
+      aswizzle = GL_RED;
+      break;
+    case GREEN:
+      aswizzle = GL_GREEN;
+      break;
+    case BLUE:
+      aswizzle = GL_BLUE;
+      break;
+    case ALPHA:
+      aswizzle = GL_ALPHA;
+      break;
+  }
+  glTexParameteri(this->_target, GL_TEXTURE_SWIZZLE_A, aswizzle);
+
+  // Wrap S
+  GLenum swrap;
+  switch (config->wrap_x) {
+    case CLAMP_TO_BORDER:
+      swrap = GL_CLAMP_TO_BORDER;
+      break;
+    case CLAMP_TO_EDGE:
+      swrap = GL_CLAMP_TO_EDGE;
+      break;
+    case MIRRORED_REPEAT:
+      swrap = GL_MIRRORED_REPEAT;
+      break;
+    case REPEAT:
+      swrap = GL_REPEAT;
+      break;
+  }
+  glTexParameteri(this->_target, GL_TEXTURE_WRAP_S, swrap);
+
+  // Wrap T
+  GLenum twrap;
+  switch (config->wrap_y) {
+    case CLAMP_TO_BORDER:
+      twrap = GL_CLAMP_TO_BORDER;
+      break;
+    case CLAMP_TO_EDGE:
+      twrap = GL_CLAMP_TO_EDGE;
+      break;
+    case MIRRORED_REPEAT:
+      twrap = GL_MIRRORED_REPEAT;
+      break;
+    case REPEAT:
+      twrap = GL_REPEAT;
+      break;
+  }
+  glTexParameteri(this->_target, GL_TEXTURE_WRAP_T, twrap);
+
+  // Wrap R
+  GLenum rwrap;
+  switch (config->wrap_z) {
+    case CLAMP_TO_BORDER:
+      rwrap = GL_CLAMP_TO_BORDER;
+      break;
+    case CLAMP_TO_EDGE:
+      rwrap = GL_CLAMP_TO_EDGE;
+      break;
+    case MIRRORED_REPEAT:
+      rwrap = GL_MIRRORED_REPEAT;
+      break;
+    case REPEAT:
+      rwrap = GL_REPEAT;
+      break;
+  }
+  glTexParameteri(this->_target, GL_TEXTURE_WRAP_R, rwrap);
 }
 
 void Texture::activate(Shader* shader, const char* uniName, int unit) {

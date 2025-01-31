@@ -25,18 +25,16 @@ int main(int argc, char* argv[]) {
     VertexArray* square = graphics.createVertexArray(vertices, sizeof(vertices));
 
     Texture2D* tex1 = graphics.createTexture2D();
-    tex1->load("../res/images/test.jpg");
-
-    Texture2D* tex2 = graphics.createTexture2D();
-    tex2->load("../res/images/test2.jpg");
+    tex1->config->swizzle_r = BLUE;
+    tex1->config->swizzle_b = RED;
+    tex1->load("../res/images/test2.jpg");
 
     while (!window.shouldClose()) {
-        window.clear(0.0, 0.0, 0.0);
+        window.clear(0.2, 0.2, 0.2);
 
         shader->useShader();
 
         tex1->activate(shader, "tex1", 0);
-        tex2->activate(shader, "tex2", 1);
 
         square->draw();
 

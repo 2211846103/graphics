@@ -8,19 +8,39 @@
 #include <iostream>
 
 #include <shader.hpp>
-#include <graphics_components.hpp>
 
 namespace Graphics {
+    enum TextureChannel {
+        RED, GREEN, BLUE, ALPHA, ZERO, ONE
+    };
+
     enum TextureFilter {
-        LINEAR
+        LINEAR, NEAREST, NEAREST_MIPMAP_NEAREST,
+        NEAREST_MIPMAP_LINEAR, LINEAR_MIPMAP_NEAREST,
+        LINEAR_MIPMAP_LINEAR
+    };
+
+    enum TextureWrap {
+        CLAMP_TO_BORDER, CLAMP_TO_EDGE,
+        MIRRORED_REPEAT, REPEAT
     };
 
     class TextureConfig {
         public:
             int base_level = 0;
-            TextureFilter min_filter = LINEAR;
+            TextureFilter min_filter = NEAREST;
             TextureFilter mag_filter = LINEAR;
-            Vector4D color;
+            float lod_bias = 0.0;
+            float min_lod = -1000;
+            float max_lod = 1000;
+            int max_level = 1000;
+            TextureWrap wrap_x = REPEAT;
+            TextureWrap wrap_y = REPEAT;
+            TextureWrap wrap_z = REPEAT;
+            TextureChannel swizzle_r = RED;
+            TextureChannel swizzle_g = GREEN;
+            TextureChannel swizzle_b = BLUE;
+            TextureChannel swizzle_a = ALPHA;
 
             ~TextureConfig() = delete;
     };
