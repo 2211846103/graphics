@@ -2,13 +2,6 @@
 
 using namespace Graphics;
 
-Color::Color (float r, float g, float b, float a) {
-    this->red = r;
-    this->green = g;
-    this->blue = b;
-    this->alpha = a;
-}
-
 OpenGLBuffer::OpenGLBuffer(BufferType type, void* data, size_t size, BufferUsage usage) {
     switch(usage) {
         case StaticDraw:
@@ -74,13 +67,15 @@ void OpenGLBuffer::setData(void* data, size_t size) {
 }
 
 OpenGLVertexArray::OpenGLVertexArray(float* vertices, size_t size) {
-    this->vertexCount = size / (sizeof(float) * 3);
+    this->vertexCount = size / (sizeof(float) * 5);
     glGenVertexArrays(1, &this->id);
     bind();
 
     Buffer* vertexBuffer = new OpenGLBuffer(VertexBuffer, vertices, size, StaticDraw);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, (void*)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 5, (void*)0);
     glEnableVertexAttribArray(0);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 5, (void*)(sizeof(float) * 3));
+    glEnableVertexAttribArray(1);
 
     this->vertexBuffer = vertexBuffer;
 }

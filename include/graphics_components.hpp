@@ -14,13 +14,6 @@ namespace Graphics {
         StaticRead, DynamicRead, StreamRead
     };
 
-    class Color {
-        public:
-            float red, green, blue, alpha;
-
-            Color(float r, float g, float b, float a);
-    };
-
     class Buffer {
         public:
             virtual ~Buffer() = default;
