@@ -1,10 +1,5 @@
 // Includes
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
-#include <iostream>
-#include <math.h>
 #include <shader.hpp>
-
 #include <window.hpp>
 #include <graphics_api.hpp>
 
