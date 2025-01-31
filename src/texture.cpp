@@ -2,10 +2,6 @@
 
 using namespace Graphics;
 
-void TextureConfig::setBaseLevel(int level) {
-  this->base_level = level;
-}
-
 OpenGLTexture::OpenGLTexture() {
     glGenTextures(1, &this->_id);
 }
@@ -38,12 +34,18 @@ void OpenGLTexture::unbind() {
 }
 
 void OpenGLTexture::load2D(const char* path, int* width, int* height) {
-    unsigned char* data = stbi_load(path, width, height, nullptr, 4);
+    this->bind2D();
+    int channels;
+
+    stbi_set_flip_vertically_on_load(true);  
+    unsigned char* data = stbi_load(path, width, height, &channels, 4);
     if (!data) {
         std::cerr << "Failed to load texture " << path[0] << std::endl;
+        return;
     }
 
     glTexImage2D(this->_target, 0, GL_RGBA, *width, *height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+
     stbi_image_free(data);
 }
 
@@ -71,7 +73,9 @@ void OpenGLTexture::load3D(const char* path[], size_t size, int* width, int* hei
     }
   }
 
+  this->bind3D();
   glTexImage3D(this->_target, 0, GL_RGBA, *width, *height, *depth, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+  this->unbind();
   free(data);
 }
 
@@ -97,13 +101,40 @@ void OpenGLTexture::loadCube(const char* path[], size_t size, int* width, int* h
       return;
     }
 
+    this->bindCube();
     glTexImage2D(cubeFaces[i], 0, GL_RGBA, iWidth, iHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, iData);
+    this->unbind();
     stbi_image_free(iData);
   }
 }
 
+void OpenGLTexture::activate() {
+  glActiveTexture(GL_TEXTURE0);
+}
+
 void OpenGLTexture::loadConfig(TextureConfig* config) {
+  // Base level
   glTexParameteri(this->_target, GL_TEXTURE_BASE_LEVEL, config->base_level);
+
+  // Min Filter
+  switch (config->min_filter) {
+    case LINEAR:
+      glTexParameteri(this->_target, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+      break;
+  }
+
+  // Mag Filter
+  switch (config->mag_filter) {
+    case LINEAR:
+      glTexParameteri(this->_target, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+      break;
+  }
+}
+
+void Texture::activate(Shader* shader) {
+  this->_api->activate();
+  shader->setIntUniform("tex", 0);
+  this->bind();
 }
 
 void Texture::setConfig(TextureConfig* config) {
