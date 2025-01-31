@@ -4,7 +4,7 @@ using namespace Graphics;
 
 static char* readFile(const char* path) {
     // Opens file
-    std::ifstream file(path);
+    std::ifstream file(path, std::ios::binary);
     if (!file.is_open()) {
         std::cerr << "Couldn't read " << path << std::endl;
         return nullptr;
@@ -17,7 +17,7 @@ static char* readFile(const char* path) {
 
     // Get contents of the file
     char* contents = (char*)malloc(sizeof(char) * (size + 1));
-    for (int i = 0; file.get(contents[i]); i++);
+    file.read(contents, size);
     contents[size] = '\0';
 
     return contents;
