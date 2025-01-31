@@ -16,28 +16,33 @@ int main(int argc, char* argv[]) {
     OpenGLGraphicsAPI graphics(window);
 
     float vertices[] = {
-        0.0, 0.5, 0.0,
-        0.5, -0.5, 0.0,
-        -0.5, -0.5, 0.0
+        // Position          // Texture Coords
+        -0.5, -0.5, 0.0,     0.0, 0.0,  // Bottom-Left
+         0.5, -0.5, 0.0,     1.0, 0.0,  // Bottom-Right
+         0.5,  0.5, 0.0,     1.0, 1.0,  // Top-Right
+
+        -0.5, -0.5, 0.0,     0.0, 0.0,  // Bottom-Left
+         0.5,  0.5, 0.0,     1.0, 1.0,  // Top-Right
+        -0.5,  0.5, 0.0,     0.0, 1.0   // Top-Left
     };
 
     Shader* shader = graphics.createShader("../res/shaders/shader.vert", "../res/shaders/shader.frag");
-    VertexArray* triangle = graphics.createVertexArray(vertices, sizeof(vertices));
+    VertexArray* square = graphics.createVertexArray(vertices, sizeof(vertices));
 
     Texture2D* tex = graphics.createTexture2D();
-    TextureConfig config;
-    tex->setConfig(&config);
-    tex->load("");
+    tex->load("../res/images/test.jpg");
 
     while (!window.shouldClose()) {
         window.clear(0.5, 0.5, 0.5);
 
-        shader->setUniform("uniColor");
-        triangle->draw();
+        shader->useShader();
+
+        tex->activate(shader, 0);
+
+        square->draw();
 
         // Checks and call events and swap the buffers
         window.update();
-
     }
 
     // Cleans/Deletes all GLFW resources that we allocated.
