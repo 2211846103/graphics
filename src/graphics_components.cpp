@@ -11,7 +11,7 @@ std::vector<float> Vertex::toFloat() {
 
 std::vector<float> Vertex::flatten(Vertex* vertices, int count) {
     std::vector<float> data;
-    data.reserve(count * vertices[0].toFloat().size()); // Each vertex has 8 floats (position + color)
+    data.reserve(count * vertices[0].toFloat().size());
 
     for (int i = 0; i < count; i++) {
         std::vector<float> vertexData = vertices[i].toFloat();
