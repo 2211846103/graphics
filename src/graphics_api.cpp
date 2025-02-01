@@ -19,7 +19,7 @@ Shader* OpenGLGraphicsAPI::createShader(const char* vPath, const char* fPath) {
     return new OpenGLShader(vPath, fPath);
 }
 
-VertexArray* OpenGLGraphicsAPI::createVertexArray(float* vertices, size_t size) {
+VertexArray* OpenGLGraphicsAPI::createVertexArray(Vertex* vertices, size_t size) {
     return new OpenGLVertexArray(vertices, size);
 }
 

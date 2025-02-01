@@ -3,6 +3,8 @@
 #include <glad/glad.h>
 #include <vector>
 #include <iostream>
+#include <unordered_map>
+#include <math.hpp>
 
 namespace Graphics {
     enum BufferType {
@@ -13,6 +15,15 @@ namespace Graphics {
         StaticDraw, DynamicDraw, StreamDraw,
         StaticCopy, DynamicCopy, StreamCopy,
         StaticRead, DynamicRead, StreamRead
+    };
+
+    class Vertex {
+        public:
+            Math::Vec3 position;
+            Math::Vec2 uv;
+
+            std::vector<float> toFloat();
+            static std::vector<float> flatten(Vertex* vertices, int count);
     };
 
     class Buffer {
@@ -41,12 +52,15 @@ namespace Graphics {
     };
 
     class VertexArray {
+        protected:
+            int* _indices;
+
         public:
             int vertexCount;
             int indexCount;
 
-            Buffer* vertexBuffer;
-            Buffer* indexBuffer;
+            Buffer* vertexBuffer; // Should be Private Right?
+            Buffer* indexBuffer;  // Should be Private Right?
 
             virtual ~VertexArray() = default;
 
@@ -59,42 +73,11 @@ namespace Graphics {
         public:
             unsigned int id;
 
-            OpenGLVertexArray(float* vertices, size_t size);
+            OpenGLVertexArray(Vertex* vertices, size_t size);
             ~OpenGLVertexArray();
 
             void bind() override;
             void unbind() override;
             void draw() override;
-    };
-
-    class Vector {
-        public:
-            size_t size;
-
-            virtual std::vector<float> toFloat() = 0;
-    };
-
-    class Vector4D : public Vector {
-        public:
-            float x = 0, y = 0, z = 0, w = 0;
-            size_t size = sizeof(float) * 4;
-
-            std::vector<float> toFloat() override;
-    };
-
-    class Vector3D : public Vector {
-        public:
-            float x = 0, y = 0, z = 0;
-            size_t size = sizeof(float) * 3;
-
-            std::vector<float> toFloat() override;
-    };
-
-    class Vector2D : public Vector {
-        public:
-            float x = 0, y = 0;
-            size_t size = sizeof(float) * 2;
-
-            std::vector<float> toFloat() override;
     };
 }

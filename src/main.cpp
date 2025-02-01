@@ -10,15 +10,13 @@ int main(int argc, char* argv[]) {
     Window window(800, 600, "test");
     OpenGLGraphicsAPI graphics(window);
 
-    float vertices[] = {
-        // Position          // Texture Coords
-        -0.5, -0.5, 0.0,     0.0, 0.0,  // Bottom-Left
-         0.5, -0.5, 0.0,     1.0, 0.0,  // Bottom-Right
-         0.5,  0.5, 0.0,     1.0, 1.0,  // Top-Right
-
-        -0.5, -0.5, 0.0,     0.0, 0.0,  // Bottom-Left
-         0.5,  0.5, 0.0,     1.0, 1.0,  // Top-Right
-        -0.5,  0.5, 0.0,     0.0, 1.0   // Top-Left
+    Vertex vertices[] = {
+        {{-0.5, -0.5, 0.0}, {0.0, 0.0}},
+        {{ 0.5, -0.5, 0.0}, {1.0, 0.0}},
+        {{ 0.5,  0.5, 0.0}, {1.0, 1.0}},
+        {{-0.5, -0.5, 0.0}, {0.0, 0.0}},
+        {{ 0.5,  0.5, 0.0}, {1.0, 1.0}},
+        {{-0.5,  0.5, 0.0}, {0.0, 1.0}}
     };
 
     Shader* shader = graphics.createShader("../res/shaders/shader.vert", "../res/shaders/shader.frag");

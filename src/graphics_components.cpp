@@ -2,6 +2,25 @@
 
 using namespace Graphics;
 
+std::vector<float> Vertex::toFloat() {
+    return std::vector<float> ({
+        position.x(), position.y(), position.z(),
+        uv.x(), uv.y()
+    });
+}
+
+std::vector<float> Vertex::flatten(Vertex* vertices, int count) {
+    std::vector<float> data;
+    data.reserve(count * vertices[0].toFloat().size()); // Each vertex has 8 floats (position + color)
+
+    for (int i = 0; i < count; i++) {
+        std::vector<float> vertexData = vertices[i].toFloat();
+        data.insert(data.end(), vertexData.begin(), vertexData.end());
+    }
+
+    return data;
+}
+
 OpenGLBuffer::OpenGLBuffer(BufferType type, void* data, size_t size, BufferUsage usage) {
     // Buffer Usage Mapping
     switch(usage) {
@@ -72,15 +91,15 @@ void OpenGLBuffer::setData(void* data, size_t size) {
     glBufferData(this->type, size, data, this->usage);
 }
 
-OpenGLVertexArray::OpenGLVertexArray(float* vertices, size_t size) {
+OpenGLVertexArray::OpenGLVertexArray(Vertex* vertices, size_t size) {
     // Create Vertex Array and Calculate Number
     // of Vertices
-    this->vertexCount = size / (sizeof(float) * 5);
+    this->vertexCount = size / (sizeof(Vertex));
     glGenVertexArrays(1, &this->id);
     bind();
 
     // Create a new Vertex Buffer
-    Buffer* vertexBuffer = new OpenGLBuffer(VertexBuffer, vertices, size, StaticDraw);
+    Buffer* vertexBuffer = new OpenGLBuffer(VertexBuffer, Vertex::flatten(vertices, this->vertexCount).data(), size, StaticDraw);
 
     // Specify Vertex Array Buffer Pointers
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 5, (void*)0);
@@ -109,19 +128,4 @@ void OpenGLVertexArray::draw() {
     // Bind Array By Triangles
     bind();
     glDrawArrays(GL_TRIANGLES, 0, this->vertexCount);
-}
-
-std::vector<float> Vector4D::toFloat() {
-    std::vector<float> arr({x, y, z, w});
-    return arr;
-}
-
-std::vector<float> Vector3D::toFloat() {
-    std::vector<float> arr({x, y, z});
-    return arr;
-}
-
-std::vector<float> Vector2D::toFloat() {
-    std::vector<float> arr({x, y});
-    return arr;
 }
