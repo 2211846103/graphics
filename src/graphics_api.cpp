@@ -2,8 +2,13 @@
 
 using namespace Graphics;
 
+static void opengl_size_callback(GLFWwindow* window, int width, int height) {
+    glViewport(0, 0, width, height);
+}
+
 OpenGLGraphicsAPI::OpenGLGraphicsAPI(Window& window) {
     glViewport(0, 0, window.width, window.height);
+    window.setSizeCallback(opengl_size_callback);
 }
 
 Buffer* OpenGLGraphicsAPI::createBuffer(BufferType type, void* data, size_t size, BufferUsage usage) {

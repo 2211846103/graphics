@@ -41,3 +41,7 @@ void Window::initWindow() {
     glfwMakeContextCurrent(_window);
     gladLoadGL();
 }
+
+void Window::setSizeCallback(void (*callback)(GLFWwindow* window, int width, int height)) {
+    glfwSetFramebufferSizeCallback(this->_window, *callback);
+}
