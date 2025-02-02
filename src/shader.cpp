@@ -84,15 +84,26 @@ OpenGLShader::~OpenGLShader() {
     glDeleteProgram(_shaderProgram);
 }
 
-void OpenGLShader::useShader() {
+void OpenGLShader::use() {
     glUseProgram(_shaderProgram);
 }
 
-void OpenGLShader::setIntUniform(const char* uniName, int value) {
-    // Specify Shader used
-    OpenGLShader::useShader();
+template <typename T>
+void OpenGLShader::setUniform(const char* name, T value) {
+    GLint loc = glGetUniformLocation(_shaderProgram, name);
 
-    // Get Uniform Location and Assign Value to it
-    int vertexColorLocation = glGetUniformLocation(this->_shaderProgram, uniName);
-    glUniform1i(vertexColorLocation, value);
+    if (std::is_same<T, int>::value)
+        glUniform1i(loc, value);
+    else if (std::is_same<T, float>::value)
+        glUniform1f(loc, value);
+    else if (std::is_same<T, bool>::value)
+        glUniform1i(loc, int(value)); // OpenGL does not have glUniform1b, so use int
+    else if (std::is_same<T, Math::Vec2>::value)
+        glUniform2fv(loc, 1, ((Math::Vec2) value).toFloat());
+    else if (std::is_same<T, Math::Vec3>::value)
+        glUniform3fv(loc, 1, ((Math::Vec3) value).toFloat());
+    else if (std::is_same<T, glm::vec4>::value)
+        glUniform4fv(loc, 1, glm::value_ptr(value));
+    else if (std::is_same<T, glm::mat4>::value)
+        glUniformMatrix4fv(loc, 1, GL_FALSE, glm::value_ptr(value));
 }

@@ -2,6 +2,7 @@
 #include <shader.hpp>
 #include <window.hpp>
 #include <graphics_api.hpp>
+#include <ctime>
 
 using namespace Graphics;
 
@@ -28,10 +29,16 @@ int main(int argc, char* argv[]) {
     tex1->config->swizzle_b = GREEN;
     tex1->load("../res/images/test2.jpg");
 
+    // Calculating DeltaTime
+    int lastTick = clock();
+    float dt = 0;
+
     while (!window.shouldClose()) {
+        dt = 1.0 / (clock() - lastTick);
+
         window.clear(0.2, 0.2, 0.2);
 
-        shader->useShader();
+        shader->use();
 
         tex1->activate(shader, "tex1", 0);
 

@@ -321,7 +321,7 @@ void Texture::activate(Shader* shader, const char* uniName, int unit) {
 
   // Activate Texture Unit and Assign it to Shader
   this->_api->activate(unit);
-  shader->setIntUniform(uniName, unit);
+  shader->setUniform<int>(uniName, unit);
 }
 
 Texture2D::Texture2D(TextureAPI* api) {

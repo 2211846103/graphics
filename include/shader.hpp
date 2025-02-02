@@ -1,10 +1,9 @@
 #pragma once
 
 #include <glad/glad.h>
-#include <GLFW/glfw3.h>
+#include <math.hpp>
 #include <fstream>
 #include <iostream>
-#include <math.h>
 
 namespace Graphics {
 
@@ -12,8 +11,10 @@ namespace Graphics {
         public:
             virtual ~Shader() = default;
 
-            virtual void useShader() = 0;
-            virtual void setIntUniform(const char* uniName, int value) = 0;
+            virtual void use() = 0;
+
+            template <typename T>
+            void setUniform(const char* name, T value) {};
     };
 
     class OpenGLShader: public Shader {
@@ -26,8 +27,9 @@ namespace Graphics {
             OpenGLShader(const char* vShaderPath, const char* fShaderPath);
             ~OpenGLShader() override;
 
-            void useShader() override;
-            void setIntUniform(const char* uniName, int value) override;
+            void use() override;
 
+            template <typename T>
+            void setUniform(const char* name, T value);
     };
 }
