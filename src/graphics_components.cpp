@@ -89,6 +89,11 @@ void OpenGLBuffer::unbind() {
 void OpenGLBuffer::setData(void* data, size_t size) {
     // Assign Data to the Buffer
     glBufferData(this->type, size, data, this->usage);
+    this->_is_set = true;
+}
+
+bool OpenGLBuffer::isSet() {
+    return this->_is_set;
 }
 
 OpenGLVertexArray::OpenGLVertexArray(Vertex* vertices, size_t size) {
@@ -127,5 +132,12 @@ void OpenGLVertexArray::unbind() {
 void OpenGLVertexArray::draw() {
     // Bind Array By Triangles
     bind();
-    glDrawArrays(GL_TRIANGLES, 0, this->vertexCount);
+    if (this->indexBuffer->isSet()) glDrawElements(GL_TRIANGLES, this->indexCount, GL_UNSIGNED_INT, 0);
+    else glDrawArrays(GL_TRIANGLES, 0, this->vertexCount);
+}
+
+void OpenGLVertexArray::bindIndices(int* indices, size_t size) {
+    bind();
+    this->indexCount = size / sizeof(int);
+    this->indexBuffer = new OpenGLBuffer(IndexBuffer, indices, size, StaticDraw);
 }

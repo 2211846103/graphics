@@ -14,14 +14,18 @@ int main(int argc, char* argv[]) {
     Vertex vertices[] = {
         {{-0.5, -0.5, 0.0}, {0.0, 0.0}},
         {{ 0.5, -0.5, 0.0}, {1.0, 0.0}},
-        {{ 0.5,  0.5, 0.0}, {1.0, 1.0}},
-        {{-0.5, -0.5, 0.0}, {0.0, 0.0}},
-        {{ 0.5,  0.5, 0.0}, {1.0, 1.0}},
-        {{-0.5,  0.5, 0.0}, {0.0, 1.0}}
+        {{-0.5,  0.5, 0.0}, {0.0, 1.0}},
+        {{ 0.5,  0.5, 0.0}, {1.0, 1.0}}
+    };
+
+    int indices[] = {
+        0, 1, 3,
+        0, 3, 2
     };
 
     Shader* shader = graphics.createShader("../res/shaders/shader.vert", "../res/shaders/shader.frag");
-    VertexArray* square = graphics.createVertexArray(vertices, sizeof(vertices));
+    VertexArray* object = graphics.createVertexArray(vertices, sizeof(vertices));
+    object->bindIndices(indices, sizeof(indices));
 
     Texture2D* tex1 = graphics.createTexture2D();
     tex1->config->swizzle_r = BLUE;
@@ -39,10 +43,8 @@ int main(int argc, char* argv[]) {
         window.clear(0.2, 0.2, 0.2);
 
         shader->use();
-
         tex1->activate(shader, "tex1", 0);
-
-        square->draw();
+        object->draw();
 
         // Checks and call events and swap the buffers
         window.update();

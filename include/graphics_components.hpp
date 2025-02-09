@@ -27,12 +27,16 @@ namespace Graphics {
     };
 
     class Buffer {
+        protected:
+            bool _is_set = false;
+
         public:
             virtual ~Buffer() = default;
 
             virtual void bind() = 0;
             virtual void bind(BufferType type) = 0;
             virtual void setData(void* data, size_t size) = 0;
+            virtual bool isSet() = 0;
             virtual void unbind() = 0;
     };
 
@@ -48,6 +52,7 @@ namespace Graphics {
             void bind() override;
             void bind(BufferType type) override;
             void setData(void* data, size_t size) override;
+            bool isSet() override;
             void unbind() override;
     };
 
@@ -67,6 +72,7 @@ namespace Graphics {
             virtual void bind() = 0;
             virtual void unbind() = 0;
             virtual void draw() = 0;
+            virtual void bindIndices(int* indices, size_t size) = 0;
     };
 
     class OpenGLVertexArray : public VertexArray {
@@ -79,5 +85,6 @@ namespace Graphics {
             void bind() override;
             void unbind() override;
             void draw() override;
+            void bindIndices(int* indices, size_t size) override;
     };
 }
