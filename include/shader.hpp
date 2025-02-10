@@ -13,8 +13,13 @@ namespace Graphics {
 
             virtual void use() = 0;
 
-            template <typename T>
-            void setUniform(const char* name, T value) {};
+            virtual void setUniform(const char* name, int value) = 0;
+            virtual void setUniform(const char* name, float value) = 0;
+            virtual void setUniform(const char* name, bool value) = 0;
+            virtual void setUniform(const char* name, Math::Vec2& value) = 0;
+            virtual void setUniform(const char* name, Math::Vec3& value) = 0;
+            virtual void setUniform(const char* name, glm::vec4& value) = 0;
+            virtual void setUniform(const char* name, glm::mat4& value) = 0;
     };
 
     class OpenGLShader: public Shader {
@@ -29,7 +34,12 @@ namespace Graphics {
 
             void use() override;
 
-            template <typename T>
-            void setUniform(const char* name, T value);
+            void setUniform(const char* name, int value) override;
+            void setUniform(const char* name, float value) override;
+            void setUniform(const char* name, bool value) override;
+            void setUniform(const char* name, Math::Vec2& value) override;
+            void setUniform(const char* name, Math::Vec3& value) override;
+            void setUniform(const char* name, glm::vec4& value) override;
+            void setUniform(const char* name, glm::mat4& value) override;
     };
 }
