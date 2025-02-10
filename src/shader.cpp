@@ -88,22 +88,37 @@ void OpenGLShader::use() {
     glUseProgram(_shaderProgram);
 }
 
-template <typename T>
-void OpenGLShader::setUniform(const char* name, T value) {
+void OpenGLShader::setUniform(const char* name, int value) {
     GLint loc = glGetUniformLocation(_shaderProgram, name);
+    if (loc != -1) glUniform1i(loc, value);
+}
 
-    if (std::is_same<T, int>::value)
-        glUniform1i(loc, value);
-    else if (std::is_same<T, float>::value)
-        glUniform1f(loc, value);
-    else if (std::is_same<T, bool>::value)
-        glUniform1i(loc, int(value)); // OpenGL does not have glUniform1b, so use int
-    else if (std::is_same<T, Math::Vec2>::value)
-        glUniform2fv(loc, 1, ((Math::Vec2) value).toFloat());
-    else if (std::is_same<T, Math::Vec3>::value)
-        glUniform3fv(loc, 1, ((Math::Vec3) value).toFloat());
-    else if (std::is_same<T, glm::vec4>::value)
-        glUniform4fv(loc, 1, glm::value_ptr(value));
-    else if (std::is_same<T, glm::mat4>::value)
-        glUniformMatrix4fv(loc, 1, GL_FALSE, glm::value_ptr(value));
+void OpenGLShader::setUniform(const char* name, float value) {
+    GLint loc = glGetUniformLocation(_shaderProgram, name);
+    if (loc != -1) glUniform1f(loc, value);
+}
+
+void OpenGLShader::setUniform(const char* name, bool value) {
+    GLint loc = glGetUniformLocation(_shaderProgram, name);
+    if (loc != -1) glUniform1i(loc, static_cast<int>(value)); // OpenGL uses int for bools
+}
+
+void OpenGLShader::setUniform(const char* name, Math::Vec2& value) {
+    GLint loc = glGetUniformLocation(_shaderProgram, name);
+    if (loc != -1) glUniform2fv(loc, 1, value.toFloat());
+}
+
+void OpenGLShader::setUniform(const char* name, Math::Vec3& value) {
+    GLint loc = glGetUniformLocation(_shaderProgram, name);
+    if (loc != -1) glUniform3fv(loc, 1, value.toFloat());
+}
+
+void OpenGLShader::setUniform(const char* name, glm::vec4& value) {
+    GLint loc = glGetUniformLocation(_shaderProgram, name);
+    if (loc != -1) glUniform4fv(loc, 1, glm::value_ptr(value));
+}
+
+void OpenGLShader::setUniform(const char* name, glm::mat4& value) {
+    GLint loc = glGetUniformLocation(_shaderProgram, name);
+    if (loc != -1) glUniformMatrix4fv(loc, 1, GL_FALSE, glm::value_ptr(value));
 }
