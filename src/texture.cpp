@@ -324,9 +324,10 @@ void Texture::activate(Shader* shader, const char* uniName, int unit) {
   shader->setUniform(uniName, unit);
 }
 
-Texture2D::Texture2D(TextureAPI* api) {
+Texture2D::Texture2D(TextureAPI* api, const char* path) {
   this->_api = api;
   this->config = new TextureConfig();
+  this->_api->load2D(path, &this->width, &this->height);
 }
 
 void Texture2D::bind() {
@@ -341,13 +342,10 @@ void Texture2D::mipmap() {
   this->_api->generateMipmap();
 }
 
-void Texture2D::load(const char* path) {
-  this->_api->load2D(path, &this->width, &this->height);
-}
-
-Texture3D::Texture3D(TextureAPI* api) {
+Texture3D::Texture3D(TextureAPI* api, const char* path[], size_t size) {
   this->_api = api;
   this->config = new TextureConfig();
+  this->_api->load3D(path, size, &this->width, &this->height, &this->depth);
 }
 
 void Texture3D::bind() {
@@ -358,13 +356,10 @@ void Texture3D::unbind() {
   this->_api->unbind();
 }
 
-void Texture3D::load(const char* path[], size_t size) {
-  this->_api->load3D(path, size, &this->width, &this->height, &this->depth);
-}
-
-TextureCube::TextureCube(TextureAPI* api) {
+TextureCube::TextureCube(TextureAPI* api, const char* path[], size_t size) {
   this->_api = api;
   this->config = new TextureConfig();
+  this->_api->loadCube(path, size, &this->width, &this->height);
 }
 
 void TextureCube::bind() {
@@ -373,8 +368,4 @@ void TextureCube::bind() {
 
 void TextureCube::unbind() {
   this->_api->unbind();
-}
-
-void TextureCube::load(const char* path[], size_t size) {
-  this->_api->loadCube(path, size, &this->width, &this->height);
 }

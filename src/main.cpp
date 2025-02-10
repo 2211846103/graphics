@@ -1,7 +1,7 @@
 // Includes
-#include <shader.hpp>
 #include <window.hpp>
 #include <graphics_api.hpp>
+#include <engine.hpp>
 #include <ctime>
 
 using namespace Graphics;
@@ -9,7 +9,6 @@ using namespace Graphics;
 // Main code
 int main(int argc, char* argv[]) {
     Window window(800, 600, "test");
-    OpenGLGraphicsAPI graphics(window);
 
     Vertex vertices[] = {
         {{-0.5, -0.5, 0.0}, {0.0, 0.0}},
@@ -23,15 +22,15 @@ int main(int argc, char* argv[]) {
         0, 3, 2
     };
 
-    Shader* shader = graphics.createShader("../res/shaders/shader.vert", "../res/shaders/shader.frag");
-    VertexArray* object = graphics.createVertexArray(vertices, sizeof(vertices));
-    object->bindIndices(indices, sizeof(indices));
+    Engine::Component::graphicsAPI = new OpenGLGraphicsAPI(window);
 
-    Texture2D* tex1 = graphics.createTexture2D();
-    tex1->config->swizzle_r = BLUE;
-    tex1->config->swizzle_g = RED;
-    tex1->config->swizzle_b = GREEN;
-    tex1->load("../res/images/test2.jpg");
+    Engine::Mesh mesh;
+    mesh.setVertices(vertices, sizeof(vertices));
+    mesh.setIndices(indices, sizeof(indices));
+
+    Engine::Material material;
+    material.setShader("../res/shaders/shader.vert", "../res/shaders/shader.frag");
+    material.setAlbedo("../res/images/test2.jpg");
 
     // Calculating DeltaTime
     int lastTick = clock();
@@ -42,9 +41,8 @@ int main(int argc, char* argv[]) {
 
         window.clear(0.2, 0.2, 0.2);
 
-        shader->use();
-        tex1->activate(shader, "tex1", 0);
-        object->draw();
+        material.update(dt);
+        mesh.render();
 
         // Checks and call events and swap the buffers
         window.update();

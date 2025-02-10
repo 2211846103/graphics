@@ -106,31 +106,28 @@ namespace Graphics {
 
     class Texture2D : public Texture {
       public:
-          Texture2D(TextureAPI* api);
+          Texture2D(TextureAPI* api, const char* path);
 
           void bind() override;
           void unbind() override;
           void mipmap();
-          void load(const char* path);
     };
 
     class Texture3D : public Texture {
       public:
           int depth;
 
-          Texture3D(TextureAPI* api);
+          Texture3D(TextureAPI* api, const char* path[], size_t size = 0);
 
           void bind() override;
           void unbind() override;
-          void load(const char* path[], size_t size = 0);
     };
 
     class TextureCube : public Texture {
         public:
-            TextureCube(TextureAPI* api);
+            TextureCube(TextureAPI* api, const char* path[], size_t size = 0);
 
             void bind() override;
             void unbind() override;
-            void load(const char* path[], size_t size = 0);
     };
 }
