@@ -157,7 +157,6 @@ namespace Math {
             // Accessors
             float* toFloat();
             float& operator()(int row, int col); // Allows for modification
-            const float& operator()(int row, int col) const; // for read only
 
             // Transformations methods
             static Mat4* identity();

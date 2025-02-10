@@ -139,14 +139,13 @@ std::ostream& operator<<(std::ostream& os, Vec2& vec) {
     return os;
 }
 
-// Constructors
+/*/ Constructors
 Mat4::Mat4() : data(1.0f) {}
 Mat4::Mat4(const glm::mat4& mat) : data(mat) {}
 
 // Accessors
 float* Mat4::toFloat() { return glm::value_ptr(data); }
 float& Mat4::operator()(int i, int j) { return data[i][j]; }
-const float& Mat4::operator()(int i, int j) const { return data[i][j]; }
 
 // Trastransformations methods
 Mat4* Mat4::identity() { return new Mat4(glm::mat4(1.0f)); }
@@ -158,7 +157,7 @@ Mat4* Mat4::scale(const Mat4& mat, const Vec3& v) { return new Mat4(glm::scale(m
 Mat4 Mat4::operator+(Mat4& other) { return Mat4(data + other.data); }
 Mat4 Mat4::operator-(Mat4& other) { return Mat4(data - other.data); }
 Mat4 Mat4::operator*(Mat4& other) { return Mat4(data * other.data); }
-Vec4 Mat4::operator*(Vec4& vec) { return Vec4(data * vec); }
+Vec4 Mat4::operator*(Vec4& vec) { return Vec4(data * vec.data); }
 Mat4 Mat4::operator*(float scalar) { return Mat4(data * scalar); }
 
 // methods
@@ -182,7 +181,6 @@ Mat3::Mat3(const glm::mat3& mat) : data(mat) {}
 // Accessors
 float* Mat3::toFloat() { return glm::value_ptr(data); }
 float& Mat3::operator()(int i, int j) { return data[i][j]; }
-const float& Mat3::operator()(int i, int j) const { return data[i][j]; }
 
 // Trastransformations methods
 Mat3* Mat3::identity() { return new Mat3(glm::mat3(1.0f)); }
@@ -239,7 +237,6 @@ Mat2::Mat2(const glm::mat2& mat) : data(mat) {}
 // Accessors
 float* Mat2::toFloat() { return glm::value_ptr(data); }
 float& Mat2::operator()(int i, int j) { return data[i][j]; }
-const float& Mat2::operator()(int i, int j) const { return data[i][j]; }
 
 // Trastransformations methods
 Mat2* Mat2::identity() { return new Mat2(glm::mat2(1.0f)); }
@@ -277,4 +274,4 @@ void Mat2::print() {
         }
         std::cout << std::endl;
     }
-}
+}*/
