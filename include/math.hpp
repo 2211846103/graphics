@@ -1,5 +1,7 @@
 #pragma once
 
+#define GLM_FORCE_CTOR_INIT
+
 #include <iostream>
 #include <glm/glm.hpp>
 #include <glm/gtc/constants.hpp>

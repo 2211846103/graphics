@@ -139,7 +139,7 @@ std::ostream& operator<<(std::ostream& os, Vec2& vec) {
     return os;
 }
 
-/*/ Constructors
+// Constructors
 Mat4::Mat4() : data(1.0f) {}
 Mat4::Mat4(const glm::mat4& mat) : data(mat) {}
 
@@ -274,4 +274,4 @@ void Mat2::print() {
         }
         std::cout << std::endl;
     }
-}*/
+}
