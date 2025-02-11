@@ -16,6 +16,7 @@ namespace Engine {
     class Material : public Component {
         private:
             Graphics::GraphicsAPI* _api;
+
         public:
             unsigned char unit = 0;
             Graphics::Shader* shader;
@@ -35,6 +36,7 @@ namespace Engine {
         private:
             Graphics::GraphicsAPI* _api;
             Graphics::VertexArray* _vao;
+            
         public:
             Mesh(Graphics::GraphicsAPI* api);
 

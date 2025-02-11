@@ -148,10 +148,10 @@ float* Mat4::toFloat() { return glm::value_ptr(data); }
 float& Mat4::operator()(int i, int j) { return data[i][j]; }
 
 // Trastransformations methods
-Mat4* Mat4::identity() { return new Mat4(glm::mat4(1.0f)); }
-Mat4* Mat4::translation(const Mat4& mat, const Vec3& v) { return new Mat4(glm::translate(mat.data, v.data)); }
-Mat4* Mat4::rotation(const Mat4& mat, float angle, const Vec3& axis) { return new Mat4(glm::rotate(mat.data, angle, axis.data)); }
-Mat4* Mat4::scale(const Mat4& mat, const Vec3& v) { return new Mat4(glm::scale(mat.data, v.data)); }
+Mat4 Mat4::identity() { return Mat4(glm::mat4(1.0f)); }
+Mat4 Mat4::translation(const Mat4& mat, const Vec3& v) { return Mat4(glm::translate(mat.data, v.data)); }
+Mat4 Mat4::rotation(const Mat4& mat, float angle, const Vec3& axis) { return Mat4(glm::rotate(mat.data, angle, axis.data)); }
+Mat4 Mat4::scale(const Mat4& mat, const Vec3& v) { return Mat4(glm::scale(mat.data, v.data)); }
 
 // operators
 Mat4 Mat4::operator+(Mat4& other) { return Mat4(data + other.data); }

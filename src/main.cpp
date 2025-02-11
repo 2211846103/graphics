@@ -35,11 +35,14 @@ int main(int argc, char* argv[]) {
     // Calculating DeltaTime
     float dt = 0;
 
-    Math::Mat4 model;
+    Math::Mat4 model = Math::Mat4::identity();
 
     while (!window.shouldClose()) {
         window.clear(0.2, 0.2, 0.2);
 
+        model = Math::Mat4::rotation(model, dt, Math::Vec3(0, 0, 1));
+
+        material.shader->setUniform("model", model);
         material.render();
         mesh.render();
 

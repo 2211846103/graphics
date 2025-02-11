@@ -161,10 +161,10 @@ namespace Math {
             float& operator()(int row, int col); // Allows for modification
 
             // Transformations methods
-            static Mat4* identity();
-            static Mat4* translation(const Mat4& mat, const Vec3& v);
-            static Mat4* rotation(const Mat4& mat, float angle, const Vec3& axis);
-            static Mat4* scale(const Mat4& mat, const Vec3& v);
+            static Mat4 identity();
+            static Mat4 translation(const Mat4& mat, const Vec3& v);
+            static Mat4 rotation(const Mat4& mat, float angle, const Vec3& axis);
+            static Mat4 scale(const Mat4& mat, const Vec3& v);
 
             // Operators
             Mat4 operator+(Mat4& other);

@@ -113,12 +113,12 @@ void OpenGLShader::setUniform(const char* name, Math::Vec3& value) {
     if (loc != -1) glUniform3fv(loc, 1, value.toFloat());
 }
 
-void OpenGLShader::setUniform(const char* name, glm::vec4& value) {
+void OpenGLShader::setUniform(const char* name, Math::Vec4& value) {
     GLint loc = glGetUniformLocation(_shaderProgram, name);
-    if (loc != -1) glUniform4fv(loc, 1, glm::value_ptr(value));
+    if (loc != -1) glUniform4fv(loc, 1, value.toFloat());
 }
 
-void OpenGLShader::setUniform(const char* name, glm::mat4& value) {
+void OpenGLShader::setUniform(const char* name, Math::Mat4& value) {
     GLint loc = glGetUniformLocation(_shaderProgram, name);
-    if (loc != -1) glUniformMatrix4fv(loc, 1, GL_FALSE, glm::value_ptr(value));
+    if (loc != -1) glUniformMatrix4fv(loc, 1, GL_FALSE, value.toFloat());
 }

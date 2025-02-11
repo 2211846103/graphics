@@ -18,8 +18,8 @@ namespace Graphics {
             virtual void setUniform(const char* name, bool value) = 0;
             virtual void setUniform(const char* name, Math::Vec2& value) = 0;
             virtual void setUniform(const char* name, Math::Vec3& value) = 0;
-            virtual void setUniform(const char* name, glm::vec4& value) = 0;
-            virtual void setUniform(const char* name, glm::mat4& value) = 0;
+            virtual void setUniform(const char* name, Math::Vec4& value) = 0;
+            virtual void setUniform(const char* name, Math::Mat4& value) = 0;
     };
 
     class OpenGLShader: public Shader {
@@ -39,7 +39,7 @@ namespace Graphics {
             void setUniform(const char* name, bool value) override;
             void setUniform(const char* name, Math::Vec2& value) override;
             void setUniform(const char* name, Math::Vec3& value) override;
-            void setUniform(const char* name, glm::vec4& value) override;
-            void setUniform(const char* name, glm::mat4& value) override;
+            void setUniform(const char* name, Math::Vec4& value) override;
+            void setUniform(const char* name, Math::Mat4& value) override;
     };
 }
