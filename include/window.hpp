@@ -7,6 +7,7 @@ namespace Graphics {
     class Window {
         private:
             GLFWwindow* _window;
+            float _lastFrame;
 
         public:
             int width;
@@ -17,7 +18,7 @@ namespace Graphics {
             ~Window();
 
             bool shouldClose();
-            void update();
+            float update();
             void initWindow();
             void clear(float red, float green, float blue);
 

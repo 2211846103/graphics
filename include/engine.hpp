@@ -16,10 +16,10 @@ namespace Engine {
     class Material : public Component {
         private:
             Graphics::GraphicsAPI* _api;
-            Graphics::Shader* _shader;
-            Graphics::Texture* _albedo = nullptr;
         public:
             unsigned char unit = 0;
+            Graphics::Shader* shader;
+            Graphics::Texture* albedo = nullptr;
 
             Material(Graphics::GraphicsAPI* api);
 

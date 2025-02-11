@@ -4,16 +4,16 @@ using namespace Engine;
 
 Material::Material(Graphics::GraphicsAPI* api) : _api{api} {}
 void Material::setShader(const char* vertexPath, const char* fragmentPath) {
-    this->_shader = this->_api->createShader(vertexPath, fragmentPath);
+    this->shader = this->_api->createShader(vertexPath, fragmentPath);
 }
 void Material::setAlbedo(const char* path) {
-    this->_albedo = this->_api->createTexture2D(path);
+    this->albedo = this->_api->createTexture2D(path);
 }
 void Material::init() {}
 void Material::update(float dt) {}
 void Material::render() {
-    this->_shader->use();
-    if (this->_albedo) this->_albedo->activate(this->_shader, "albedo", this->unit % 16);
+    this->shader->use();
+    if (this->albedo) this->albedo->activate(this->shader, "albedo", this->unit % 16);
 }
 
 Mesh::Mesh(Graphics::GraphicsAPI* api) : _api{api} {}

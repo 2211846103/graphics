@@ -17,9 +17,15 @@ bool Window::shouldClose() {
 }
 
 // Window methods that need to be called in the render loop.
-void Window::update() {
+float Window::update() {
     glfwPollEvents();
     glfwSwapBuffers(_window);
+
+    float currentFrame = glfwGetTime();
+    float deltaTime = currentFrame - _lastFrame;
+    _lastFrame = currentFrame; 
+
+    return deltaTime;
 }
 
 void Window::clear(float red, float green, float blue) {

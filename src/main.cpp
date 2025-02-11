@@ -33,19 +33,18 @@ int main(int argc, char* argv[]) {
     material.setAlbedo("../res/images/test.jpg");
 
     // Calculating DeltaTime
-    int lastTick = clock();
     float dt = 0;
 
-    while (!window.shouldClose()) {
-        dt = 1.0 / (clock() - lastTick);
+    Math::Mat4 model;
 
+    while (!window.shouldClose()) {
         window.clear(0.2, 0.2, 0.2);
 
         material.render();
         mesh.render();
 
         // Checks and call events and swap the buffers
-        window.update();
+        dt = window.update();
     }
 
     // Cleans/Deletes all GLFW resources that we allocated.
