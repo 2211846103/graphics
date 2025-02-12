@@ -119,6 +119,8 @@ OpenGLVertexArray::~OpenGLVertexArray() {
     // Unbind and Delete Vertex Array
     unbind();
     glDeleteBuffers(1, &this->id);
+    delete this->vertexBuffer;
+    delete this->indexBuffer;
 }
 
 void OpenGLVertexArray::bind() {

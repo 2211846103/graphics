@@ -2,10 +2,12 @@
 #include <shader.hpp>
 #include <window.hpp>
 #include <graphics_api.hpp>
-#include <engine.hpp>
+#include <component.hpp>
 #include <ctime>
 
 using namespace Graphics;
+using namespace Engine;
+using namespace Math;
 
 // Main code
 int main(int argc, char* argv[]) {
@@ -24,15 +26,14 @@ int main(int argc, char* argv[]) {
         0, 3, 2
     };
     
-    Engine::Mesh mesh(&graphics);
+    Mesh mesh(&graphics);
     mesh.setVertices(vertices, sizeof(vertices));
     mesh.setIndices(indices, sizeof(indices));
 
-    Engine::Material material(&graphics);
-    material.setShader("../res/shaders/shader.vert", "../res/shaders/shader.frag");
+    Material material(&graphics);
     material.setAlbedo("../res/images/test.jpg");
 
-    Engine::Renderer renderer(&graphics);
+    Renderer renderer(&graphics);
     renderer.setShader("../res/shaders/shader.vert", "../res/shaders/shader.frag");
     renderer.mesh = &mesh;
     renderer.material = &material;
@@ -40,12 +41,12 @@ int main(int argc, char* argv[]) {
     // Calculating DeltaTime
     float dt = 0;
 
-    Math::Mat4 model = Math::Mat4::identity();
+    Mat4 model = Mat4::identity();
 
     while (!window.shouldClose()) {
         window.clear(0.2, 0.2, 0.2);
 
-        model = Math::Mat4::rotation(model, dt, Math::Vec3(0, 0, 1));
+        model = Mat4::rotation(model, dt, Vec3(0, 0, 1));
 
         renderer.shader->setUniform("model", model);
         renderer.render();

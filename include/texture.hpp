@@ -41,8 +41,6 @@ namespace Graphics {
             TextureChannel swizzle_g = GREEN;
             TextureChannel swizzle_b = BLUE;
             TextureChannel swizzle_a = ALPHA;
-
-            ~TextureConfig() = delete;
     };
 
     class TextureAPI {
@@ -99,6 +97,8 @@ namespace Graphics {
             int width, height;
             TextureConfig* config;
 
+            virtual ~Texture() = default;
+
             virtual void bind() = 0;
             virtual void unbind() = 0;
             void activate(Shader* shader, const char* uniName, int unit);
@@ -107,6 +107,7 @@ namespace Graphics {
     class Texture2D : public Texture {
       public:
           Texture2D(TextureAPI* api, const char* path);
+          ~Texture2D();
 
           void bind() override;
           void unbind() override;
@@ -118,6 +119,7 @@ namespace Graphics {
           int depth;
 
           Texture3D(TextureAPI* api, const char* path[], size_t size = 0);
+          ~Texture3D();
 
           void bind() override;
           void unbind() override;
@@ -126,6 +128,7 @@ namespace Graphics {
     class TextureCube : public Texture {
         public:
             TextureCube(TextureAPI* api, const char* path[], size_t size = 0);
+            ~TextureCube();
 
             void bind() override;
             void unbind() override;

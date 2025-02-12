@@ -7,6 +7,8 @@
 #include <math.hpp>
 
 namespace Engine {
+    using namespace Graphics;
+
     class Component {
         public:
             virtual void init() = 0;
@@ -16,16 +18,15 @@ namespace Engine {
 
     class Material : public Component {
         private:
-            Graphics::GraphicsAPI* _api;
+            GraphicsAPI* _api;
 
         public:
             unsigned char unit = 0;
-            Graphics::Shader* shader;
-            Graphics::Texture* albedo = nullptr;
+            Texture* albedo = nullptr;
 
-            Material(Graphics::GraphicsAPI* api);
+            Material(GraphicsAPI* api);
+            ~Material();
 
-            void setShader(const char* vertexPath, const char* fragmentPath);
             void setAlbedo(const char* path);
 
             void init() override;
@@ -35,13 +36,14 @@ namespace Engine {
 
     class Mesh : public Component {
         private:
-            Graphics::GraphicsAPI* _api;
-            Graphics::VertexArray* _vao;
+            GraphicsAPI* _api;
+            VertexArray* _vao;
             
         public:
-            Mesh(Graphics::GraphicsAPI* api);
+            Mesh(GraphicsAPI* api);
+            ~Mesh();
 
-            void setVertices(Graphics::Vertex* vertices, size_t size);
+            void setVertices(Vertex* vertices, size_t size);
             void setIndices(int* indices, size_t size);
 
             void init() override;
@@ -51,14 +53,15 @@ namespace Engine {
 
     class Renderer : public Component {
         private:
-            Graphics::GraphicsAPI* _api;
+            GraphicsAPI* _api;
 
         public:
             Mesh* mesh;
             Material* material;
-            Graphics::Shader* shader;
+            Shader* shader;
 
-            Renderer(Graphics::GraphicsAPI* api);
+            Renderer(GraphicsAPI* api);
+            ~Renderer();
 
             void setShader(const char* vPath, const char* fPath);
 

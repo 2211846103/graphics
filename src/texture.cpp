@@ -11,7 +11,6 @@ OpenGLTexture::~OpenGLTexture() {
     // Delete Texture and Unbind
     glDeleteTextures(1, &this->_id);
     unbind();
-    delete this;
 }
 
 void OpenGLTexture::bind2D() {
@@ -330,6 +329,11 @@ Texture2D::Texture2D(TextureAPI* api, const char* path) {
   this->_api->load2D(path, &this->width, &this->height);
 }
 
+Texture2D::~Texture2D() {
+  delete this->_api;
+  delete this->config;
+}
+
 void Texture2D::bind() {
   this->_api->bind2D();
 }
@@ -348,6 +352,11 @@ Texture3D::Texture3D(TextureAPI* api, const char* path[], size_t size) {
   this->_api->load3D(path, size, &this->width, &this->height, &this->depth);
 }
 
+Texture3D::~Texture3D() {
+  delete this->_api;
+  delete this->config;
+}
+
 void Texture3D::bind() {
   this->_api->bind3D();
 }
@@ -360,6 +369,11 @@ TextureCube::TextureCube(TextureAPI* api, const char* path[], size_t size) {
   this->_api = api;
   this->config = new TextureConfig();
   this->_api->loadCube(path, size, &this->width, &this->height);
+}
+
+TextureCube::~TextureCube() {
+  delete this->_api;
+  delete this->config;
 }
 
 void TextureCube::bind() {
