@@ -41,12 +41,11 @@ void Renderer::render() {
     this->mesh->render();
 }
 
-Transform::Transform(GraphicsAPI* api) {
-    this->_api = api;
+void Transform::update(float dt) {
+    this->_model = Mat4::identity();
+    this->_model = Mat4::translation(this->_model, this->position);
+    this->_model = Mat4::rotation(this->_model, this->rotation.x(), Vec3(1, 0, 0));
+    this->_model = Mat4::rotation(this->_model, this->rotation.y(), Vec3(0, 1, 0));
+    this->_model = Mat4::rotation(this->_model, this->rotation.z(), Vec3(0, 0, 1));
+    this->_model = Mat4::scale(this->_model, this->scale);
 }
-Transform::~Transform() {
-    delete this->_api;
-}
-void Transform::init() {}
-void Transform::update(float dt) {}
-void Transform::render() {}

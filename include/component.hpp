@@ -11,9 +11,6 @@ namespace Engine {
     using namespace Graphics;
 
     class Component {
-        protected:
-            GraphicsAPI* _api;
-
         public:
             virtual void init() {};
             virtual void update(float dt) {};
@@ -23,6 +20,7 @@ namespace Engine {
     class Mesh : public Component {
         private:
             VertexArray* _vao;
+            GraphicsAPI* _api;
             
         public:
             Material* material;
@@ -37,6 +35,9 @@ namespace Engine {
     };
 
     class Renderer : public Component {
+        private:
+            GraphicsAPI* _api;
+
         public:
             Mesh* mesh;
             Shader* shader;
@@ -50,16 +51,14 @@ namespace Engine {
     };
 
     class Transform : public Component {
+        private:
+            Mat4 _model;
+
         public:
-            Math::Mat4 model;
-            Math::Mat4 view;
-            Math::Mat4 projection;
+            Vec3 position;
+            Vec3 rotation;
+            Vec3 scale;
 
-            Transform(GraphicsAPI* api);
-            ~Transform();
-
-            void init() override;
             void update(float dt) override;
-            void render() override;
     };
 }
