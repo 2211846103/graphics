@@ -32,6 +32,11 @@ int main(int argc, char* argv[]) {
     material.setShader("../res/shaders/shader.vert", "../res/shaders/shader.frag");
     material.setAlbedo("../res/images/test.jpg");
 
+    Engine::Renderer renderer(&graphics);
+    renderer.setShader("../res/shaders/shader.vert", "../res/shaders/shader.frag");
+    renderer.mesh = &mesh;
+    renderer.material = &material;
+
     // Calculating DeltaTime
     float dt = 0;
 
@@ -42,9 +47,8 @@ int main(int argc, char* argv[]) {
 
         model = Math::Mat4::rotation(model, dt, Math::Vec3(0, 0, 1));
 
-        material.shader->setUniform("model", model);
-        material.render();
-        mesh.render();
+        renderer.shader->setUniform("model", model);
+        renderer.render();
 
         // Checks and call events and swap the buffers
         dt = window.update();

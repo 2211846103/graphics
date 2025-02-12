@@ -8,7 +8,6 @@ Window::Window(int w, int h, const char* name) : width{w}, height{h}, windowName
 
 Window::~Window() {
     glfwDestroyWindow(_window);
-
     glfwTerminate();
 }
 

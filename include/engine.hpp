@@ -4,6 +4,7 @@
 #include <graphics_api.hpp>
 #include <shader.hpp>
 #include <texture.hpp>
+#include <math.hpp>
 
 namespace Engine {
     class Component {
@@ -42,6 +43,24 @@ namespace Engine {
 
             void setVertices(Graphics::Vertex* vertices, size_t size);
             void setIndices(int* indices, size_t size);
+
+            void init() override;
+            void update(float dt) override;
+            void render() override;
+    };
+
+    class Renderer : public Component {
+        private:
+            std::unique_ptr<Graphics::GraphicsAPI> _api;
+
+        public:
+            std::unique_ptr<Mesh> mesh;
+            std::unique_ptr<Material> material;
+            std::unique_ptr<Graphics::Shader> shader;
+
+            Renderer(Graphics::GraphicsAPI* api);
+
+            void setShader(const char* vPath, const char* fPath);
 
             void init() override;
             void update(float dt) override;

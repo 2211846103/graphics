@@ -28,3 +28,15 @@ void Mesh::update(float dt) {}
 void Mesh::render() {
     this->_vao->draw();
 }
+
+Renderer::Renderer(Graphics::GraphicsAPI* api) : _api{api} {}
+void Renderer::setShader(const char* vPath, const char* fPath) {
+    this->shader = this->_api->createShader(vPath, fPath);
+}
+void Renderer::init() {}
+void Renderer::update(float dt) {}
+void Renderer::render() {
+    this->shader->use();
+    this->material->albedo->activate(this->shader, "albedo", this->material->unit);
+    this->mesh->render();
+}
