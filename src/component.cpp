@@ -50,3 +50,13 @@ void Renderer::render() {
     this->material->albedo->activate(this->shader, "albedo", this->material->unit);
     this->mesh->render();
 }
+
+Transform::Transform(GraphicsAPI* api) {
+    this->_api = api;
+}
+Transform::~Transform() {
+    delete this->_api;
+}
+void Transform::init() {}
+void Transform::update(float dt) {}
+void Transform::render() {}
