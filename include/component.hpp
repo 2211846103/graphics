@@ -48,4 +48,18 @@ namespace Engine {
 
             void render() override;
     };
+
+    class Transform : public Component {
+        public:
+            Math::Mat4 model;
+            Math::Mat4 view;
+            Math::Mat4 projection;
+
+            Transform(GraphicsAPI* api);
+            ~Transform();
+
+            void init() override;
+            void update(float dt) override;
+            void render() override;
+    };
 }
