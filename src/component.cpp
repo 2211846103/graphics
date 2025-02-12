@@ -3,9 +3,7 @@
 using namespace Engine;
 using namespace Graphics;
 
-Mesh::Mesh(GraphicsAPI* api) {
-    this->_api = api;
-}
+Mesh::Mesh(GameObject* obj) : Component{obj} {}
 
 Mesh::~Mesh() {
     delete this->_vao;
@@ -33,6 +31,10 @@ Renderer::~Renderer() {
 
 void Renderer::setShader(const char* vPath, const char* fPath) {
     this->shader = this->_api->createShader(vPath, fPath);
+}
+
+void Renderer::update(float dt) {
+
 }
 
 void Renderer::render() {
