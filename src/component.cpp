@@ -3,7 +3,9 @@
 using namespace Engine;
 using namespace Graphics;
 
-Material::Material(GraphicsAPI* api) : _api{api} {}
+Material::Material(GraphicsAPI* api) {
+    this->_api = api;
+}
 Material::~Material() {
     delete this->albedo;
 }
@@ -14,7 +16,9 @@ void Material::init() {}
 void Material::update(float dt) {}
 void Material::render() {}
 
-Mesh::Mesh(GraphicsAPI* api) : _api{api} {}
+Mesh::Mesh(GraphicsAPI* api) {
+    this->_api = api;
+}
 Mesh::~Mesh() {
     delete this->_vao;
 }
@@ -30,7 +34,9 @@ void Mesh::render() {
     this->_vao->draw();
 }
 
-Renderer::Renderer(GraphicsAPI* api) : _api{api} {}
+Renderer::Renderer(GraphicsAPI* api) {
+    this->_api = api;
+}
 Renderer::~Renderer() {
     delete this->shader;
 }

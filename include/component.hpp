@@ -10,6 +10,9 @@ namespace Engine {
     using namespace Graphics;
 
     class Component {
+        protected:
+            GraphicsAPI* _api;
+
         public:
             virtual void init() = 0;
             virtual void update(float dt) = 0;
@@ -17,9 +20,6 @@ namespace Engine {
     };
 
     class Material : public Component {
-        private:
-            GraphicsAPI* _api;
-
         public:
             unsigned char unit = 0;
             Texture* albedo = nullptr;
@@ -36,7 +36,6 @@ namespace Engine {
 
     class Mesh : public Component {
         private:
-            GraphicsAPI* _api;
             VertexArray* _vao;
             
         public:
@@ -52,9 +51,6 @@ namespace Engine {
     };
 
     class Renderer : public Component {
-        private:
-            GraphicsAPI* _api;
-
         public:
             Mesh* mesh;
             Material* material;

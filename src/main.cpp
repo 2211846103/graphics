@@ -2,7 +2,7 @@
 #include <shader.hpp>
 #include <window.hpp>
 #include <graphics_api.hpp>
-#include <component.hpp>
+#include <game_object.hpp>
 #include <ctime>
 
 using namespace Graphics;
@@ -25,18 +25,20 @@ int main(int argc, char* argv[]) {
         0, 1, 3,
         0, 3, 2
     };
-    
-    Mesh mesh(&graphics);
-    mesh.setVertices(vertices, sizeof(vertices));
-    mesh.setIndices(indices, sizeof(indices));
 
-    Material material(&graphics);
-    material.setAlbedo("../res/images/test.jpg");
+    GameObject object(&graphics);
 
-    Renderer renderer(&graphics);
-    renderer.setShader("../res/shaders/shader.vert", "../res/shaders/shader.frag");
-    renderer.mesh = &mesh;
-    renderer.material = &material;
+    object.addComponent<Mesh>();
+    object.getComponent<Mesh>()->setVertices(vertices, sizeof(vertices));
+    object.getComponent<Mesh>()->setIndices(indices, sizeof(indices));
+
+    object.addComponent<Material>();
+    object.getComponent<Material>()->setAlbedo("../res/images/test2.jpg");
+
+    object.addComponent<Renderer>();
+    object.getComponent<Renderer>()->setShader("../res/shaders/shader.vert", "../res/shaders/shader.frag");
+    object.getComponent<Renderer>()->mesh = object.getComponent<Mesh>();
+    object.getComponent<Renderer>()->material = object.getComponent<Material>();
 
     // Calculating DeltaTime
     float dt = 0;
@@ -48,8 +50,7 @@ int main(int argc, char* argv[]) {
 
         model = Mat4::rotation(model, dt, Vec3(0, 0, 1));
 
-        renderer.shader->setUniform("model", model);
-        renderer.render();
+        object.render();
 
         // Checks and call events and swap the buffers
         dt = window.update();
