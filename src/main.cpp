@@ -72,18 +72,17 @@ int main(int argc, char* argv[]) {
     };
 
     GameObject object(&graphics);
+    Material mat(&graphics);
+    mat.setAlbedo("../res/images/test2.jpg");
 
     object.addComponent<Mesh>();
     object.getComponent<Mesh>()->setVertices(vertices, sizeof(vertices));
     object.getComponent<Mesh>()->setIndices(indices, sizeof(indices));
 
-    object.addComponent<Material>();
-    object.getComponent<Material>()->setAlbedo("../res/images/test.jpg");
-
     object.addComponent<Renderer>();
     object.getComponent<Renderer>()->setShader("../res/shaders/shader.vert", "../res/shaders/shader.frag");
     object.getComponent<Renderer>()->mesh = object.getComponent<Mesh>();
-    object.getComponent<Renderer>()->material = object.getComponent<Material>();
+    object.getComponent<Renderer>()->mesh->material = &mat;
 
     // Calculating DeltaTime
     float dt = 0;
