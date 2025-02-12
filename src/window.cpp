@@ -27,24 +27,14 @@ float Window::update() {
     return deltaTime;
 }
 
-void Window::clear(float red, float green, float blue) {
-    glClearColor(red, green, blue, 1.0);
-    glClear(GL_COLOR_BUFFER_BIT);
-}
-
 void Window::initWindow() {
     glfwInit();
-
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     #ifdef __MACH__
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     #endif
 
     _window = glfwCreateWindow(width, height, windowName, nullptr, nullptr);
     glfwMakeContextCurrent(_window);
-    gladLoadGL();
 }
 
 void Window::setSizeCallback(void (*callback)(GLFWwindow* window, int width, int height)) {

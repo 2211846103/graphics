@@ -7,6 +7,7 @@ static void opengl_size_callback(GLFWwindow* window, int width, int height) {
 }
 
 OpenGLGraphicsAPI::OpenGLGraphicsAPI(Window& window) {
+    gladLoadGL();
     glViewport(0, 0, window.width, window.height);
     window.setSizeCallback(opengl_size_callback);
 }
@@ -33,4 +34,17 @@ Texture3D* OpenGLGraphicsAPI::createTexture3D(const char* path[], size_t size) {
 
 TextureCube* OpenGLGraphicsAPI::createTextureCube(const char* path[], size_t size) {
     return new TextureCube(new OpenGLTexture(), path, size);
+}
+
+void OpenGLGraphicsAPI::enableZBuffer() {
+    glEnable(GL_DEPTH_TEST);
+    this->_channelBuffers |= GL_DEPTH_BUFFER_BIT;
+}
+
+void OpenGLGraphicsAPI::setClearColor(Vec3 color) {
+    glClearColor(color.x(), color.y(), color.z(), 1.0);
+}
+
+void OpenGLGraphicsAPI::clear() {
+    glClear(this->_channelBuffers);
 }

@@ -20,7 +20,6 @@ namespace Graphics {
             bool shouldClose();
             float update();
             void initWindow();
-            void clear(float red, float green, float blue);
 
             void setSizeCallback(void (*callback)(GLFWwindow* window, int width, int height));
     };

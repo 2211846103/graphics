@@ -16,16 +16,59 @@ int main(int argc, char* argv[]) {
 
     float aspectRatio = 800.0f / 600.0f;
 
+    graphics.enableZBuffer();
+    graphics.setClearColor({0.2, 0.2, 0.2});
+
     Vertex vertices[] = {
-        {{-0.5, -0.5, 0.0}, {0.0, 0.0}},
-        {{ 0.5, -0.5, 0.0}, {1.0, 0.0}},
-        {{-0.5,  0.5, 0.0}, {0.0, 1.0}},
-        {{ 0.5,  0.5, 0.0}, {1.0, 1.0}}
+        {{-0.5f, -0.5f, -0.5f},  {0.0f, 0.0f}},
+        {{ 0.5f, -0.5f, -0.5f},  {1.0f, 0.0f}},
+        {{ 0.5f,  0.5f, -0.5f},  {1.0f, 1.0f}},
+        {{-0.5f,  0.5f, -0.5f},  {0.0f, 1.0f}},
+
+        {{-0.5f, -0.5f,  0.5f},  {0.0f, 0.0f}},
+        {{ 0.5f, -0.5f,  0.5f},  {1.0f, 0.0f}},
+        {{ 0.5f,  0.5f,  0.5f},  {1.0f, 1.0f}},
+        {{-0.5f,  0.5f,  0.5f},  {0.0f, 1.0f}},
+
+        {{-0.5f,  0.5f,  0.5f},  {1.0f, 0.0f}},
+        {{-0.5f,  0.5f, -0.5f},  {1.0f, 1.0f}},
+        {{-0.5f, -0.5f, -0.5f},  {0.0f, 1.0f}},
+        {{-0.5f, -0.5f,  0.5f},  {0.0f, 0.0f}},
+
+        {{ 0.5f,  0.5f,  0.5f},  {1.0f, 0.0f}},
+        {{ 0.5f,  0.5f, -0.5f},  {1.0f, 1.0f}},
+        {{ 0.5f, -0.5f, -0.5f},  {0.0f, 1.0f}},
+        {{ 0.5f, -0.5f,  0.5f},  {0.0f, 0.0f}},
+
+        {{-0.5f, -0.5f, -0.5f},  {0.0f, 1.0f}},
+        {{ 0.5f, -0.5f, -0.5f},  {1.0f, 1.0f}},
+        {{ 0.5f, -0.5f,  0.5f},  {1.0f, 0.0f}},
+        {{-0.5f, -0.5f,  0.5f},  {0.0f, 0.0f}},
+
+        {{-0.5f,  0.5f, -0.5f},  {0.0f, 1.0f}},
+        {{ 0.5f,  0.5f, -0.5f},  {1.0f, 1.0f}},
+        {{ 0.5f,  0.5f,  0.5f},  {1.0f, 0.0f}},
+        {{-0.5f,  0.5f,  0.5f},  {0.0f, 0.0f}}
     };
 
     int indices[] = {
-        0, 1, 3,
-        0, 3, 2
+         0,  1,  2,
+         0,  2,  3,
+
+         4,  5,  6,
+         4,  6,  7,
+
+         8,  9, 10,
+         8, 10, 11,
+
+        12, 13, 14,
+        12, 14, 15,
+
+        16, 17, 18,
+        16, 18, 19,
+
+        20, 21, 22,
+        20, 22, 23
     };
 
     GameObject object(&graphics);
@@ -35,7 +78,7 @@ int main(int argc, char* argv[]) {
     object.getComponent<Mesh>()->setIndices(indices, sizeof(indices));
 
     object.addComponent<Material>();
-    object.getComponent<Material>()->setAlbedo("../res/images/test2.jpg");
+    object.getComponent<Material>()->setAlbedo("../res/images/test.jpg");
 
     object.addComponent<Renderer>();
     object.getComponent<Renderer>()->setShader("../res/shaders/shader.vert", "../res/shaders/shader.frag");
@@ -49,21 +92,20 @@ int main(int argc, char* argv[]) {
     Math::Mat4 view = Math::Mat4::identity();
     Math::Mat4 projection = Math::Mat4::identity();
 
-    model = Math::Mat4::translation(view, Math::Vec3(0, -0.5, -3));
-    model = Math::Mat4::rotation(model, glm::radians(-55.0f), Math::Vec3(1, 0, 0));
+    model = Math::Mat4::translation(view, Math::Vec3(0, 0, -2.5));
     projection = glm::perspective(glm::radians(45.0f), aspectRatio, 0.1f, 100.0f);
 
     Renderer* rend = object.getComponent<Renderer>();
 
     while (!window.shouldClose()) {
-        window.clear(0.2, 0.2, 0.2);
+        graphics.clear();
 
-
+        model = Mat4::rotation(model, dt, Vec3(0.5, 1, 0));
 
         rend->shader->setUniform("model", model);
         rend->shader->setUniform("view", view);
         rend->shader->setUniform("projection", projection);
-        rend->render();
+        object.render();
 
         // Checks and call events and swap the buffers
         dt = window.update();
