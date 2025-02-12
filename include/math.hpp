@@ -196,10 +196,10 @@ namespace Math {
             const float& operator()(int row, int col) const; // for read only
 
             // Transformations methods
-            static Mat3* identity();
-            static Mat3* translation(const Mat3& mat, Vec2& v);
-            static Mat3* rotation(const Mat3& mat, float angle);
-            static Mat3* scale(const Mat3& mat, Vec2& v);
+            static Mat3 identity();
+            static Mat3 translation(const Mat3& mat, Vec2& v);
+            static Mat3 rotation(const Mat3& mat, float angle);
+            static Mat3 scale(const Mat3& mat, Vec2& v);
 
             // Operators
             Mat3 operator+(Mat3& other);
@@ -230,9 +230,9 @@ namespace Math {
             const float& operator()(int row, int col) const; // for read only
 
             // Transformations methods
-            static Mat2* identity();
-            static Mat2* rotation(const Mat2& mat, float angle);
-            static Mat2* scale(const Mat2& mat, Vec2& v);
+            static Mat2 identity();
+            static Mat2 rotation(const Mat2& mat, float angle);
+            static Mat2 scale(const Mat2& mat, Vec2& v);
 
             // Operators
             Mat2 operator+(Mat2& other);
@@ -248,4 +248,6 @@ namespace Math {
             // Print
             void print();
     };
+
+    
 }   

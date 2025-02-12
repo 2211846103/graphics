@@ -183,30 +183,30 @@ float* Mat3::toFloat() { return glm::value_ptr(data); }
 float& Mat3::operator()(int i, int j) { return data[i][j]; }
 
 // Trastransformations methods
-Mat3* Mat3::identity() { return new Mat3(glm::mat3(1.0f)); }
-Mat3* Mat3::translation(const Mat3& mat, Vec2& v) { 
+Mat3 Mat3::identity() { return Mat3(glm::mat3(1.0f)); }
+Mat3 Mat3::translation(const Mat3& mat, Vec2& v) { 
     glm::mat3 translationMat(
             1.0f, 0.0f, v.x(),
             0.0f, 1.0f, v.y(),
             0.0f, 0.0f, 1.0f
         );
-    return new Mat3(mat.data * translationMat);
+    return Mat3(mat.data * translationMat);
  }
-Mat3* Mat3::rotation(const Mat3& mat, float angle) { 
+Mat3 Mat3::rotation(const Mat3& mat, float angle) { 
     glm::mat3 rotationMat(
             cos(angle), -sin(angle), 0.0f,
             sin(angle), cos(angle), 0.0f,
             0.0f, 0.0f, 1.0f
         );
-    return new Mat3(mat.data * rotationMat);
+    return Mat3(mat.data * rotationMat);
  }
-Mat3* Mat3::scale(const Mat3& mat, Vec2& v) { 
+Mat3 Mat3::scale(const Mat3& mat, Vec2& v) { 
     glm::mat3 scaleMat(
             v.x(), 0.0f, 0.0f,
             0.0f, v.y(), 0.0f,
             0.0f, 0.0f, 1.0f
         );
-    return new Mat3(mat.data * scaleMat);
+    return Mat3(mat.data * scaleMat);
 }
 
 // Operators
@@ -239,20 +239,20 @@ float* Mat2::toFloat() { return glm::value_ptr(data); }
 float& Mat2::operator()(int i, int j) { return data[i][j]; }
 
 // Trastransformations methods
-Mat2* Mat2::identity() { return new Mat2(glm::mat2(1.0f)); }
-Mat2* Mat2::rotation(const Mat2& mat, float angle) { 
+Mat2 Mat2::identity() { return Mat2(glm::mat2(1.0f)); }
+Mat2 Mat2::rotation(const Mat2& mat, float angle) { 
     glm::mat2 rotationMat(
             cos(angle), -sin(angle),
             sin(angle), cos(angle)
         );
-    return new Mat2(mat.data * rotationMat);
+    return Mat2(mat.data * rotationMat);
  }
- Mat2* Mat2::scale(const Mat2& mat, Vec2& v) { 
+ Mat2 Mat2::scale(const Mat2& mat, Vec2& v) { 
     glm::mat2 scaleMat(
             v.x(), 0.0f,
             0.0f, v.y()
         );
-    return new Mat2(mat.data * scaleMat);
+    return  Mat2(mat.data * scaleMat);
  }
 
 // Operators
