@@ -51,12 +51,12 @@ namespace Engine {
 
     class Renderer : public Component {
         private:
-            std::unique_ptr<Graphics::GraphicsAPI> _api;
+            Graphics::GraphicsAPI* _api;
 
         public:
-            std::unique_ptr<Mesh> mesh;
-            std::unique_ptr<Material> material;
-            std::unique_ptr<Graphics::Shader> shader;
+            Mesh* mesh;
+            Material* material;
+            Graphics::Shader* shader;
 
             Renderer(Graphics::GraphicsAPI* api);
 
