@@ -45,33 +45,25 @@ int main(int argc, char* argv[]) {
     // Calculating DeltaTime
     float dt = 0;
 
-<<<<<<< Updated upstream
-    Mat4 model = Mat4::identity();
-=======
     Math::Mat4 model = Math::Mat4::identity();
     Math::Mat4 view = Math::Mat4::identity();
     Math::Mat4 projection = Math::Mat4::identity();
 
-    view = Math::Mat4::translation(view, Math::Vec3(0, 0, -3));
-    projection = glm::perspective(glm::radians(45.0f), aspectRatio, 0.1f, 100.0f);
+    model = Math::Mat4::translation(view, Math::Vec3(0, -0.5, -3));
     model = Math::Mat4::rotation(model, glm::radians(-55.0f), Math::Vec3(1, 0, 0));
->>>>>>> Stashed changes
+    projection = glm::perspective(glm::radians(45.0f), aspectRatio, 0.1f, 100.0f);
+
+    Renderer* rend = object.getComponent<Renderer>();
 
     while (!window.shouldClose()) {
         window.clear(0.2, 0.2, 0.2);
 
-<<<<<<< Updated upstream
-        model = Mat4::rotation(model, dt, Vec3(0, 0, 1));
-
-        object.render();
-=======
 
 
-        renderer.shader->setUniform("model", model);
-        renderer.shader->setUniform("view", view);
-        renderer.shader->setUniform("projection", projection);
-        renderer.render();
->>>>>>> Stashed changes
+        rend->shader->setUniform("model", model);
+        rend->shader->setUniform("view", view);
+        rend->shader->setUniform("projection", projection);
+        rend->render();
 
         // Checks and call events and swap the buffers
         dt = window.update();
