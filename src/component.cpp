@@ -3,6 +3,31 @@
 using namespace Engine;
 using namespace Graphics;
 
+Component::Component(GameObject* obj) : gameObject{obj} {}
+
+GameObject::GameObject(GraphicsAPI* api) : api{api} {
+    this->addComponent<Transform>();
+}
+
+GameObject::~GameObject() {
+    for (auto& pair : _components) {
+        delete pair.second;
+    }
+    _components.clear();
+}
+
+void GameObject::update(float dt) {
+    for (auto& pair : _components) {
+        pair.second->update(dt);
+    }
+}
+
+void GameObject::render() {
+    Renderer* r = this->getComponent<Renderer>();
+    if (!r) return;
+    r->render();
+}
+
 Mesh::Mesh(GameObject* obj) : Component{obj} {}
 
 Mesh::~Mesh() {
@@ -10,7 +35,7 @@ Mesh::~Mesh() {
 }
 
 void Mesh::setVertices(Vertex* vertices, size_t size) {
-    this->_vao = this->_api->createVertexArray(vertices, size);
+    this->_vao = this->gameObject->api->createVertexArray(vertices, size);
 }
 
 void Mesh::setIndices(int* indices, size_t size) {
@@ -21,26 +46,35 @@ void Mesh::render() {
     this->_vao->draw();
 }
 
-Renderer::Renderer(GraphicsAPI* api) {
-    this->_api = api;
-}
+Renderer::Renderer(GameObject* obj) : Component{obj} {}
 
 Renderer::~Renderer() {
     delete this->shader;
 }
 
 void Renderer::setShader(const char* vPath, const char* fPath) {
-    this->shader = this->_api->createShader(vPath, fPath);
+    this->shader = this->gameObject->api->createShader(vPath, fPath);
 }
 
 void Renderer::update(float dt) {
+    Transform* transform = this->gameObject->getComponent<Transform>();
+    Mat4 model = transform->getModel();
 
+    this->shader->use();
+    this->shader->setUniform("model", model);
 }
 
 void Renderer::render() {
     this->shader->use();
-    this->mesh->material->albedo->activate(this->shader, "albedo", this->mesh->material->unit);
-    this->mesh->render();
+    Mesh* mesh = this->gameObject->getComponent<Mesh>();
+    mesh->material->albedo->activate(this->shader, "albedo", mesh->material->unit);
+    mesh->render();
+}
+
+Transform::Transform(GameObject* obj) : Component{obj} {}
+
+Mat4& Transform::getModel() {
+    return this->_model;
 }
 
 void Transform::update(float dt) {

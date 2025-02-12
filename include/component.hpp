@@ -1,5 +1,8 @@
 #pragma once
 
+#include <unordered_map>
+#include <typeinfo>
+
 #include <graphics_components.hpp>
 #include <graphics_api.hpp>
 #include <shader.hpp>
@@ -38,7 +41,7 @@ namespace Engine {
             void addComponent() {
                 const char* name = typeid(T).name();
                 if (_components.find(name) != _components.end()) return;
-                _components[name] = new T(this->api);
+                _components[name] = new T(this);
             }
             template <typename T>
             T* getComponent() {
@@ -92,11 +95,13 @@ namespace Engine {
             Mat4 _model;
 
         public:
-            Vec3 position;
-            Vec3 rotation;
-            Vec3 scale;
+            Vec3 position{0, 0, 0};
+            Vec3 rotation{0, 0, 0};
+            Vec3 scale{1, 1, 1};
 
             Transform(GameObject* obj);
+
+            Mat4& getModel();
 
             void update(float dt) override;
     };
