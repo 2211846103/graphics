@@ -9,6 +9,7 @@
 
 namespace Engine {
     using namespace Graphics;
+    using namespace Math;
 
     class Component {
         public:
@@ -58,6 +59,16 @@ namespace Engine {
             Vec3 position;
             Vec3 rotation;
             Vec3 scale;
+
+            void update(float dt) override;
+    };
+
+    class Camera : public Component {
+        private:
+            Mat4 _view;
+            Mat4 _projection;
+        public:
+            Vec3 position;
 
             void update(float dt) override;
     };
