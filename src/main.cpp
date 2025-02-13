@@ -2,7 +2,7 @@
 #include <shader.hpp>
 #include <window.hpp>
 #include <graphics_api.hpp>
-#include <game_object.hpp>
+#include <component.hpp>
 #include <ctime>
 
 using namespace Graphics;
@@ -78,32 +78,21 @@ int main(int argc, char* argv[]) {
     object.addComponent<Mesh>();
     object.getComponent<Mesh>()->setVertices(vertices, sizeof(vertices));
     object.getComponent<Mesh>()->setIndices(indices, sizeof(indices));
+    object.getComponent<Mesh>()->material = &mat;
 
     object.addComponent<Renderer>();
     object.getComponent<Renderer>()->setShader("../res/shaders/shader.vert", "../res/shaders/shader.frag");
-    object.getComponent<Renderer>()->mesh = object.getComponent<Mesh>();
-    object.getComponent<Renderer>()->mesh->material = &mat;
 
     // Calculating DeltaTime
     float dt = 0;
 
-    Math::Mat4 model = Math::Mat4::identity();
-    Math::Mat4 view = Math::Mat4::identity();
-    Math::Mat4 projection = Math::Mat4::identity();
-
-    model = Math::Mat4::translation(view, Math::Vec3(0, 0, -2.5));
-    projection = glm::perspective(glm::radians(45.0f), aspectRatio, 0.1f, 100.0f);
-
-    Renderer* rend = object.getComponent<Renderer>();
+    object.getComponent<Transform>()->rotation.setX(45);
+    object.getComponent<Transform>()->rotation.setY(45);
 
     while (!window.shouldClose()) {
         graphics.clear();
 
-        model = Mat4::rotation(model, dt, Vec3(0.5, 1, 0));
-
-        rend->shader->setUniform("model", model);
-        rend->shader->setUniform("view", view);
-        rend->shader->setUniform("projection", projection);
+        object.update(dt);
         object.render();
 
         // Checks and call events and swap the buffers
