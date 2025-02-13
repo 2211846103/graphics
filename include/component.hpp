@@ -1,19 +1,14 @@
 #pragma once
 
-#include <unordered_map>
-#include <typeinfo>
-
 #include <graphics_components.hpp>
-#include <graphics_api.hpp>
 #include <shader.hpp>
 #include <texture.hpp>
 #include <math.hpp>
 #include <material.hpp>
+#include <scene.hpp>
 
 namespace Engine {
     using namespace Graphics;
-
-    class GameObject;
 
     class Component {
         public:
@@ -25,40 +20,6 @@ namespace Engine {
             virtual void init() {};
             virtual void update(float dt) {};
             virtual void render() {};
-    };
-
-    class GameObject {
-        private:
-        std::unordered_map<const char*, Component*> _components;
-        
-        public:
-            GraphicsAPI* api;
-
-            GameObject(GraphicsAPI* api);
-            ~GameObject();
-
-            template <typename T>
-            void addComponent() {
-                const char* name = typeid(T).name();
-                if (_components.find(name) != _components.end()) return;
-                _components[name] = new T(this);
-            }
-            template <typename T>
-            T* getComponent() {
-                auto it = _components.find(typeid(T).name());
-                return (it != _components.end()) ? dynamic_cast<T*>(it->second) : nullptr;
-            }
-            template <typename T>
-            void removeComponent() {
-                auto it = _components.find(typeid(T).name());
-                if (it == _components.end()) return;
-                delete it ->second;
-                _components.erase(it);
-            }
-
-            void init();
-            void update(float dt);
-            void render();
     };
 
     class Mesh : public Component {
