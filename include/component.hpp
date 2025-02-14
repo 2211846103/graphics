@@ -111,9 +111,29 @@ namespace Engine {
         private:
             Mat4 _view;
             Mat4 _projection;
-        public:
-            Vec3 position;
 
+        public:
+            Vec3 position {0, 0, 0};
+            Vec3 rotation {0, 0, 0};
+            Vec3 cameraTarget {0, 0, 0};
+            Vec3 up {0, 0, 0};
+
+            float speed;
+            float radius;
+            float fov;
+            float aspect;
+            float near;
+            float far;
+
+            Camera(GameObject* obj);
+
+            Mat4& getView();
+            Mat4& getProjection();
+
+            void viewUpdate();
+            void projectionUpdate();
             void update(float dt) override;
+            void processInput(Window* window, float dt);
+        
     };
 }
