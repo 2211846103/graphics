@@ -21,7 +21,6 @@ int main(int argc, char* argv[]) {
 
     SceneManager::setGraphicsAPI(&graphics);
     Scene mainScene;
-    
     SceneManager::setCurrentScene(&mainScene);
 
     Vertex vertices[] = {
@@ -75,13 +74,10 @@ int main(int argc, char* argv[]) {
         20, 21, 22,
         20, 22, 23
     };
-
-    GameObject* object = mainScene.createGameObject();
-    GameObject* camera = mainScene.createGameObject();
-
+    
     // Object to render
+    GameObject* object = mainScene.createGameObject();
     Material mat(&graphics);
-    mat.setAlbedo("../res/images/test2.jpg");
 
     object->addComponent<Mesh>();
     Mesh* mesh = object->getComponent<Mesh>();
@@ -98,6 +94,7 @@ int main(int argc, char* argv[]) {
     transform->rotation.setY(45);
 
     // Camera
+    GameObject* camera = mainScene.createGameObject();
     camera->addComponent<Camera>();
     mainScene.setCameraActive(camera);
 
@@ -110,9 +107,6 @@ int main(int argc, char* argv[]) {
 
         mainScene.updateGameObjects(dt);
         mainScene.renderGameObjects();
-
-        // Checks and call events and swap the buffers
-        dt = window.update();
     }
 
     // Cleans/Deletes all GLFW resources that we allocated.
