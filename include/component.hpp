@@ -73,9 +73,10 @@ namespace Engine {
             Mat4 _view;
             Mat4 _projection;
 
+            void viewUpdate();
+            void projectionUpdate();
+
         public:
-            Vec3 position {0, 0, 0};
-            Vec3 rotation {0, 0, 0};
             Vec3 cameraTarget {0, 0, 0};
             Vec3 up {0, 0, 0};
 
@@ -90,11 +91,8 @@ namespace Engine {
 
             Mat4& getView();
             Mat4& getProjection();
-
-            void viewUpdate();
-            void projectionUpdate();
+            
             void update(float dt) override;
-            void processInput(Window* window, float dt);
         
     };
 }

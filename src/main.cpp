@@ -77,7 +77,9 @@ int main(int argc, char* argv[]) {
     };
 
     GameObject* object = mainScene.createGameObject();
+    GameObject* camera = mainScene.createGameObject();
 
+    // Object to render
     Material mat(&graphics);
     mat.setAlbedo("../res/images/test2.jpg");
 
@@ -94,6 +96,10 @@ int main(int argc, char* argv[]) {
     Transform* transform = object->getComponent<Transform>();
     transform->rotation.setX(45);
     transform->rotation.setY(45);
+
+    // Camera
+    camera->addComponent<Camera>();
+    mainScene.setCameraActive(camera);
 
     // Calculating DeltaTime
     float dt = 0;
