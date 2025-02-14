@@ -37,6 +37,8 @@ void Window::initWindow() {
     glfwMakeContextCurrent(_window);
 }
 
+GLFWwindow* Window::getWindow() { return _window; }
+
 void Window::setSizeCallback(void (*callback)(GLFWwindow* window, int width, int height)) {
     glfwSetFramebufferSizeCallback(this->_window, *callback);
 }
