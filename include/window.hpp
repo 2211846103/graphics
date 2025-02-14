@@ -6,10 +6,10 @@
 namespace Graphics {
     class Window {
         private:
-            GLFWwindow* _window;
-            float _lastFrame;
-
+        float _lastFrame;
+        
         public:
+            GLFWwindow* _window;
             int width;
             int height;
             const char* windowName;
@@ -20,8 +20,10 @@ namespace Graphics {
             bool shouldClose();
             float update();
             void initWindow();
+            GLFWwindow* getWindow();
 
             void setSizeCallback(void (*callback)(GLFWwindow* window, int width, int height));
+            //void processInput(GameObject* obj, float dt);
     };
 
 }
