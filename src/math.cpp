@@ -13,11 +13,6 @@ float Vec4::y() { return data.y; }
 float Vec4::z() { return data.z; }
 float Vec4::w() { return data.w; }
 
-void Vec4::setX(float x) { data.x = x; }
-void Vec4::setY(float y) { data.y = y; }
-void Vec4::setZ(float z) { data.z = z; }
-void Vec4::setW(float w) { data.w = w; }
-
 // Operators
 Vec4 Vec4::operator+(const Vec4& other) { return Vec4(data + other.data); }
 Vec4 Vec4::operator-(const Vec4& other) { return Vec4(data - other.data); }
@@ -61,10 +56,6 @@ float Vec3::x() { return data.x; }
 float Vec3::y() { return data.y; }
 float Vec3::z() { return data.z; }
 
-void Vec3::setX(float x) { data.x = x; }
-void Vec3::setY(float y) { data.y = y; }
-void Vec3::setZ(float z) { data.z = z; }
-
 // Operators
 Vec3 Vec3::operator+(const Vec3& other) { return Vec3(data + other.data); }
 Vec3 Vec3::operator-(const Vec3& other) { return Vec3(data - other.data); }
@@ -103,10 +94,6 @@ Vec2::Vec2(const glm::vec2& vec) : data(vec) {}
 // Getters
 float Vec2::x() { return data.x; }
 float Vec2::y() { return data.y; }
-
-// Setters
-void Vec2::setX(float x) { data.x = x; }
-void Vec2::setY(float y) { data.y = y; }
 
 // Operators
 Vec2 Vec2::operator+(const Vec2& other) { return Vec2(data + other.data); }

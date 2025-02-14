@@ -24,11 +24,6 @@ namespace Math {
             float z();
             float w();
 
-            void setX(float x);
-            void setY(float y);
-            void setZ(float z);
-            void setW(float w);
-
             // Operators
             Vec4 operator+(const Vec4& other);
             Vec4 operator-(const Vec4& other);
@@ -71,10 +66,6 @@ namespace Math {
             float y();
             float z();
 
-            void setX(float x);
-            void setY(float y);
-            void setZ(float z);
-
             // Operators
             Vec3 operator+(const Vec3& other);
             Vec3 operator-(const Vec3& other);
@@ -115,10 +106,6 @@ namespace Math {
             // Getters
             float x();
             float y();
-
-            // Setters
-            void setX(float x);
-            void setY(float y);
 
             // Operators
             Vec2 operator+(const Vec2& other);
