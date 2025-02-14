@@ -84,16 +84,8 @@ Mat4& Camera::getProjection() {
 }
 
 void Camera::viewUpdate() {
-    this->_view = Mat4::identity();
-
     Transform* transform = this->gameObject->getComponent<Transform>();
-
-    this->_view = Mat4::translation(this->_view, transform->position);
-    this->_view = Mat4::rotation(this->_view, transform->rotation.x(), Vec3(1, 0, 0));
-    this->_view = Mat4::rotation(this->_view, transform->rotation.y(), Vec3(0, 1, 0));
-    this->_view = Mat4::rotation(this->_view, transform->rotation.z(), Vec3(0, 0, 1));
-
-    this->_view = Mat4(glm::lookAt(transform->position.data, transform->position.data + this->cameraTarget.data, this->up.data));
+    this->_view = glm::lookAt(transform->position.data, this->cameraTarget.data, this->up.data);
 }
 
 void Camera::projectionUpdate() {

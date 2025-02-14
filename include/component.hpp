@@ -81,7 +81,7 @@ namespace Engine {
             Vec3 up {0, 1, 0};
 
             float fov = 45;
-            float aspect = 16 / 9.0;
+            float aspect;
             float near = 0.1;
             float far = 100;
 

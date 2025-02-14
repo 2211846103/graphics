@@ -91,22 +91,31 @@ int main(int argc, char* argv[]) {
     renderer->setShader("../res/shaders/shader.vert", "../res/shaders/shader.frag");
 
     Transform* transform = object->getComponent<Transform>();
-    transform->rotation.setX(45);
-    transform->rotation.setY(45);
+    transform->position = Vec3(0, 0, 3);
+    transform->rotation = Vec3(0, 45, 0);
+
 
     // Camera
-    GameObject* camera = mainScene.createGameObject();
-    camera->addComponent<Camera>();
-    mainScene.setCameraActive(camera);
-    Transform* cameraTrans = camera->getComponent<Transform>();
+    GameObject* cameraObj = mainScene.createGameObject();
+    cameraObj->addComponent<Camera>();
+    Camera* camera = cameraObj->getComponent<Camera>();
+    camera->aspect = 800 / 600.0;
+
+    mainScene.setCameraActive(cameraObj);
+    Transform* cameraTrans = cameraObj->getComponent<Transform>();
     cameraTrans->position = Vec3(0, 0, -3);
 
     // Calculating DeltaTime
     float dt = 0;
 
+    float angle = 0;
+
     mainScene.initGameObjects();
     while (!window.shouldClose()) {
         graphics.clear();
+
+        angle += dt;
+        transform->rotation = Vec3(0, angle, 0);
 
         mainScene.updateGameObjects(dt);
         mainScene.renderGameObjects();
