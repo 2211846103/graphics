@@ -75,27 +75,41 @@ int main(int argc, char* argv[]) {
         20, 21, 22,
         20, 22, 23
     };
+
+    Vec3 cubePositions[] = {
+        { 0.0f,  0.0f,  0.0f },
+        { 2.0f,  5.0f, -15.0f },
+        { -1.5f, -2.2f, -2.5f },
+        { -3.8f, -2.0f, -12.3f },
+        { 2.4f, -0.4f, -3.5f },
+        { -1.7f,  3.0f, -7.5f },
+        { 1.3f, -2.0f, -2.5f },
+        { 1.5f,  2.0f, -2.5f },
+        { 1.5f,  0.2f, -1.5f },
+        { -1.3f,  1.0f, -1.5f }
+    };    
     
-    // Object to render
-    GameObject* object = mainScene.createGameObject();
     Material mat(&graphics);
     mat.setAlbedo("../res/images/test.jpg");
 
-    object->addComponent<Mesh>();
-    Mesh* mesh = object->getComponent<Mesh>();
-    mesh->setVertices(vertices, sizeof(vertices));
-    mesh->setIndices(indices, sizeof(indices));
-    mesh->material = &mat;
+    for (int i = 0; i < 10; i++) {
+        // Object to render
+        GameObject* object = mainScene.createGameObject();
 
-    object->addComponent<Renderer>();
-    Renderer* renderer = object->getComponent<Renderer>();
-    renderer->setShader("../res/shaders/shader.vert", "../res/shaders/shader.frag");
+        object->addComponent<Mesh>();
+        Mesh* mesh = object->getComponent<Mesh>();
+        mesh->setVertices(vertices, sizeof(vertices));
+        mesh->setIndices(indices, sizeof(indices));
+        mesh->material = &mat;
 
-    Transform* transform = object->getComponent<Transform>();
+        object->addComponent<Renderer>();
+        Renderer* renderer = object->getComponent<Renderer>();
+        renderer->setShader("../res/shaders/shader.vert", "../res/shaders/shader.frag");
 
-    transform->position = Vec3(0, 0, 3);
-    transform->rotation = Vec3(0, 45, 0);
-
+        Transform* transform = object->getComponent<Transform>();
+        transform->position = cubePositions[i];
+        transform->rotation = Vec3(10 * i, 15 * i, 20 * i);
+    }
 
     // Camera
     GameObject* cameraObj = mainScene.createGameObject();
@@ -105,25 +119,22 @@ int main(int argc, char* argv[]) {
 
     mainScene.setCameraActive(cameraObj);
     Transform* cameraTrans = cameraObj->getComponent<Transform>();
-    cameraTrans->position = Vec3(0, 0, -3);
+    cameraTrans->position = Vec3(0, 0, -15);
 
 
     // Calculating DeltaTime
     float dt = 0;
 
-    float angle = 0;
-
     mainScene.initGameObjects();
     while (!window.shouldClose()) {
         graphics.clear();
 
-        angle += dt;
-        transform->rotation = Vec3(0, angle, 0);
+        cameraTrans->position = Vec3(sin(glfwGetTime()) * 15, 0, cos(glfwGetTime()) * 15);
 
         mainScene.updateGameObjects(dt);
         mainScene.renderGameObjects();
 
-        Input::processInput(&window, cameraObj);
+        //Input::processInput(&window, cameraObj);
 
         dt = window.update();
     }

@@ -11,7 +11,7 @@ namespace Engine {
     
         public:
             unsigned char unit = 0;
-            Texture* albedo = nullptr;
+            Texture2D* albedo = nullptr;
     
             Material(GraphicsAPI* api);
             ~Material();
