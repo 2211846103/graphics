@@ -4,6 +4,7 @@
 #include <graphics_api.hpp>
 #include <component.hpp>
 #include <ctime>
+#include <Input.hpp>
 
 using namespace Graphics;
 using namespace Engine;
@@ -91,6 +92,7 @@ int main(int argc, char* argv[]) {
     renderer->setShader("../res/shaders/shader.vert", "../res/shaders/shader.frag");
 
     Transform* transform = object->getComponent<Transform>();
+
     transform->position = Vec3(0, 0, 3);
     transform->rotation = Vec3(0, 45, 0);
 
@@ -104,6 +106,7 @@ int main(int argc, char* argv[]) {
     mainScene.setCameraActive(cameraObj);
     Transform* cameraTrans = cameraObj->getComponent<Transform>();
     cameraTrans->position = Vec3(0, 0, -3);
+
 
     // Calculating DeltaTime
     float dt = 0;
@@ -119,6 +122,8 @@ int main(int argc, char* argv[]) {
 
         mainScene.updateGameObjects(dt);
         mainScene.renderGameObjects();
+
+        Input::processInput(&window, cameraObj);
 
         dt = window.update();
     }
