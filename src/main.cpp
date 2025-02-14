@@ -78,6 +78,7 @@ int main(int argc, char* argv[]) {
     // Object to render
     GameObject* object = mainScene.createGameObject();
     Material mat(&graphics);
+    mat.setAlbedo("../res/images/test.jpg");
 
     object->addComponent<Mesh>();
     Mesh* mesh = object->getComponent<Mesh>();
@@ -97,6 +98,8 @@ int main(int argc, char* argv[]) {
     GameObject* camera = mainScene.createGameObject();
     camera->addComponent<Camera>();
     mainScene.setCameraActive(camera);
+    Transform* cameraTrans = camera->getComponent<Transform>();
+    cameraTrans->position = Vec3(0, 0, -3);
 
     // Calculating DeltaTime
     float dt = 0;
@@ -107,6 +110,8 @@ int main(int argc, char* argv[]) {
 
         mainScene.updateGameObjects(dt);
         mainScene.renderGameObjects();
+
+        dt = window.update();
     }
 
     // Cleans/Deletes all GLFW resources that we allocated.

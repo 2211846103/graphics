@@ -78,14 +78,12 @@ namespace Engine {
 
         public:
             Vec3 cameraTarget {0, 0, 0};
-            Vec3 up {0, 0, 0};
+            Vec3 up {0, 1, 0};
 
-            float speed;
-            float radius;
-            float fov;
-            float aspect;
-            float near;
-            float far;
+            float fov = 45;
+            float aspect = 16 / 9.0;
+            float near = 0.1;
+            float far = 100;
 
             Camera(GameObject* obj);
 

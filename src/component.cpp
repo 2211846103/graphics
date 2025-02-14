@@ -54,7 +54,9 @@ void Renderer::render() {
     mesh->render();
 }
 
-Transform::Transform(GameObject* obj) : Component{obj} {}
+Transform::Transform(GameObject* obj) : Component{obj} {
+    this->_model = Mat4::identity();
+}
 
 Mat4& Transform::getModel() {
     return this->_model;
@@ -69,7 +71,10 @@ void Transform::update(float dt) {
     this->_model = Mat4::scale(this->_model, this->scale);
 }
 
-Camera::Camera(GameObject* obj) : Component{obj} {}
+Camera::Camera(GameObject* obj) : Component{obj} {
+    this->_view = Mat4::identity();
+    this->_projection = Mat4::identity();
+}
 
 Mat4& Camera::getView() {
     return this->_view;
@@ -88,7 +93,7 @@ void Camera::viewUpdate() {
     this->_view = Mat4::rotation(this->_view, transform->rotation.y(), Vec3(0, 1, 0));
     this->_view = Mat4::rotation(this->_view, transform->rotation.z(), Vec3(0, 0, 1));
 
-    this->_view = glm::lookAt(transform->position.data, transform->position.data + this->cameraTarget.data, this->up.data);
+    this->_view = Mat4(glm::lookAt(transform->position.data, transform->position.data + this->cameraTarget.data, this->up.data));
 }
 
 void Camera::projectionUpdate() {
