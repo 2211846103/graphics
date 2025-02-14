@@ -5,29 +5,6 @@ using namespace Graphics;
 
 Component::Component(GameObject* obj) : gameObject{obj} {}
 
-GameObject::GameObject(GraphicsAPI* api) : api{api} {
-    this->addComponent<Transform>();
-}
-
-GameObject::~GameObject() {
-    for (auto& pair : _components) {
-        delete pair.second;
-    }
-    _components.clear();
-}
-
-void GameObject::update(float dt) {
-    for (auto& pair : _components) {
-        pair.second->update(dt);
-    }
-}
-
-void GameObject::render() {
-    Renderer* r = this->getComponent<Renderer>();
-    if (!r) return;
-    r->render();
-}
-
 Mesh::Mesh(GameObject* obj) : Component{obj} {}
 
 Mesh::~Mesh() {
@@ -60,6 +37,10 @@ void Renderer::update(float dt) {
     Transform* transform = this->gameObject->getComponent<Transform>();
     Mat4 model = transform->getModel();
 
+    // Camera* camera = SceneManager::getCurrentScene()->getActiveCamera()->getComponent<Camera>();
+    // Mat4 view = camera->getViewMatrix();
+    // Mat4 projection = camera->getProjectionMatrix();
+
     this->shader->use();
     this->shader->setUniform("model", model);
 }
@@ -80,9 +61,9 @@ Mat4& Transform::getModel() {
 void Transform::update(float dt) {
     this->_model = Mat4::identity();
     this->_model = Mat4::translation(this->_model, this->position);
-    this->_model = Mat4::rotation(this->_model, this->rotation.x(), Vec3(1, 0, 0));
-    this->_model = Mat4::rotation(this->_model, this->rotation.y(), Vec3(0, 1, 0));
-    this->_model = Mat4::rotation(this->_model, this->rotation.z(), Vec3(0, 0, 1));
+    this->_model = Mat4::rotation(this->_model, glm::radians(this->rotation.x()), Vec3(1, 0, 0));
+    this->_model = Mat4::rotation(this->_model, glm::radians(this->rotation.y()), Vec3(0, 1, 0));
+    this->_model = Mat4::rotation(this->_model, glm::radians(this->rotation.z()), Vec3(0, 0, 1));
     this->_model = Mat4::scale(this->_model, this->scale);
 }
 

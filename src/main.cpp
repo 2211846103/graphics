@@ -12,12 +12,17 @@ using namespace Math;
 // Main code
 int main(int argc, char* argv[]) {
     Window window(800, 600, "test");
+    float aspectRatio = window.width / (float)window.height;
+
     OpenGLGraphicsAPI graphics(window);
-
-    float aspectRatio = 800.0f / 600.0f;
-
     graphics.enableZBuffer();
     graphics.setClearColor({0.2, 0.2, 0.2});
+
+
+    SceneManager::setGraphicsAPI(&graphics);
+    Scene mainScene;
+    
+    SceneManager::setCurrentScene(&mainScene);
 
     Vertex vertices[] = {
         {{-0.5f, -0.5f, -0.5f},  {0.0f, 0.0f}},
@@ -71,29 +76,34 @@ int main(int argc, char* argv[]) {
         20, 22, 23
     };
 
-    GameObject object(&graphics);
+    GameObject* object = mainScene.createGameObject();
+
     Material mat(&graphics);
     mat.setAlbedo("../res/images/test2.jpg");
 
-    object.addComponent<Mesh>();
-    object.getComponent<Mesh>()->setVertices(vertices, sizeof(vertices));
-    object.getComponent<Mesh>()->setIndices(indices, sizeof(indices));
-    object.getComponent<Mesh>()->material = &mat;
+    object->addComponent<Mesh>();
+    Mesh* mesh = object->getComponent<Mesh>();
+    mesh->setVertices(vertices, sizeof(vertices));
+    mesh->setIndices(indices, sizeof(indices));
+    mesh->material = &mat;
 
-    object.addComponent<Renderer>();
-    object.getComponent<Renderer>()->setShader("../res/shaders/shader.vert", "../res/shaders/shader.frag");
+    object->addComponent<Renderer>();
+    Renderer* renderer = object->getComponent<Renderer>();
+    renderer->setShader("../res/shaders/shader.vert", "../res/shaders/shader.frag");
+
+    Transform* transform = object->getComponent<Transform>();
+    transform->rotation.setX(45);
+    transform->rotation.setY(45);
 
     // Calculating DeltaTime
     float dt = 0;
 
-    object.getComponent<Transform>()->rotation.setX(45);
-    object.getComponent<Transform>()->rotation.setY(45);
-
+    mainScene.initGameObjects();
     while (!window.shouldClose()) {
         graphics.clear();
 
-        object.update(dt);
-        object.render();
+        mainScene.updateGameObjects(dt);
+        mainScene.renderGameObjects();
 
         // Checks and call events and swap the buffers
         dt = window.update();
