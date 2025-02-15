@@ -74,6 +74,7 @@ void Transform::update(float dt) {
 Camera::Camera(GameObject* obj) : Component{obj} {
     this->_view = Mat4::identity();
     this->_projection = Mat4::identity();
+    this->front = Vec3(0, 0, -1);
 }
 
 Mat4& Camera::getView() {
@@ -85,7 +86,13 @@ Mat4& Camera::getProjection() {
 
 void Camera::viewUpdate() {
     Transform* transform = this->gameObject->getComponent<Transform>();
-    this->_view = glm::lookAt(transform->position.data, this->cameraTarget.data, this->up.data);
+
+    this->target = Vec3(0, 0, 0);
+    this->direction = (transform->position - this->target).normalize();
+    this->right = (Vec3(0, 1, 0).cross(direction));
+    this->up = this->direction.cross(this->right);
+
+    this->_view = Mat4::lookAt(transform->position, transform->position - this->front, this->up);
 }
 
 void Camera::projectionUpdate() {

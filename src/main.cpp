@@ -19,6 +19,8 @@ int main(int argc, char* argv[]) {
     graphics.enableZBuffer();
     graphics.setClearColor({0.2, 0.2, 0.2});
 
+    Input::init(&window);
+
 
     SceneManager::setGraphicsAPI(&graphics);
     Scene mainScene;
@@ -124,17 +126,19 @@ int main(int argc, char* argv[]) {
 
     // Calculating DeltaTime
     float dt = 0;
+    const float cameraSpeed = 30;
 
     mainScene.initGameObjects();
     while (!window.shouldClose()) {
         graphics.clear();
 
-        cameraTrans->position = Vec3(sin(glfwGetTime()) * 15, 0, cos(glfwGetTime()) * 15);
+        if (Input::isKeyPressed(W)) cameraTrans->position -= dt * cameraSpeed * camera->front.data;
+        if (Input::isKeyPressed(S)) cameraTrans->position += dt * cameraSpeed * camera->front.data;
+        if (Input::isKeyPressed(A)) cameraTrans->position += dt * cameraSpeed * (camera->front.cross(camera->up)).normalize().data;
+        if (Input::isKeyPressed(D)) cameraTrans->position -= dt * cameraSpeed * (camera->front.cross(camera->up)).normalize().data;
 
         mainScene.updateGameObjects(dt);
         mainScene.renderGameObjects();
-
-        //Input::processInput(&window, cameraObj);
 
         dt = window.update();
     }

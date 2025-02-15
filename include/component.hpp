@@ -77,8 +77,11 @@ namespace Engine {
             void projectionUpdate();
 
         public:
-            Vec3 cameraTarget {0, 0, 0};
-            Vec3 up {0, 1, 0};
+            Vec3 target;
+            Vec3 direction;
+            Vec3 right;
+            Vec3 up;
+            Vec3 front;
 
             float fov = 45;
             float aspect = 16 / 9.0;

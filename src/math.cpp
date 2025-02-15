@@ -139,6 +139,7 @@ Mat4 Mat4::identity() { return Mat4(glm::mat4(1.0f)); }
 Mat4 Mat4::translation(const Mat4& mat, const Vec3& v) { return Mat4(glm::translate(mat.data, v.data)); }
 Mat4 Mat4::rotation(const Mat4& mat, float angle, const Vec3& axis) { return Mat4(glm::rotate(mat.data, angle, axis.data)); }
 Mat4 Mat4::scale(const Mat4& mat, const Vec3& v) { return Mat4(glm::scale(mat.data, v.data)); }
+Mat4 Mat4::lookAt(const Vec3& position, const Vec3& target, const Vec3& up) { return Mat4(glm::lookAt(position.data, target.data, up.data)); }
 
 // operators
 Mat4 Mat4::operator+(Mat4& other) { return Mat4(data + other.data); }
