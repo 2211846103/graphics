@@ -32,6 +32,10 @@ Texture2D* OpenGLGraphicsAPI::createTexture2D(const char* path) {
     return new Texture2D(new OpenGLTexture(), path);
 }
 
+Texture2D* OpenGLGraphicsAPI::createTexture2D(Vec4 color) {
+    return new Texture2D(new OpenGLTexture(), color);
+}
+
 Texture3D* OpenGLGraphicsAPI::createTexture3D(const char* path[], size_t size) {
     return new Texture3D(new OpenGLTexture(), path, size);
 }

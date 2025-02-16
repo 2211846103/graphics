@@ -34,6 +34,18 @@ void OpenGLTexture::unbind() {
     this->_target = 0;
 }
 
+void OpenGLTexture::loadColor(Vec4 color) {
+    this->bind2D();
+    unsigned char texture[4] = {
+        static_cast<unsigned char>(color.x()),
+        static_cast<unsigned char>(color.y()),
+        static_cast<unsigned char>(color.z()),
+        static_cast<unsigned char>(color.w())
+    };
+
+    glTexImage2D(this->_target, 0, GL_RGBA, 1, 1, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture);
+}
+
 void OpenGLTexture::load2D(const char* path, int* width, int* height) {
     // Bind Texture
     this->bind2D();
@@ -327,6 +339,12 @@ Texture2D::Texture2D(TextureAPI* api, const char* path) {
   this->_api = api;
   this->config = new TextureConfig();
   this->_api->load2D(path, &this->width, &this->height);
+}
+
+Texture2D::Texture2D(TextureAPI* api, Vec4 color) {
+  this->_api = api;
+  this->config = new TextureConfig();
+  this->_api->loadColor(color);
 }
 
 Texture2D::~Texture2D() {

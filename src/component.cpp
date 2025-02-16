@@ -5,10 +5,13 @@ using namespace Graphics;
 
 Component::Component(GameObject* obj) : gameObject{obj} {}
 
-Mesh::Mesh(GameObject* obj) : Component{obj} {}
+Mesh::Mesh(GameObject* obj) : Component{obj} {
+    this->material = new Material(this->gameObject->api);
+}
 
 Mesh::~Mesh() {
     delete this->_vao;
+    delete this->material;
 }
 
 void Mesh::setVertices(Vertex* vertices, size_t size) {
@@ -23,7 +26,9 @@ void Mesh::render() {
     this->_vao->draw();
 }
 
-Renderer::Renderer(GameObject* obj) : Component{obj} {}
+Renderer::Renderer(GameObject* obj) : Component{obj} {
+    setShader("../res/shaders/shader.vert", "../res/shaders/shader.frag");
+}
 
 Renderer::~Renderer() {
     delete this->shader;

@@ -8,8 +8,11 @@
 #include <iostream>
 
 #include <shader.hpp>
+#include <math.h>
 
 namespace Graphics {
+    using namespace Math;
+
     enum TextureChannel {
         RED, GREEN, BLUE, ALPHA, ZERO, ONE
     };
@@ -52,6 +55,8 @@ namespace Graphics {
             virtual void bindCube() = 0;
             virtual void unbind() = 0;
 
+            virtual void loadColor(Vec4 color) = 0;
+
             virtual void load2D(const char* path, int* width, int* height) = 0;
             virtual void load3D(const char* path[], size_t size, int* width, int* height, int* depth) = 0;
             virtual void loadCube(const char* path[], size_t size, int* width, int* height) = 0;
@@ -76,6 +81,8 @@ namespace Graphics {
             void bind3D() override;
             void bindCube() override;
             void unbind() override;
+
+            void loadColor(Vec4 color) override;
 
             void load2D(const char* path, int* width, int* height) override;
             void load3D(const char* path[], size_t size, int* width, int* height, int* depth) override;
@@ -107,6 +114,7 @@ namespace Graphics {
     class Texture2D : public Texture {
       public:
           Texture2D(TextureAPI* api, const char* path);
+          Texture2D(TextureAPI* api, Vec4 color);
           ~Texture2D();
 
           void bind() override;
