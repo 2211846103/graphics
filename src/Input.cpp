@@ -2,6 +2,8 @@
 
 using namespace Engine;
 
+static Vec2 _mousePosition;
+
 Window* Input::window = nullptr;
 std::unordered_map<Key, int> Input::_keyToGLFW = {
     {Key::Escape, GLFW_KEY_ESCAPE},
@@ -15,14 +17,19 @@ std::unordered_map<Key, int> Input::_keyToGLFW = {
     {Key::SPACE, GLFW_KEY_SPACE}
 };
 
+static void _mousePosCallback(GLFWwindow* window, double x, double y) {
+    _mousePosition = Vec2(x, y);
+}
+
 void Input::init(Window* window) {
-    Input::window = window; 
+    Input::window = window;
+    glfwSetCursorPosCallback(Input::window->getWindow(), _mousePosCallback);
 }
 
 bool Input::isKeyPressed(Key key) {
     return glfwGetKey(Input::window->getWindow(), Input::_keyToGLFW[key]) == GLFW_PRESS;
 }
 
-bool Input::isMouseButtonPressed(Window* window, int button) { return glfwGetMouseButton(window->getWindow(), button) == GLFW_PRESS; }
-
-void Input::getMousePosition(Window* window, double* x, double* y) { glfwGetCursorPos(window->getWindow(), x, y); }
+Vec2 Input::getMousePosition() {
+    return _mousePosition;
+}

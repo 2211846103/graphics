@@ -7,7 +7,6 @@ static int gameobject_next_id = 0;
 
 GraphicsAPI* Engine::SceneManager::api = nullptr;
 Scene* Engine::SceneManager::_currentScene = nullptr;
-std::vector<Scene*> Engine::SceneManager::_scenes;
 
 GameObject::GameObject(GraphicsAPI* api) : api{api}, id{gameobject_next_id++} {
     this->addComponent<Transform>();

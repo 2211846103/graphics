@@ -15,9 +15,7 @@ namespace Engine {
             
         public:
             static void init(Window* window);
-
             static bool isKeyPressed(Key key);
-            static bool isMouseButtonPressed(Window* window, int button);
-            static void getMousePosition(Window* window, double* x, double* y);
+            static Vec2 getMousePosition();
     };
 }

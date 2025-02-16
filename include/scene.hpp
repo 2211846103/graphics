@@ -67,7 +67,6 @@ namespace Engine {
 
     class SceneManager {
         private:
-            static std::vector<Scene*> _scenes;
             static Scene* _currentScene;
         
         public:
