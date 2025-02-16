@@ -13,7 +13,6 @@ using namespace Math;
 // Main code
 int main(int argc, char* argv[]) {
     Window window(800, 600, "test");
-    float aspectRatio = window.width / (float)window.height;
 
     OpenGLGraphicsAPI graphics(window);
     graphics.enableZBuffer();
@@ -92,7 +91,7 @@ int main(int argc, char* argv[]) {
     };    
     
     Material mat(&graphics);
-    mat.setAlbedo("../res/images/test.jpg");
+    mat.setAlbedo("../res/images/test2.jpg");
 
     for (int i = 0; i < 10; i++) {
         // Object to render
@@ -117,16 +116,14 @@ int main(int argc, char* argv[]) {
     GameObject* cameraObj = mainScene.createGameObject();
     cameraObj->addComponent<Camera>();
     Camera* camera = cameraObj->getComponent<Camera>();
-    camera->aspect = 800 / 600.0;
 
     mainScene.setCameraActive(cameraObj);
     Transform* cameraTrans = cameraObj->getComponent<Transform>();
     cameraTrans->position = Vec3(0, 0, -15);
 
-
     // Calculating DeltaTime
     float dt = 0;
-    const float cameraSpeed = 30;
+    const float cameraSpeed = 10;
 
     mainScene.initGameObjects();
     while (!window.shouldClose()) {
@@ -143,6 +140,7 @@ int main(int argc, char* argv[]) {
         mainScene.renderGameObjects();
 
         dt = window.update();
+        camera->aspect = window.width / (float)window.height;
     }
 
     // Cleans/Deletes all GLFW resources that we allocated.

@@ -87,12 +87,12 @@ Mat4& Camera::getProjection() {
 void Camera::viewUpdate() {
     Transform* transform = this->gameObject->getComponent<Transform>();
 
-    this->target = Vec3(0, 0, 0);
-    this->direction = (transform->position - this->target).normalize();
+    this->direction = (transform->position - this->_target).normalize();
     this->right = (Vec3(0, 1, 0).cross(direction));
     this->up = this->direction.cross(this->right);
-
-    this->_view = Mat4::lookAt(transform->position, transform->position - this->front, this->up);
+    
+    this->_target = transform->position - this->front;
+    this->_view = Mat4::lookAt(transform->position, this->_target, this->up);
 }
 
 void Camera::projectionUpdate() {

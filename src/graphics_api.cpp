@@ -4,6 +4,10 @@ using namespace Graphics;
 
 static void opengl_size_callback(GLFWwindow* window, int width, int height) {
     glViewport(0, 0, width, height);
+
+    Window* instance = static_cast<Window*>(glfwGetWindowUserPointer(window));
+    instance->width = width;
+    instance->height = height;
 }
 
 OpenGLGraphicsAPI::OpenGLGraphicsAPI(Window& window) {

@@ -72,12 +72,12 @@ namespace Engine {
         private:
             Mat4 _view;
             Mat4 _projection;
+            Vec3 _target;
 
             void viewUpdate();
             void projectionUpdate();
 
         public:
-            Vec3 target;
             Vec3 direction;
             Vec3 right;
             Vec3 up;

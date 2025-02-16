@@ -35,6 +35,8 @@ void Window::initWindow() {
 
     _window = glfwCreateWindow(width, height, windowName, nullptr, nullptr);
     glfwMakeContextCurrent(_window);
+
+    glfwSetWindowUserPointer(this->_window, this);
 }
 
 GLFWwindow* Window::getWindow() { return _window; }
