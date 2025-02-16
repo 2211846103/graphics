@@ -96,23 +96,8 @@ bool OpenGLBuffer::isSet() {
     return this->_is_set;
 }
 
-OpenGLVertexArray::OpenGLVertexArray(Vertex* vertices, size_t size) {
-    // Create Vertex Array and Calculate Number
-    // of Vertices
-    this->vertexCount = size / (sizeof(Vertex));
+OpenGLVertexArray::OpenGLVertexArray() {
     glGenVertexArrays(1, &this->id);
-    bind();
-
-    // Create a new Vertex Buffer
-    Buffer* vertexBuffer = new OpenGLBuffer(VertexBuffer, Vertex::flatten(vertices, this->vertexCount).data(), size, StaticDraw);
-
-    // Specify Vertex Array Buffer Pointers
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 5, (void*)0);
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 5, (void*)(sizeof(float) * 3));
-    glEnableVertexAttribArray(1);
-
-    this->vertexBuffer = vertexBuffer;
 }
 
 OpenGLVertexArray::~OpenGLVertexArray() {
@@ -136,6 +121,17 @@ void OpenGLVertexArray::draw() {
     bind();
     if (this->indexBuffer->isSet()) glDrawElements(GL_TRIANGLES, this->indexCount, GL_UNSIGNED_INT, 0);
     else glDrawArrays(GL_TRIANGLES, 0, this->vertexCount);
+}
+
+void OpenGLVertexArray::bindVertices(Vertex* vertices, size_t size) {
+    bind();
+    this->vertexCount = size / (sizeof(Vertex));
+    this->vertexBuffer = new OpenGLBuffer(VertexBuffer, Vertex::flatten(vertices, this->vertexCount).data(), size, StaticDraw);
+
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 5, (void*)0);
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 5, (void*)(sizeof(float) * 3));
+    glEnableVertexAttribArray(1);
 }
 
 void OpenGLVertexArray::bindIndices(int* indices, size_t size) {

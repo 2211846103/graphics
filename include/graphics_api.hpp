@@ -15,7 +15,7 @@ namespace Graphics {
 
             virtual Buffer* createBuffer(BufferType type, void* data, size_t size, BufferUsage usage) = 0;
             virtual Shader* createShader(const char* vPath, const char* fPath) = 0;
-            virtual VertexArray* createVertexArray(Vertex* vertices, size_t size) = 0;
+            virtual VertexArray* createVertexArray() = 0;
             virtual Texture2D* createTexture2D(const char* path) = 0;
             virtual Texture2D* createTexture2D(Vec4 color) = 0;
             virtual Texture3D* createTexture3D(const char* path[], size_t size = 0) = 0;
@@ -36,7 +36,7 @@ namespace Graphics {
             OpenGLGraphicsAPI(Window& window);
             Buffer* createBuffer(BufferType type, void* data, size_t size, BufferUsage usage) override;
             Shader* createShader(const char* vPath, const char* fPath) override;
-            VertexArray* createVertexArray(Vertex* vertices, size_t size) override;
+            VertexArray* createVertexArray() override;
             Texture2D* createTexture2D(const char* path) override;
             Texture2D* createTexture2D(Vec4 color) override;
             Texture3D* createTexture3D(const char* path[], size_t size = 0) override;

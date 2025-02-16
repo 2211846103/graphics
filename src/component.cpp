@@ -7,6 +7,7 @@ Component::Component(GameObject* obj) : gameObject{obj} {}
 
 Mesh::Mesh(GameObject* obj) : Component{obj} {
     this->material = new Material(this->gameObject->api);
+    this->_vao = this->gameObject->api->createVertexArray();
 }
 
 Mesh::~Mesh() {
@@ -15,7 +16,7 @@ Mesh::~Mesh() {
 }
 
 void Mesh::setVertices(Vertex* vertices, size_t size) {
-    this->_vao = this->gameObject->api->createVertexArray(vertices, size);
+    this->_vao->bindVertices(vertices, size);
 }
 
 void Mesh::setIndices(int* indices, size_t size) {

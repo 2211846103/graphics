@@ -24,8 +24,8 @@ Shader* OpenGLGraphicsAPI::createShader(const char* vPath, const char* fPath) {
     return new OpenGLShader(vPath, fPath);
 }
 
-VertexArray* OpenGLGraphicsAPI::createVertexArray(Vertex* vertices, size_t size) {
-    return new OpenGLVertexArray(vertices, size);
+VertexArray* OpenGLGraphicsAPI::createVertexArray() {
+    return new OpenGLVertexArray();
 }
 
 Texture2D* OpenGLGraphicsAPI::createTexture2D(const char* path) {

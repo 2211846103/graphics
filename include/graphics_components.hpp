@@ -72,6 +72,7 @@ namespace Graphics {
             virtual void bind() = 0;
             virtual void unbind() = 0;
             virtual void draw() = 0;
+            virtual void bindVertices(Vertex* vertices, size_t size) = 0;
             virtual void bindIndices(int* indices, size_t size) = 0;
     };
 
@@ -79,12 +80,13 @@ namespace Graphics {
         public:
             unsigned int id;
 
-            OpenGLVertexArray(Vertex* vertices, size_t size);
+            OpenGLVertexArray();
             ~OpenGLVertexArray();
 
             void bind() override;
             void unbind() override;
             void draw() override;
+            void bindVertices(Vertex* vertices, size_t size) override;
             void bindIndices(int* indices, size_t size) override;
     };
 }
