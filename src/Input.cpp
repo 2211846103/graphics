@@ -10,7 +10,9 @@ std::unordered_map<Key, int> Input::_keyToGLFW = {
     {Key::A, GLFW_KEY_A},
     {Key::D, GLFW_KEY_D},
     {Key::E, GLFW_KEY_E},
-    {Key::Q, GLFW_KEY_Q}
+    {Key::Q, GLFW_KEY_Q},
+    {Key::LSHIFT, GLFW_KEY_LEFT_SHIFT},
+    {Key::SPACE, GLFW_KEY_SPACE}
 };
 
 void Input::init(Window* window) {

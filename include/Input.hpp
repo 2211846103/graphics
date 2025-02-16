@@ -5,7 +5,7 @@
 
 namespace Engine {
     enum Key {
-        Escape, W, S, A, D, E, Q
+        Escape, W, S, A, D, E, Q, LSHIFT, SPACE
     };
 
     class Input {

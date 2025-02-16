@@ -136,6 +136,8 @@ int main(int argc, char* argv[]) {
         if (Input::isKeyPressed(S)) cameraTrans->position += dt * cameraSpeed * camera->front.data;
         if (Input::isKeyPressed(A)) cameraTrans->position += dt * cameraSpeed * (camera->front.cross(camera->up)).normalize().data;
         if (Input::isKeyPressed(D)) cameraTrans->position -= dt * cameraSpeed * (camera->front.cross(camera->up)).normalize().data;
+        if (Input::isKeyPressed(LSHIFT)) cameraTrans->position -= dt * cameraSpeed * camera->up.data;
+        if (Input::isKeyPressed(SPACE)) cameraTrans->position += dt * cameraSpeed * camera->up.data;
 
         mainScene.updateGameObjects(dt);
         mainScene.renderGameObjects();
