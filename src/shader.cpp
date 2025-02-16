@@ -1,27 +1,7 @@
 #include <shader.hpp>
 
 using namespace Graphics;
-
-static char* readFile(const char* path) {
-    // Opens file
-    std::ifstream file(path, std::ios::binary);
-    if (!file.is_open()) {
-        std::cerr << "Couldn't read " << path << std::endl;
-        return nullptr;
-    }
-
-    // Gets the size of the file
-    file.seekg(0, std::ios::end);
-    int size = file.tellg();
-    file.seekg(0, std::ios::beg);
-
-    // Get contents of the file
-    char* contents = (char*)malloc(sizeof(char) * (size + 1));
-    file.read(contents, size);
-    contents[size] = '\0';
-
-    return contents;
-}
+using namespace Utils;
 
 /* 
     OpenGLShader constracter that takes 
@@ -30,8 +10,8 @@ static char* readFile(const char* path) {
 */
 OpenGLShader::OpenGLShader(const char* vShaderPath, const char* fShaderPath) {
     // Read Shader Files
-    char* vShaderSource = readFile(vShaderPath);
-    char* fShaderSource = readFile(fShaderPath);
+    char* vShaderSource = File::readFile(vShaderPath);
+    char* fShaderSource = File::readFile(fShaderPath);
     int  success;
     char infoLog[512];
     

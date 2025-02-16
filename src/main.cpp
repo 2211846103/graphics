@@ -20,7 +20,6 @@ int main(int argc, char* argv[]) {
 
     Input::init(&window);
 
-
     SceneManager::setGraphicsAPI(&graphics);
     Scene mainScene;
     SceneManager::setCurrentScene(&mainScene);
@@ -89,9 +88,6 @@ int main(int argc, char* argv[]) {
         { 1.5f,  0.2f, -1.5f },
         { -1.3f,  1.0f, -1.5f }
     };    
-    
-    Material mat(&graphics);
-    mat.setAlbedo("../res/images/test2.jpg");
 
     for (int i = 0; i < 10; i++) {
         // Object to render
@@ -101,11 +97,9 @@ int main(int argc, char* argv[]) {
         Mesh* mesh = object->getComponent<Mesh>();
         mesh->setVertices(vertices, sizeof(vertices));
         mesh->setIndices(indices, sizeof(indices));
-        mesh->material = &mat;
 
         object->addComponent<Renderer>();
         Renderer* renderer = object->getComponent<Renderer>();
-        renderer->setShader("../res/shaders/shader.vert", "../res/shaders/shader.frag");
 
         Transform* transform = object->getComponent<Transform>();
         transform->position = cubePositions[i];
