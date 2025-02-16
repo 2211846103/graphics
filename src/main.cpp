@@ -1,10 +1,8 @@
 // Includes
-#include <shader.hpp>
 #include <window.hpp>
-#include <graphics_api.hpp>
-#include <component.hpp>
-#include <ctime>
+#include <mesh.hpp>
 #include <Input.hpp>
+#include <ctime>
 
 using namespace Graphics;
 using namespace Engine;
@@ -12,70 +10,17 @@ using namespace Math;
 
 // Main code
 int main(int argc, char* argv[]) {
+    // Preperations
     Window window(800, 600, "test");
-
+    Input::init(&window);
     OpenGLGraphicsAPI graphics(window);
     graphics.enableZBuffer();
     graphics.setClearColor({0.2, 0.2, 0.2});
-
-    Input::init(&window);
-
     SceneManager::setGraphicsAPI(&graphics);
     Scene mainScene;
     SceneManager::setCurrentScene(&mainScene);
 
-    Vertex vertices[] = {
-        {{-0.5f, -0.5f, -0.5f},  {0.0f, 0.0f}},
-        {{ 0.5f, -0.5f, -0.5f},  {1.0f, 0.0f}},
-        {{ 0.5f,  0.5f, -0.5f},  {1.0f, 1.0f}},
-        {{-0.5f,  0.5f, -0.5f},  {0.0f, 1.0f}},
-
-        {{-0.5f, -0.5f,  0.5f},  {0.0f, 0.0f}},
-        {{ 0.5f, -0.5f,  0.5f},  {1.0f, 0.0f}},
-        {{ 0.5f,  0.5f,  0.5f},  {1.0f, 1.0f}},
-        {{-0.5f,  0.5f,  0.5f},  {0.0f, 1.0f}},
-
-        {{-0.5f,  0.5f,  0.5f},  {1.0f, 0.0f}},
-        {{-0.5f,  0.5f, -0.5f},  {1.0f, 1.0f}},
-        {{-0.5f, -0.5f, -0.5f},  {0.0f, 1.0f}},
-        {{-0.5f, -0.5f,  0.5f},  {0.0f, 0.0f}},
-
-        {{ 0.5f,  0.5f,  0.5f},  {1.0f, 0.0f}},
-        {{ 0.5f,  0.5f, -0.5f},  {1.0f, 1.0f}},
-        {{ 0.5f, -0.5f, -0.5f},  {0.0f, 1.0f}},
-        {{ 0.5f, -0.5f,  0.5f},  {0.0f, 0.0f}},
-
-        {{-0.5f, -0.5f, -0.5f},  {0.0f, 1.0f}},
-        {{ 0.5f, -0.5f, -0.5f},  {1.0f, 1.0f}},
-        {{ 0.5f, -0.5f,  0.5f},  {1.0f, 0.0f}},
-        {{-0.5f, -0.5f,  0.5f},  {0.0f, 0.0f}},
-
-        {{-0.5f,  0.5f, -0.5f},  {0.0f, 1.0f}},
-        {{ 0.5f,  0.5f, -0.5f},  {1.0f, 1.0f}},
-        {{ 0.5f,  0.5f,  0.5f},  {1.0f, 0.0f}},
-        {{-0.5f,  0.5f,  0.5f},  {0.0f, 0.0f}}
-    };
-
-    int indices[] = {
-         0,  1,  2,
-         0,  2,  3,
-
-         4,  5,  6,
-         4,  6,  7,
-
-         8,  9, 10,
-         8, 10, 11,
-
-        12, 13, 14,
-        12, 14, 15,
-
-        16, 17, 18,
-        16, 18, 19,
-
-        20, 21, 22,
-        20, 22, 23
-    };
-
+    // Code
     Vec3 cubePositions[] = {
         { 0.0f,  0.0f,  0.0f },
         { 2.0f,  5.0f, -15.0f },
@@ -88,18 +33,15 @@ int main(int argc, char* argv[]) {
         { 1.5f,  0.2f, -1.5f },
         { -1.3f,  1.0f, -1.5f }
     };    
-
     for (int i = 0; i < 10; i++) {
         // Object to render
         GameObject* object = mainScene.createGameObject();
 
-        object->addComponent<Mesh>();
-        Mesh* mesh = object->getComponent<Mesh>();
-        mesh->setVertices(vertices, sizeof(vertices));
-        mesh->setIndices(indices, sizeof(indices));
-
+        object->addComponent<CubeMesh>();
         object->addComponent<Renderer>();
-        Renderer* renderer = object->getComponent<Renderer>();
+
+        // This Line is not Necessary anymore
+        object->getComponent<Mesh>()->material->setAlbedo("../res/images/test.jpg");
 
         Transform* transform = object->getComponent<Transform>();
         transform->position = cubePositions[i];
