@@ -3,8 +3,6 @@
 using namespace Engine;
 
 static Vec2 _mousePosition;
-float mouseSensitivity = 0.1f;
-float lastX = 400, lastY = 300;
 
 Window* Input::window = nullptr;
 std::unordered_map<Key, int> Input::_keyToGLFW = {
@@ -25,36 +23,8 @@ std::unordered_map<CursorMode, int> Input::_cursorModeToGLFW = {
     {CursorMode::CursorCaptured, GLFW_CURSOR_CAPTURED}
 };
 
-static void updateVectors(GameObject* obj) {
-    Transform* transform = obj->getComponent<Transform>();
-    Camera* camera = obj->getComponent<Camera>();
-
-    Vec3 direction;
-    direction.data.x = cos(glm::radians(transform->rotation.data.x)) * cos(glm::radians(transform->rotation.data.y));
-    direction.data.y = sin(glm::radians(transform->rotation.data.y));
-    direction.data.z = sin(glm::radians(transform->rotation.data.x)) * cos(glm::radians(transform->rotation.data.y));
-    camera->front = direction.normalize();
-
-
-}
-
 static void _mousePosCallback(GLFWwindow* window, double x, double y) {
     _mousePosition = Vec2(x, y);
-    float xoffset = _mousePosition.data.x - lastX;
-    float yoffset = _mousePosition.data.y - lastY;
-    lastX = _mousePosition.data.x;
-    lastY = _mousePosition.data.y;
-
-    xoffset *= mouseSensitivity;
-    yoffset *= mouseSensitivity;
-
-
-    GameObject* obj = Engine::SceneManager::getCurrentScene()->getActiveCamera();
-
-    obj->getComponent<Transform>()->rotation.data.x += xoffset;
-    obj->getComponent<Transform>()->rotation.data.y += yoffset;
-
-    updateVectors(obj);
 }
 
 void Input::init(Window* window, CursorMode mode) {
