@@ -38,7 +38,7 @@ int main(int argc, char* argv[]) {
         GameObject* cube = mainScene.createCube();
 
         // This Line is not Necessary anymore
-        cube->getComponent<Mesh>()->material->setAlbedo("../res/images/test.jpg");
+        //cube->getComponent<Mesh>()->material->setAlbedo("../res/images/test.jpg");
 
         Transform* transform = cube->getComponent<Transform>();
         transform->position = cubePositions[i];
