@@ -33,9 +33,9 @@ int main(int argc, char* argv[]) {
         { 1.5f,  0.2f, -1.5f },
         { -1.3f,  1.0f, -1.5f }
     };    
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < 0; i++) {
         // Cubes to render
-        GameObject* cube = mainScene.createPlane();
+        GameObject* cube = mainScene.createCube();
 
         // This Line is not Necessary anymore
         cube->getComponent<Mesh>()->material->setAlbedo("../res/images/test.jpg");
@@ -44,6 +44,21 @@ int main(int argc, char* argv[]) {
         transform->position = cubePositions[i];
         transform->rotation = Vec3(10 * i, 15 * i, 20 * i);
     }
+
+    Vec3 objectColor = {1.0f, 0.5f, 0.31f};
+    Vec3 lightColor = {1.0f, 1.0f, 1.0f};
+    Vec3 lightPos = {1.2f, 1.0f, 2.0f};
+
+    GameObject* cube = mainScene.createCube();
+    cube->getComponent<Transform>()->position = Vec3(0, 0, 0);
+    cube->getComponent<Renderer>()->shader->setUniform("objectColor", objectColor);
+    cube->getComponent<Renderer>()->shader->setUniform("lightColor", lightColor);
+
+    GameObject* light = mainScene.createCube();
+    light->getComponent<Transform>()->position = lightPos;
+    light->getComponent<Transform>()->scale = Vec3(0.2, 0.2, 0.2);
+    light->getComponent<Renderer>()->shader->setUniform("objectColor", lightColor);
+    light->getComponent<Renderer>()->shader->setUniform("lightColor", lightColor);
 
     // Camera
     GameObject* cameraObj = mainScene.createCamera();
@@ -83,12 +98,15 @@ int main(int argc, char* argv[]) {
         xoffset *= mouseSensitivity;
         yoffset *= mouseSensitivity;
 
-        cameraTrans->rotation.data.x += xoffset;
-        cameraTrans->rotation.data.y += yoffset;
+        cameraTrans->rotation.data.x += yoffset;
+        cameraTrans->rotation.data.y += xoffset;
         
-        direction.data.x = cos(glm::radians(cameraTrans->rotation.data.x)) * cos(glm::radians(cameraTrans->rotation.data.y));
-        direction.data.y = sin(glm::radians(cameraTrans->rotation.data.y));
-        direction.data.z = sin(glm::radians(cameraTrans->rotation.data.x)) * cos(glm::radians(cameraTrans->rotation.data.y));
+        if (cameraTrans->rotation.data.x > 89.0f) cameraTrans->rotation.data.x = 89.0f;
+        if (cameraTrans->rotation.data.x < -89.0f) cameraTrans->rotation.data.x = -89.0f;
+        
+        direction.data.x = cos(glm::radians(cameraTrans->rotation.data.y)) * cos(glm::radians(cameraTrans->rotation.data.x));
+        direction.data.y = sin(glm::radians(cameraTrans->rotation.data.x));
+        direction.data.z = sin(glm::radians(cameraTrans->rotation.data.y)) * cos(glm::radians(cameraTrans->rotation.data.x));
         camera->front = direction.normalize();
 
 
