@@ -1,6 +1,10 @@
 #include <graphics_api.hpp>
+#include <scene.hpp>
+#include <component.hpp>
 
 using namespace Graphics;
+
+static int viewport_width, viewport_height;
 
 static void opengl_size_callback(GLFWwindow* window, int width, int height) {
     glViewport(0, 0, width, height);
@@ -8,11 +12,16 @@ static void opengl_size_callback(GLFWwindow* window, int width, int height) {
     Window* instance = static_cast<Window*>(glfwGetWindowUserPointer(window));
     instance->width = width;
     instance->height = height;
+
+    viewport_width = width;
+    viewport_height = height;
 }
 
 OpenGLGraphicsAPI::OpenGLGraphicsAPI(Window& window) {
     gladLoadGL();
     glViewport(0, 0, window.width, window.height);
+    viewport_width = window.width;
+    viewport_height = window.height;
     window.setSizeCallback(opengl_size_callback);
 }
 
@@ -55,4 +64,9 @@ void OpenGLGraphicsAPI::setClearColor(Vec3 color) {
 
 void OpenGLGraphicsAPI::clear() {
     glClear(this->_channelBuffers);
+}
+
+void GraphicsAPI::getDimensions(int* width, int* height) {
+    *width = viewport_width;
+    *height = viewport_height;
 }

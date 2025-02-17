@@ -10,6 +10,9 @@ namespace Graphics {
     using namespace Math;
     // Abstract Factory
     class GraphicsAPI {
+        private:
+            int _width, _height;
+
         public:
             virtual ~GraphicsAPI() = default;
 
@@ -24,6 +27,8 @@ namespace Graphics {
             virtual void enableZBuffer() = 0;
             virtual void setClearColor(Vec3 color) = 0;
             virtual void clear() = 0;
+
+            void getDimensions(int* width, int* height);
     };
 
     // Concrete Factories

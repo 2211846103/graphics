@@ -81,6 +81,9 @@ Camera::Camera(GameObject* obj) : Component{obj} {
     this->_view = Mat4::identity();
     this->_projection = Mat4::identity();
     this->front = Vec3(0, 0, -1);
+    int width, height;
+    this->gameObject->api->getDimensions(&width, &height);
+    this->aspect = width / (float) height;
 }
 
 Mat4& Camera::getView() {
@@ -102,6 +105,9 @@ void Camera::viewUpdate() {
 }
 
 void Camera::projectionUpdate() {
+    int width, height;
+    this->gameObject->api->getDimensions(&width, &height);
+    this->aspect = width / (float) height;
     this->_projection = glm::perspective(glm::radians(this->fov), this->aspect, this->near, this->far);
 }
 
