@@ -4,16 +4,14 @@ using namespace Engine;
 
 Material::Material(GraphicsAPI* api) {
     this->_api = api;
-    this->setColor(Vec4(240, 240, 240, 255));
+    this->ambient = {0, 0, 0};
+    this->diffuse = {0.55, 0.55, 0.55};
+    this->specular = {0.70, 0.70, 0.70};
+    this->shininess = 0.25;
 }
 
 Material::~Material() {
-    delete this->albedo;
-}
-
-void Material::setColor(Vec4 color) {
     if (this->albedo) delete this->albedo;
-    this->albedo = this->_api->createTexture2D(color);
 }
 
 void Material::setAlbedo(const char* path) {

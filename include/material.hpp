@@ -11,12 +11,17 @@ namespace Engine {
     
         public:
             unsigned char unit = 0;
+
+            Vec3 ambient;
+            Vec3 diffuse;
+            Vec3 specular;
+            float shininess;
+
             Texture2D* albedo = nullptr;
     
             Material(GraphicsAPI* api);
             ~Material();
-    
-            void setColor(Vec4 color);
+
             void setAlbedo(const char* path);
     };
 }

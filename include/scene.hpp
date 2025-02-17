@@ -8,8 +8,10 @@ namespace Engine {
         private:
             GameObject* _activeCamera;
             std::vector<GameObject*> _gameObjects;
+            std::vector<GameObject*> _lights;
 
         public:
+            Scene() = default;
             ~Scene();
 
             GameObject* getGameObjectByID(int id);
@@ -17,11 +19,13 @@ namespace Engine {
             GameObject* createGameObject();
             GameObject* createCube();
             GameObject* createPlane();
+            GameObject* createLight();
             
             GameObject* createCamera();
             GameObject* getActiveCamera();
             void setCameraActive(GameObject* camera);
             
+            GameObject** getLights();
 
             void initGameObjects();
             void updateGameObjects(float dt);

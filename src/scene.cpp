@@ -13,6 +13,7 @@ Scene::~Scene() {
         delete obj;
     }
     _gameObjects.clear();
+    _lights.clear();
 }
 
 GameObject* Scene::getGameObjectByID(int id) {
@@ -47,6 +48,16 @@ GameObject* Scene::createCube() {
     return obj;
 }
 
+GameObject* Scene::createLight() {
+    GameObject* obj = new GameObject(SceneManager::api);
+    obj->addComponent<Transform>();
+    obj->addComponent<Light>();
+
+    _gameObjects.push_back(obj);
+    _lights.push_back(obj);
+    return obj;
+}
+
 GameObject* Scene::createCamera() {
     GameObject* obj = new GameObject(SceneManager::api);
     obj->addComponent<Camera>();
@@ -61,6 +72,10 @@ GameObject* Scene::getActiveCamera() {
 
 void Scene::setCameraActive(GameObject* camera) {
     this->_activeCamera = camera;
+}
+
+GameObject** Scene::getLights() {
+    return _lights.data();
 }
 
 void Scene::initGameObjects() {

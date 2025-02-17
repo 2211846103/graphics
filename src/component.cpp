@@ -43,21 +43,40 @@ void Renderer::setShader(const char* vPath, const char* fPath) {
 void Renderer::update(float dt) {
     Transform* transform = this->gameObject->getComponent<Transform>();
     Mat4 model = transform->getModel();
+    Mat4 normalModel = model.inverse().transpose();
 
     Camera* camera = SceneManager::getCurrentScene()->getActiveCamera()->getComponent<Camera>();
     Mat4 view = camera->getView();
     Mat4 projection = camera->getProjection();
 
+    Material* material = this->gameObject->getComponent<Mesh>()->material;
+
+    Light* light = SceneManager::getCurrentScene()->getLights()[0]->getComponent<Light>();
+    Transform* lightTransform = SceneManager::getCurrentScene()->getLights()[0]->getComponent<Transform>();
+
+    Transform* cameraTransform = SceneManager::getCurrentScene()->getActiveCamera()->getComponent<Transform>();
+
     this->shader->use();
     this->shader->setUniform("model", model);
     this->shader->setUniform("view", view);
     this->shader->setUniform("projection", projection);
+    this->shader->setUniform("normalModel", normalModel);
+
+    this->shader->setUniform("ambient", material->ambient);
+    this->shader->setUniform("diffuse", material->diffuse);
+    this->shader->setUniform("specular", material->specular);
+    this->shader->setUniform("shininess", material->shininess);
+
+    this->shader->setUniform("lightColor", light->color);
+    this->shader->setUniform("lightPos", lightTransform->position);
+
+    this->shader->setUniform("cameraPos", cameraTransform->position);
 }
 
 void Renderer::render() {
     this->shader->use();
     Mesh* mesh = this->gameObject->getComponent<Mesh>();
-    mesh->material->albedo->activate(this->shader, "albedo", mesh->material->unit);
+    if (mesh->material->albedo) mesh->material->albedo->activate(this->shader, "albedo", mesh->material->unit);
     mesh->render();
 }
 
@@ -116,3 +135,5 @@ void Camera::update(float dt) {
     this->viewUpdate();
     this->projectionUpdate();
 }
+
+Light::Light(GameObject* obj) : Component{obj} {}

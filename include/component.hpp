@@ -94,6 +94,12 @@ namespace Engine {
             Mat4& getProjection();
             
             void update(float dt) override;
-        
+    };
+
+    class Light : public Component {
+        public:
+            Vec3 color = {1, 1, 1};
+
+            Light(GameObject* obj);
     };
 }

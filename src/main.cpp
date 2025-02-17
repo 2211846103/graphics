@@ -15,26 +15,18 @@ int main(int argc, char* argv[]) {
     Input::init(&window, CursorDisabled);
     OpenGLGraphicsAPI graphics(window);
     graphics.enableZBuffer();
+    graphics.setClearColor({0.2, 0.2, 0.2});
     SceneManager::setGraphicsAPI(&graphics);
     Scene mainScene;
     SceneManager::setCurrentScene(&mainScene);
 
-    Vec3 objectColor = {1.0f, 0.5f, 0.31f};
-    Vec3 lightColor = {1.0f, 1.0f, 1.0f};
-    Vec3 lightPos = {1.2f, 1.0f, 2.0f};
     Vec3 cameraPos = {0, 1, 2};
 
     GameObject* cube = mainScene.createCube();
-    cube->getComponent<Renderer>()->setShader("../assets/shaders/vertex.vert", "../assets/shaders/objectShader.frag");
-    cube->getComponent<Renderer>()->shader->setUniform("objectColor", objectColor);
-    cube->getComponent<Renderer>()->shader->setUniform("lightColor", lightColor);
-    cube->getComponent<Renderer>()->shader->setUniform("lightPos", lightPos);
+    cube->getComponent<Transform>()->position = {1, -1, 2};
     
-    GameObject* light = mainScene.createCube();
-    light->getComponent<Transform>()->scale = Vec3(0.2, 0.2, 0.2);
-    light->getComponent<Transform>()->position = lightPos;
-    light->getComponent<Renderer>()->setShader("../assets/shaders/vertex.vert", "../assets/shaders/lightShader.frag");
-    light->getComponent<Renderer>()->shader->setUniform("color", lightColor);
+    GameObject* light = mainScene.createLight();
+    light->addComponent<CubeMesh>();
 
     // Camera
     GameObject* cameraObj = mainScene.createCamera();
@@ -55,8 +47,6 @@ int main(int argc, char* argv[]) {
     mainScene.initGameObjects();
     while (!window.shouldClose()) {
         graphics.clear();
-
-        cube->getComponent<Renderer>()->shader->setUniform("cameraPos", cameraTrans->position);
         
         if (Input::isKeyPressed(W)) cameraTrans->position -= dt * cameraSpeed * camera->front.data;
         if (Input::isKeyPressed(S)) cameraTrans->position += dt * cameraSpeed * camera->front.data;
