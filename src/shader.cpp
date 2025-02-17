@@ -69,36 +69,43 @@ void OpenGLShader::use() {
 }
 
 void OpenGLShader::setUniform(const char* name, int value) {
+    this->use();
     GLint loc = glGetUniformLocation(_shaderProgram, name);
     if (loc != -1) glUniform1i(loc, value);
 }
 
 void OpenGLShader::setUniform(const char* name, float value) {
+    this->use();
     GLint loc = glGetUniformLocation(_shaderProgram, name);
     if (loc != -1) glUniform1f(loc, value);
 }
 
 void OpenGLShader::setUniform(const char* name, bool value) {
+    this->use();
     GLint loc = glGetUniformLocation(_shaderProgram, name);
     if (loc != -1) glUniform1i(loc, static_cast<int>(value)); // OpenGL uses int for bools
 }
 
 void OpenGLShader::setUniform(const char* name, Math::Vec2& value) {
+    this->use();
     GLint loc = glGetUniformLocation(_shaderProgram, name);
     if (loc != -1) glUniform2fv(loc, 1, value.toFloat());
 }
 
 void OpenGLShader::setUniform(const char* name, Math::Vec3& value) {
+    this->use();
     GLint loc = glGetUniformLocation(_shaderProgram, name);
     if (loc != -1) glUniform3fv(loc, 1, value.toFloat());
 }
 
 void OpenGLShader::setUniform(const char* name, Math::Vec4& value) {
+    this->use();
     GLint loc = glGetUniformLocation(_shaderProgram, name);
     if (loc != -1) glUniform4fv(loc, 1, value.toFloat());
 }
 
 void OpenGLShader::setUniform(const char* name, Math::Mat4& value) {
+    this->use();
     GLint loc = glGetUniformLocation(_shaderProgram, name);
     if (loc != -1) glUniformMatrix4fv(loc, 1, GL_FALSE, value.toFloat());
 }
