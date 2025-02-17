@@ -35,7 +35,7 @@ int main(int argc, char* argv[]) {
     };    
     for (int i = 0; i < 10; i++) {
         // Cubes to render
-        GameObject* cube = mainScene.createCube();
+        GameObject* cube = mainScene.createPlane();
 
         // This Line is not Necessary anymore
         cube->getComponent<Mesh>()->material->setAlbedo("../res/images/test.jpg");
