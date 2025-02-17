@@ -4,10 +4,10 @@ using namespace Engine;
 
 Material::Material(GraphicsAPI* api) {
     this->_api = api;
-    this->ambient = {0, 0, 0};
-    this->diffuse = {0.55, 0.55, 0.55};
-    this->specular = {0.70, 0.70, 0.70};
-    this->shininess = 0.25;
+    this->ambient = {0.2125, 0.1275, 0.054};
+    this->diffuse = {0.714, 0.4284, 0.18144};
+    this->specular = {0.393548, 0.271906, 0.166721};
+    this->shininess = 0.2;
 }
 
 Material::~Material() {

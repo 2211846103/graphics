@@ -98,7 +98,9 @@ namespace Engine {
 
     class Light : public Component {
         public:
-            Vec3 color = {1, 1, 1};
+            Vec3 ambient;
+            Vec3 diffuse;
+            Vec3 specular;
 
             Light(GameObject* obj);
     };

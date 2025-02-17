@@ -62,13 +62,15 @@ void Renderer::update(float dt) {
     this->shader->setUniform("projection", projection);
     this->shader->setUniform("normalModel", normalModel);
 
-    this->shader->setUniform("ambient", material->ambient);
-    this->shader->setUniform("diffuse", material->diffuse);
-    this->shader->setUniform("specular", material->specular);
-    this->shader->setUniform("shininess", material->shininess);
+    this->shader->setUniform("material.ambient", material->ambient);
+    this->shader->setUniform("material.diffuse", material->diffuse);
+    this->shader->setUniform("material.specular", material->specular);
+    this->shader->setUniform("material.shininess", material->shininess);
 
-    this->shader->setUniform("lightColor", light->color);
-    this->shader->setUniform("lightPos", lightTransform->position);
+    this->shader->setUniform("light.ambient", light->ambient);
+    this->shader->setUniform("light.diffuse", light->diffuse);
+    this->shader->setUniform("light.specular", light->specular);
+    this->shader->setUniform("light.position", lightTransform->position);
 
     this->shader->setUniform("cameraPos", cameraTransform->position);
 }
@@ -136,4 +138,8 @@ void Camera::update(float dt) {
     this->projectionUpdate();
 }
 
-Light::Light(GameObject* obj) : Component{obj} {}
+Light::Light(GameObject* obj) : Component{obj} {
+    this->ambient = {0.2, 0.2, 0.2};
+    this->diffuse = {0.5, 0.5, 0.5};
+    this->specular = {1.0, 1.0, 1.0};
+}
