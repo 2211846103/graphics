@@ -100,7 +100,7 @@ int main(int argc, char* argv[]) {
 
         cameraTrans->rotation.data.x += yoffset;
         cameraTrans->rotation.data.y += xoffset;
-        
+
         if (cameraTrans->rotation.data.x > 89.0f) cameraTrans->rotation.data.x = 89.0f;
         if (cameraTrans->rotation.data.x < -89.0f) cameraTrans->rotation.data.x = -89.0f;
         
