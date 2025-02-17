@@ -34,26 +34,22 @@ int main(int argc, char* argv[]) {
         { -1.3f,  1.0f, -1.5f }
     };    
     for (int i = 0; i < 10; i++) {
-        // Object to render
-        GameObject* object = mainScene.createGameObject();
-
-        object->addComponent<CubeMesh>();
-        object->addComponent<Renderer>();
+        // Cubes to render
+        GameObject* cube = mainScene.createCube();
 
         // This Line is not Necessary anymore
-        object->getComponent<Mesh>()->material->setAlbedo("../res/images/test.jpg");
+        cube->getComponent<Mesh>()->material->setAlbedo("../res/images/test.jpg");
 
-        Transform* transform = object->getComponent<Transform>();
+        Transform* transform = cube->getComponent<Transform>();
         transform->position = cubePositions[i];
         transform->rotation = Vec3(10 * i, 15 * i, 20 * i);
     }
 
     // Camera
-    GameObject* cameraObj = mainScene.createGameObject();
-    cameraObj->addComponent<Camera>();
-    Camera* camera = cameraObj->getComponent<Camera>();
-
+    GameObject* cameraObj = mainScene.createCamera();
     mainScene.setCameraActive(cameraObj);
+
+    Camera* camera = cameraObj->getComponent<Camera>();
     Transform* cameraTrans = cameraObj->getComponent<Transform>();
     cameraTrans->position = Vec3(0, 0, -15);
 
@@ -76,7 +72,6 @@ int main(int argc, char* argv[]) {
         mainScene.renderGameObjects();
 
         dt = window.update();
-        camera->aspect = window.width / (float)window.height;
     }
 
     // Cleans/Deletes all GLFW resources that we allocated.

@@ -12,11 +12,16 @@ namespace Engine {
         public:
             ~Scene();
 
-            GameObject* getActiveCamera();
-            void setCameraActive(GameObject* camera);
+            GameObject* getGameObjectByID(int id);
 
             GameObject* createGameObject();
-            GameObject* getGameObjectByID(int id);
+            GameObject* createCube();
+            GameObject* createPlane();
+            
+            GameObject* createCamera();
+            GameObject* getActiveCamera();
+            void setCameraActive(GameObject* camera);
+            
 
             void initGameObjects();
             void updateGameObjects(float dt);

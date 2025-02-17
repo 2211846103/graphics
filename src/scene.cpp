@@ -1,4 +1,5 @@
 #include <scene.hpp>
+#include <mesh.hpp>
 
 using namespace Engine;
 
@@ -14,12 +15,12 @@ Scene::~Scene() {
     _gameObjects.clear();
 }
 
-GameObject* Scene::getActiveCamera() {
-    return this->_activeCamera;
-}
-
-void Scene::setCameraActive(GameObject* camera) {
-    this->_activeCamera = camera;
+GameObject* Scene::getGameObjectByID(int id) {
+    for (GameObject* obj : _gameObjects) {
+        if (obj->id != id) continue;
+        return obj;
+    }
+    return nullptr;
 }
 
 GameObject* Scene::createGameObject() {
@@ -28,12 +29,38 @@ GameObject* Scene::createGameObject() {
     return obj;
 }
 
-GameObject* Scene::getGameObjectByID(int id) {
-    for (GameObject* obj : _gameObjects) {
-        if (obj->id != id) continue;
-        return obj;
-    }
-    return nullptr;
+GameObject* Scene::createPlane() {
+    GameObject* obj = new GameObject(SceneManager::api);
+    obj->addComponent<PlaneMesh>();
+    obj->addComponent<Renderer>();
+
+    _gameObjects.push_back(obj);
+    return obj;
+}
+
+GameObject* Scene::createCube() {
+    GameObject* obj = new GameObject(SceneManager::api);
+    obj->addComponent<CubeMesh>();
+    obj->addComponent<Renderer>();
+
+    _gameObjects.push_back(obj);
+    return obj;
+}
+
+GameObject* Scene::createCamera() {
+    GameObject* obj = new GameObject(SceneManager::api);
+    obj->addComponent<Camera>();
+
+    _gameObjects.push_back(obj);
+    return obj;
+}
+
+GameObject* Scene::getActiveCamera() {
+    return this->_activeCamera;
+}
+
+void Scene::setCameraActive(GameObject* camera) {
+    this->_activeCamera = camera;
 }
 
 void Scene::initGameObjects() {
