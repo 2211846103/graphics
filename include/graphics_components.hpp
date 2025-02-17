@@ -20,6 +20,7 @@ namespace Graphics {
     class Vertex {
         public:
             Math::Vec3 position;
+            Math::Vec3 normal;
             Math::Vec2 uv;
 
             std::vector<float> toFloat();

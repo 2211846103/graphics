@@ -5,6 +5,7 @@ using namespace Graphics;
 std::vector<float> Vertex::toFloat() {
     return std::vector<float> ({
         position.x(), position.y(), position.z(),
+        normal.x(), normal.y(), normal.z(),
         uv.x(), uv.y()
     });
 }
@@ -128,10 +129,12 @@ void OpenGLVertexArray::bindVertices(Vertex* vertices, size_t size) {
     this->vertexCount = size / (sizeof(Vertex));
     this->vertexBuffer = new OpenGLBuffer(VertexBuffer, Vertex::flatten(vertices, this->vertexCount).data(), size, StaticDraw);
 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 5, (void*)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 8, (void*)0);
     glEnableVertexAttribArray(0);
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 5, (void*)(sizeof(float) * 3));
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 8, (void*)(sizeof(float) * 3));
     glEnableVertexAttribArray(1);
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 8, (void*)(sizeof(float) * 6));
+    glEnableVertexAttribArray(2);
 }
 
 void OpenGLVertexArray::bindIndices(int* indices, size_t size) {
