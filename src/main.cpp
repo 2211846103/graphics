@@ -12,7 +12,7 @@ using namespace Math;
 int main(int argc, char* argv[]) {
     // Preperations
     Window window(800, 600, "test");
-    Input::init(&window);
+    Input::init(&window, CursorDisabled);
     OpenGLGraphicsAPI graphics(window);
     graphics.enableZBuffer();
     graphics.setClearColor({0.2, 0.2, 0.2});
@@ -56,7 +56,7 @@ int main(int argc, char* argv[]) {
     // Calculating DeltaTime
     float dt = 0;
     const float cameraSpeed = 10;
-
+    
     mainScene.initGameObjects();
     while (!window.shouldClose()) {
         graphics.clear();
@@ -67,6 +67,7 @@ int main(int argc, char* argv[]) {
         if (Input::isKeyPressed(D)) cameraTrans->position -= dt * cameraSpeed * (camera->front.cross(camera->up)).normalize().data;
         if (Input::isKeyPressed(LSHIFT)) cameraTrans->position -= dt * cameraSpeed * camera->up.data;
         if (Input::isKeyPressed(SPACE)) cameraTrans->position += dt * cameraSpeed * camera->up.data;
+
 
         mainScene.updateGameObjects(dt);
         mainScene.renderGameObjects();
