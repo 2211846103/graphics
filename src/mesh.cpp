@@ -4,15 +4,15 @@ using namespace Engine;
 
 PlaneMesh::PlaneMesh(GameObject* obj) : Mesh(obj) {
     Vertex vertices[] = {
-        {{-0.5f, -0.5f, -0.5f},  {0.0f, 0.0f}},
-        {{ 0.5f, -0.5f, -0.5f},  {1.0f, 0.0f}},
-        {{ 0.5f,  0.5f, -0.5f},  {1.0f, 1.0f}},
-        {{-0.5f,  0.5f, -0.5f},  {0.0f, 1.0f}}
+        {{-0.5f, -0.5f, 0},  {0.0f, 0.0f}},
+        {{ 0.5f, -0.5f, 0},  {1.0f, 0.0f}},
+        {{ 0.5f,  0.5f, 0},  {1.0f, 1.0f}},
+        {{-0.5f,  0.5f, 0},  {0.0f, 1.0f}}
     };
 
     int indices[] = {
         0,  1,  2,
-        0,  2,  3,
+        0,  2,  3
     };
 
     this->setVertices(vertices, sizeof(vertices));
