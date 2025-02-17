@@ -36,6 +36,7 @@ Renderer::~Renderer() {
 }
 
 void Renderer::setShader(const char* vPath, const char* fPath) {
+    if (this->shader) delete this->shader;
     this->shader = this->gameObject->api->createShader(vPath, fPath);
 }
 

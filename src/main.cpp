@@ -15,50 +15,23 @@ int main(int argc, char* argv[]) {
     Input::init(&window, CursorDisabled);
     OpenGLGraphicsAPI graphics(window);
     graphics.enableZBuffer();
-    graphics.setClearColor({0.2, 0.2, 0.2});
     SceneManager::setGraphicsAPI(&graphics);
     Scene mainScene;
     SceneManager::setCurrentScene(&mainScene);
-
-    // Code
-    Vec3 cubePositions[] = {
-        { 0.0f,  0.0f,  0.0f },
-        { 2.0f,  5.0f, -15.0f },
-        { -1.5f, -2.2f, -2.5f },
-        { -3.8f, -2.0f, -12.3f },
-        { 2.4f, -0.4f, -3.5f },
-        { -1.7f,  3.0f, -7.5f },
-        { 1.3f, -2.0f, -2.5f },
-        { 1.5f,  2.0f, -2.5f },
-        { 1.5f,  0.2f, -1.5f },
-        { -1.3f,  1.0f, -1.5f }
-    };    
-    for (int i = 0; i < 0; i++) {
-        // Cubes to render
-        GameObject* cube = mainScene.createCube();
-
-        // This Line is not Necessary anymore
-        //cube->getComponent<Mesh>()->material->setAlbedo("../res/images/test.jpg");
-
-        Transform* transform = cube->getComponent<Transform>();
-        transform->position = cubePositions[i];
-        transform->rotation = Vec3(10 * i, 15 * i, 20 * i);
-    }
 
     Vec3 objectColor = {1.0f, 0.5f, 0.31f};
     Vec3 lightColor = {1.0f, 1.0f, 1.0f};
     Vec3 lightPos = {1.2f, 1.0f, 2.0f};
 
     GameObject* cube = mainScene.createCube();
-    cube->getComponent<Transform>()->position = Vec3(0, 0, 0);
+    cube->getComponent<Renderer>()->setShader("../assets/shaders/vertex.vert", "../assets/shaders/objectShader.frag");
     cube->getComponent<Renderer>()->shader->setUniform("objectColor", objectColor);
     cube->getComponent<Renderer>()->shader->setUniform("lightColor", lightColor);
 
     GameObject* light = mainScene.createCube();
     light->getComponent<Transform>()->position = lightPos;
-    light->getComponent<Transform>()->scale = Vec3(0.2, 0.2, 0.2);
-    light->getComponent<Renderer>()->shader->setUniform("objectColor", lightColor);
-    light->getComponent<Renderer>()->shader->setUniform("lightColor", lightColor);
+    light->getComponent<Renderer>()->setShader("../assets/shaders/vertex.vert", "../assets/shaders/lightShader.frag");
+    light->getComponent<Renderer>()->shader->setUniform("color", lightColor);
 
     // Camera
     GameObject* cameraObj = mainScene.createCamera();
@@ -66,13 +39,13 @@ int main(int argc, char* argv[]) {
 
     Camera* camera = cameraObj->getComponent<Camera>();
     Transform* cameraTrans = cameraObj->getComponent<Transform>();
-    cameraTrans->position = Vec3(0, 0, -15);
+    cameraTrans->position = Vec3(0, 0, -1);
 
     // Calculating DeltaTime
     float dt = 0;
     const float cameraSpeed = 10;
     float mouseSensitivity = 0.1f;
-    float lastX = 400, lastY = 300;
+    float lastX = 0, lastY = 300;
     float xoffset, yoffset;
 
     

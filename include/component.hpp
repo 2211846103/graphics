@@ -41,7 +41,7 @@ namespace Engine {
 
     class Renderer : public Component {
         public:
-            Shader* shader;
+            Shader* shader = nullptr;
 
             Renderer(GameObject* obj);
             ~Renderer();
