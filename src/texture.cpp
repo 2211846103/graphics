@@ -322,6 +322,9 @@ void OpenGLTexture::loadConfig(TextureConfig* config) {
 
 void Texture::activate(Shader* shader, const char* uniName, int unit) {
   // Bind Texture
+  // Activate Texture Unit and Assign it to Shader
+  shader->setUniform(uniName, unit);
+  this->_api->activate(unit);
   this->bind();
 
   // Load Configuration if not Loaded yet
@@ -329,10 +332,6 @@ void Texture::activate(Shader* shader, const char* uniName, int unit) {
     this->_api->loadConfig(this->config);
     this->_isConfigLoaded = true;
   }
-
-  // Activate Texture Unit and Assign it to Shader
-  this->_api->activate(unit);
-  shader->setUniform(uniName, unit);
 }
 
 Texture2D::Texture2D(TextureAPI* api, const char* path) {

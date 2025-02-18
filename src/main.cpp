@@ -15,7 +15,7 @@ int main(int argc, char* argv[]) {
     Input::init(&window, CursorDisabled);
     OpenGLGraphicsAPI graphics(window);
     graphics.enableZBuffer();
-    graphics.setClearColor({0.2, 0.2, 0.2});
+    //graphics.setClearColor({0.2, 0.2, 0.2});
     SceneManager::setGraphicsAPI(&graphics);
     Scene mainScene;
     SceneManager::setCurrentScene(&mainScene);
@@ -24,9 +24,14 @@ int main(int argc, char* argv[]) {
 
     GameObject* cube = mainScene.createCube();
     cube->getComponent<Transform>()->position = {1, -1, 2};
+    cube->getComponent<Mesh>()->material->setAlbedo("../assets/images/container2.png");
+    cube->getComponent<Mesh>()->material->setSpecular("../assets/images/container2_specular.png");
+    cube->getComponent<Mesh>()->material->shininess = 1;
     
     GameObject* light = mainScene.createLight();
-    light->addComponent<CubeMesh>();
+    light->getComponent<Light>()->ambient = {0.5, 0.5, 1};
+    light->getComponent<Light>()->diffuse = {0.5, 0.5, 1};
+    light->getComponent<Light>()->specular = {0.5, 0.5, 1};
 
     // Camera
     GameObject* cameraObj = mainScene.createCamera();
@@ -38,7 +43,7 @@ int main(int argc, char* argv[]) {
 
     // Calculating DeltaTime
     float dt = 0;
-    const float cameraSpeed = 10;
+    const float cameraSpeed = 3;
     float mouseSensitivity = 0.1f;
     float lastX = 0, lastY = 300;
     float xoffset, yoffset;
@@ -76,7 +81,6 @@ int main(int argc, char* argv[]) {
         direction.data.y = sin(glm::radians(cameraTrans->rotation.data.x));
         direction.data.z = sin(glm::radians(cameraTrans->rotation.data.y)) * cos(glm::radians(cameraTrans->rotation.data.x));
         camera->front = direction.normalize();
-
 
         mainScene.updateGameObjects(dt);
         mainScene.renderGameObjects();

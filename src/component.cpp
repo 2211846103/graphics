@@ -62,9 +62,8 @@ void Renderer::update(float dt) {
     this->shader->setUniform("projection", projection);
     this->shader->setUniform("normalModel", normalModel);
 
-    this->shader->setUniform("material.ambient", material->ambient);
-    this->shader->setUniform("material.diffuse", material->diffuse);
-    this->shader->setUniform("material.specular", material->specular);
+    material->albedo->activate(this->shader, "material.diffuse", 0);
+    material->specular->activate(this->shader, "material.specular", 1);
     this->shader->setUniform("material.shininess", material->shininess);
 
     this->shader->setUniform("light.ambient", light->ambient);
@@ -139,7 +138,7 @@ void Camera::update(float dt) {
 }
 
 Light::Light(GameObject* obj) : Component{obj} {
-    this->ambient = {0.2, 0.2, 0.2};
-    this->diffuse = {0.5, 0.5, 0.5};
+    this->ambient = {1, 1, 1};
+    this->diffuse = {1, 1, 1};
     this->specular = {1.0, 1.0, 1.0};
 }
