@@ -56,7 +56,6 @@ void Renderer::update(float dt) {
 
     Transform* cameraTransform = SceneManager::getCurrentScene()->getActiveCamera()->getComponent<Transform>();
 
-    this->shader->use();
     this->shader->setUniform("model", model);
     this->shader->setUniform("view", view);
     this->shader->setUniform("projection", projection);
@@ -138,7 +137,7 @@ void Camera::update(float dt) {
 }
 
 Light::Light(GameObject* obj) : Component{obj} {
-    this->ambient = {1, 1, 1};
-    this->diffuse = {1, 1, 1};
+    this->ambient = {0.2, 0.2, 0.2};
+    this->diffuse = {0.5, 0.5, 0.5};
     this->specular = {1.0, 1.0, 1.0};
 }

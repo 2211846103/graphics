@@ -48,6 +48,15 @@ GameObject* Scene::createCube() {
     return obj;
 }
 
+GameObject* Scene::createSphere() {
+    GameObject* obj = new GameObject(SceneManager::api);
+    obj->addComponent<SphereMesh>();
+    obj->addComponent<Renderer>();
+
+    _gameObjects.push_back(obj);
+    return obj;
+}
+
 GameObject* Scene::createLight() {
     GameObject* obj = new GameObject(SceneManager::api);
     obj->addComponent<Transform>();

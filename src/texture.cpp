@@ -37,10 +37,10 @@ void OpenGLTexture::unbind() {
 void OpenGLTexture::loadColor(Vec4 color) {
     this->bind2D();
     unsigned char texture[4] = {
-        static_cast<unsigned char>(color.x()),
-        static_cast<unsigned char>(color.y()),
-        static_cast<unsigned char>(color.z()),
-        static_cast<unsigned char>(color.w())
+        static_cast<unsigned char>(color.x() * 255),
+        static_cast<unsigned char>(color.y() * 255),
+        static_cast<unsigned char>(color.z() * 255),
+        static_cast<unsigned char>(color.w() * 255)
     };
 
     glTexImage2D(this->_target, 0, GL_RGBA, 1, 1, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture);
@@ -323,9 +323,9 @@ void OpenGLTexture::loadConfig(TextureConfig* config) {
 void Texture::activate(Shader* shader, const char* uniName, int unit) {
   // Bind Texture
   // Activate Texture Unit and Assign it to Shader
-  shader->setUniform(uniName, unit);
   this->_api->activate(unit);
   this->bind();
+  shader->setUniform(uniName, unit);
 
   // Load Configuration if not Loaded yet
   if (!this->_isConfigLoaded) {

@@ -19,6 +19,7 @@ namespace Engine {
             GameObject* createGameObject();
             GameObject* createCube();
             GameObject* createPlane();
+            GameObject* createSphere();
             GameObject* createLight();
             
             GameObject* createCamera();

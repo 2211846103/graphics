@@ -19,9 +19,9 @@ namespace Engine {
             Material(GraphicsAPI* api);
             ~Material();
 
-            void setAlbedo(Vec3 color);
+            void setAlbedo(Vec4 color);
             void setAlbedo(const char* path);
-            void setSpecular(Vec3 color);
+            void setSpecular(Vec4 color);
             void setSpecular(const char* path);
     };
 }

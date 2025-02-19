@@ -22,16 +22,10 @@ int main(int argc, char* argv[]) {
 
     Vec3 cameraPos = {0, 1, 2};
 
-    GameObject* cube = mainScene.createCube();
-    cube->getComponent<Transform>()->position = {1, -1, 2};
-    cube->getComponent<Mesh>()->material->setAlbedo("../assets/images/container2.png");
-    cube->getComponent<Mesh>()->material->setSpecular("../assets/images/container2_specular.png");
-    cube->getComponent<Mesh>()->material->shininess = 1;
+    GameObject* sphere = mainScene.createSphere();
+    sphere->getComponent<Transform>()->position = {1, -1, 2};
     
     GameObject* light = mainScene.createLight();
-    light->getComponent<Light>()->ambient = {0.5, 0.5, 1};
-    light->getComponent<Light>()->diffuse = {0.5, 0.5, 1};
-    light->getComponent<Light>()->specular = {0.5, 0.5, 1};
 
     // Camera
     GameObject* cameraObj = mainScene.createCamera();
