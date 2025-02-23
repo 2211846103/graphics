@@ -46,6 +46,10 @@ Shader* OpenGLGraphicsAPI::createShader(const char* vPath, const char* fPath) {
     return new OpenGLShader(vPath, fPath);
 }
 
+ComputeShader* OpenGLGraphicsAPI::createComputeShader(const char* path) {
+    return new OpenGLComputeShader(path);
+}
+
 VertexArray* OpenGLGraphicsAPI::createVertexArray() {
     return new OpenGLVertexArray();
 }

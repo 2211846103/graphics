@@ -38,6 +38,8 @@ namespace Graphics {
             virtual void bind(BufferType type) = 0;
             virtual void setData(void* data, size_t size) = 0;
             virtual bool isSet() = 0;
+            virtual void setBindingPoint(int point) = 0;
+            virtual void getData(void* ptr, size_t size) = 0;
             virtual void unbind() = 0;
     };
 
@@ -55,6 +57,8 @@ namespace Graphics {
             void bind(BufferType type) override;
             void setData(void* data, size_t size) override;
             bool isSet() override;
+            void setBindingPoint(int point) override;
+            void getData(void* ptr, size_t size) override;
             void unbind() override;
     };
 

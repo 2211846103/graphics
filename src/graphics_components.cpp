@@ -101,6 +101,15 @@ bool OpenGLBuffer::isSet() {
     return this->_is_set;
 }
 
+void OpenGLBuffer::setBindingPoint(int point) {
+    glBindBufferBase(this->type, point, this->id);
+}
+
+void OpenGLBuffer::getData(void* ptr, size_t size) {
+    this->bind();
+    glGetBufferSubData(this->type, 0, size, ptr);
+}
+
 OpenGLVertexArray::OpenGLVertexArray() {
     glGenVertexArrays(1, &this->id);
 }

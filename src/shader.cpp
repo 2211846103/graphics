@@ -109,3 +109,84 @@ void OpenGLShader::setUniform(const char* name, Math::Mat4& value) {
     GLint loc = glGetUniformLocation(_shaderProgram, name);
     if (loc != -1) glUniformMatrix4fv(loc, 1, GL_FALSE, value.toFloat());
 }
+
+OpenGLComputeShader::OpenGLComputeShader(const char* shaderPath) {
+    char* shaderSource = File::readFile(shaderPath);
+    int  success;
+    char infoLog[512];
+
+    _compute = glCreateShader(GL_COMPUTE_SHADER);
+    glShaderSource(_compute, 1, &shaderSource, NULL);
+    glCompileShader(_compute);
+
+    glGetShaderiv(_compute, GL_COMPILE_STATUS, &success);
+    if (!success) {
+        glGetShaderInfoLog(_compute, 512, NULL, infoLog);
+        std::cout << "ERROR::SHADER::COMPUTE::COMPILATION_FAILED\n" << infoLog << std::endl;
+    }
+
+    free(shaderSource);
+
+    _shaderProgram = glCreateProgram();
+    glAttachShader(_shaderProgram, _compute);
+    glLinkProgram(_shaderProgram);
+
+    glGetProgramiv(_shaderProgram, GL_LINK_STATUS, &success);
+    if (!success) {
+        glGetProgramInfoLog(_shaderProgram, 512, NULL, infoLog);
+        std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
+    }
+}
+
+OpenGLComputeShader::~OpenGLComputeShader() {
+    glDeleteShader(_compute);
+    glDeleteProgram(_shaderProgram);
+}
+
+void OpenGLComputeShader::dispatch(int workgroups) {
+    glUseProgram(_shaderProgram);
+    glDispatchCompute(workgroups, 1, 1);
+    glMemoryBarrier(GL_SHADER_STORAGE_BARRIER_BIT);
+}
+
+void OpenGLComputeShader::setUniform(const char* name, int value) {
+    glUseProgram(_shaderProgram);
+    GLint loc = glGetUniformLocation(_shaderProgram, name);
+    if (loc != -1) glUniform1i(loc, value);
+}
+
+void OpenGLComputeShader::setUniform(const char* name, float value) {
+    glUseProgram(_shaderProgram);
+    GLint loc = glGetUniformLocation(_shaderProgram, name);
+    if (loc != -1) glUniform1f(loc, value);
+}
+
+void OpenGLComputeShader::setUniform(const char* name, bool value) {
+    glUseProgram(_shaderProgram);
+    GLint loc = glGetUniformLocation(_shaderProgram, name);
+    if (loc != -1) glUniform1i(loc, static_cast<int>(value)); // OpenGL uses int for bools
+}
+
+void OpenGLComputeShader::setUniform(const char* name, Math::Vec2& value) {
+    glUseProgram(_shaderProgram);
+    GLint loc = glGetUniformLocation(_shaderProgram, name);
+    if (loc != -1) glUniform2fv(loc, 1, value.toFloat());
+}
+
+void OpenGLComputeShader::setUniform(const char* name, Math::Vec3& value) {
+    glUseProgram(_shaderProgram);
+    GLint loc = glGetUniformLocation(_shaderProgram, name);
+    if (loc != -1) glUniform3fv(loc, 1, value.toFloat());
+}
+
+void OpenGLComputeShader::setUniform(const char* name, Math::Vec4& value) {
+    glUseProgram(_shaderProgram);
+    GLint loc = glGetUniformLocation(_shaderProgram, name);
+    if (loc != -1) glUniform4fv(loc, 1, value.toFloat());
+}
+
+void OpenGLComputeShader::setUniform(const char* name, Math::Mat4& value) {
+    glUseProgram(_shaderProgram);
+    GLint loc = glGetUniformLocation(_shaderProgram, name);
+    if (loc != -1) glUniformMatrix4fv(loc, 1, GL_FALSE, value.toFloat());
+}
