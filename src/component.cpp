@@ -23,6 +23,12 @@ void Mesh::setIndices(int* indices, size_t size) {
     this->_vao->bindIndices(indices, size);
 }
 
+void Mesh::applyToShader(Shader* shader) {
+    this->material->albedo->activate(shader, "material.diffuse", 0);
+    this->material->specular->activate(shader, "material.specular", 1);
+    shader->setUniform("material.shininess", this->material->shininess);
+}
+
 void Mesh::render() {
     this->_vao->draw();
 }
@@ -41,36 +47,10 @@ void Renderer::setShader(const char* vPath, const char* fPath) {
 }
 
 void Renderer::update(float dt) {
-    Transform* transform = this->gameObject->getComponent<Transform>();
-    Mat4 model = transform->getModel();
-    Mat4 normalModel = model.inverse().transpose();
-
-    Camera* camera = SceneManager::getCurrentScene()->getActiveCamera()->getComponent<Camera>();
-    Mat4 view = camera->getView();
-    Mat4 projection = camera->getProjection();
-
-    Material* material = this->gameObject->getComponent<Mesh>()->material;
-
-    Light* light = SceneManager::getCurrentScene()->getLights()[0]->getComponent<Light>();
-    Transform* lightTransform = SceneManager::getCurrentScene()->getLights()[0]->getComponent<Transform>();
-
-    Transform* cameraTransform = SceneManager::getCurrentScene()->getActiveCamera()->getComponent<Transform>();
-
-    this->shader->setUniform("model", model);
-    this->shader->setUniform("view", view);
-    this->shader->setUniform("projection", projection);
-    this->shader->setUniform("normalModel", normalModel);
-
-    material->albedo->activate(this->shader, "material.diffuse", 0);
-    material->specular->activate(this->shader, "material.specular", 1);
-    this->shader->setUniform("material.shininess", material->shininess);
-
-    this->shader->setUniform("light.ambient", light->ambient);
-    this->shader->setUniform("light.diffuse", light->diffuse);
-    this->shader->setUniform("light.specular", light->specular);
-    this->shader->setUniform("light.position", lightTransform->position);
-
-    this->shader->setUniform("cameraPos", cameraTransform->position);
+    this->gameObject->getComponent<Transform>()->applyToShader(this->shader);
+    this->gameObject->getComponent<Mesh>()->applyToShader(this->shader);
+    SceneManager::getCurrentScene()->getActiveCamera()->getComponent<Camera>()->applyToShader(this->shader);
+    SceneManager::getCurrentScene()->getLights()[0]->getComponent<Light>()->applyToShader(this->shader);
 }
 
 void Renderer::render() {
@@ -95,6 +75,14 @@ void Transform::update(float dt) {
     this->_model = Mat4::rotation(this->_model, glm::radians(this->rotation.y()), Vec3(0, 1, 0));
     this->_model = Mat4::rotation(this->_model, glm::radians(this->rotation.z()), Vec3(0, 0, 1));
     this->_model = Mat4::scale(this->_model, this->scale);
+}
+
+void Transform::applyToShader(Shader* shader) {
+    Mat4 model = this->getModel();
+    Mat4 normalModel = model.inverse().transpose();
+
+    shader->setUniform("model", model);
+    shader->setUniform("normalModel", normalModel);
 }
 
 Camera::Camera(GameObject* obj) : Component{obj} {
@@ -136,8 +124,27 @@ void Camera::update(float dt) {
     this->projectionUpdate();
 }
 
+void Camera::applyToShader(Shader* shader) {
+    Vec3 position = this->gameObject->getComponent<Transform>()->position;
+    Mat4 view = this->getView();
+    Mat4 projection = this->getProjection();
+
+    shader->setUniform("view", view);
+    shader->setUniform("projection", projection);
+    shader->setUniform("cameraPos", position);
+}
+
 Light::Light(GameObject* obj) : Component{obj} {
     this->ambient = {0.2, 0.2, 0.2};
     this->diffuse = {0.5, 0.5, 0.5};
     this->specular = {1.0, 1.0, 1.0};
+}
+
+void Light::applyToShader(Shader* shader) {
+    Vec3 position = this->gameObject->getComponent<Transform>()->position;
+
+    shader->setUniform("light.ambient", this->ambient);
+    shader->setUniform("light.diffuse", this->diffuse);
+    shader->setUniform("light.specular", this->specular);
+    shader->setUniform("light.position", position);
 }

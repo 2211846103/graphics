@@ -20,6 +20,7 @@ namespace Engine {
 
             virtual void init() {};
             virtual void update(float dt) {};
+            virtual void applyToShader(Shader* shader) {};
             virtual void render() {};
     };
 
@@ -36,6 +37,7 @@ namespace Engine {
             void setVertices(Vertex* vertices, size_t size);
             void setIndices(int* indices, size_t size);
 
+            void applyToShader(Shader* shader) override;
             void render() override;
     };
 
@@ -66,6 +68,7 @@ namespace Engine {
             Mat4& getModel();
 
             void update(float dt) override;
+            void applyToShader(Shader* shader) override;
     };
 
     class Camera : public Component {
@@ -82,7 +85,6 @@ namespace Engine {
             Vec3 right;
             Vec3 up;
             Vec3 front;
-
             float fov = 45;
             float aspect = 16 / 9.0;
             float near = 0.1;
@@ -94,6 +96,7 @@ namespace Engine {
             Mat4& getProjection();
             
             void update(float dt) override;
+            void applyToShader(Shader* shader) override;
     };
 
     class Light : public Component {
@@ -103,5 +106,7 @@ namespace Engine {
             Vec3 specular;
 
             Light(GameObject* obj);
+
+            void applyToShader(Shader* shader) override;
     };
 }
