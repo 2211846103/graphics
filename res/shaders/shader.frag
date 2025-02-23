@@ -11,6 +11,7 @@ struct Material {
     sampler2D specular;
     float shininess;
 }; 
+uniform Material material;
 
 struct Light {
     vec3 position;
@@ -20,7 +21,6 @@ struct Light {
     vec3 specular;
 };
 
-uniform Material material;
 uniform Light light; 
 uniform vec3 cameraPos;
 

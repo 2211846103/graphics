@@ -51,7 +51,11 @@ OpenGLBuffer::OpenGLBuffer(BufferType type, void* data, size_t size, BufferUsage
     glGenBuffers(1, &this->id);
     OpenGLBuffer::bind(type);
     OpenGLBuffer::setData(data, size);
+}
 
+OpenGLBuffer::OpenGLBuffer(BufferType type) {
+    glGenBuffers(1, &this->id);
+    OpenGLBuffer::bind(type);
 }
 
 OpenGLBuffer::~OpenGLBuffer() {
