@@ -2,9 +2,7 @@
 
 using namespace Graphics;
 
-Window::Window(int w, int h, const char* name) : width{w}, height{h}, windowName{name} {
-    initWindow();
-}
+Window::Window(int w, int h, const char* name) : width{w}, height{h}, windowName{name} {}
 
 Window::~Window() {
     glfwDestroyWindow(_window);
@@ -28,11 +26,6 @@ float Window::update() {
 }
 
 void Window::initWindow() {
-    glfwInit();
-    #ifdef __MACH__
-        glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-    #endif
-
     _window = glfwCreateWindow(width, height, windowName, nullptr, nullptr);
     glfwMakeContextCurrent(_window);
 

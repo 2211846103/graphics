@@ -18,6 +18,19 @@ static void opengl_size_callback(GLFWwindow* window, int width, int height) {
 }
 
 OpenGLGraphicsAPI::OpenGLGraphicsAPI(Window& window) {
+    glfwInit();
+    
+    glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_API);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
+    #ifdef __MACH__
+        glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+    #endif
+
+    window.initWindow();
+
     gladLoadGL();
     glViewport(0, 0, window.width, window.height);
     viewport_width = window.width;

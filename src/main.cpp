@@ -12,25 +12,24 @@ using namespace Math;
 int main(int argc, char* argv[]) {
     // Preperations
     Window window(800, 600, "test");
-    Input::init(&window, CursorDisabled);
     OpenGLGraphicsAPI graphics(window);
+    
+    Input::init(&window, CursorDisabled);
     graphics.enableZBuffer();
     //graphics.setClearColor({0.2, 0.2, 0.2});
+
     SceneManager::setGraphicsAPI(&graphics);
     Scene mainScene;
     SceneManager::setCurrentScene(&mainScene);
 
     Vec3 cameraPos = {0, 1, 2};
-
     GameObject* sphere = mainScene.createSphere();
     sphere->getComponent<Transform>()->position = {1, -1, 2};
-    
     GameObject* light = mainScene.createLight();
 
     // Camera
     GameObject* cameraObj = mainScene.createCamera();
     mainScene.setCameraActive(cameraObj);
-
     Camera* camera = cameraObj->getComponent<Camera>();
     Transform* cameraTrans = cameraObj->getComponent<Transform>();
     cameraTrans->position = cameraPos;
@@ -41,7 +40,6 @@ int main(int argc, char* argv[]) {
     float mouseSensitivity = 0.1f;
     float lastX = 0, lastY = 300;
     float xoffset, yoffset;
-
     
     mainScene.initGameObjects();
     while (!window.shouldClose()) {
