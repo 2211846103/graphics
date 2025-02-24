@@ -143,9 +143,9 @@ OpenGLComputeShader::~OpenGLComputeShader() {
     glDeleteProgram(_shaderProgram);
 }
 
-void OpenGLComputeShader::dispatch(int workgroups) {
+void OpenGLComputeShader::dispatch(int numGroupsX, int numGroupsY, int numGroupsZ) {
     glUseProgram(_shaderProgram);
-    glDispatchCompute(workgroups, 1, 1);
+    glDispatchCompute(numGroupsX, numGroupsY, numGroupsZ);
     glMemoryBarrier(GL_SHADER_STORAGE_BARRIER_BIT);
 }
 

@@ -48,7 +48,7 @@ namespace Graphics {
         public:
             virtual ~ComputeShader() = default;
 
-            virtual void dispatch(int workgroups) = 0;
+            virtual void dispatch(int numGroupsX, int numGroupsY, int numGroupsZ) = 0;
 
             virtual void setUniform(const char* name, int value) = 0;
             virtual void setUniform(const char* name, float value) = 0;
@@ -68,7 +68,7 @@ namespace Graphics {
             OpenGLComputeShader(const char* shaderPath);
             ~OpenGLComputeShader();
 
-            void dispatch(int workgroups) override;
+            void dispatch(int numGroupsX, int numGroupsY, int numGroupsZ) override;
 
             void setUniform(const char* name, int value) override;
             void setUniform(const char* name, float value) override;

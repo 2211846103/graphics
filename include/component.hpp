@@ -94,7 +94,7 @@ namespace Engine {
 
             Mat4& getView();
             Mat4& getProjection();
-            
+
             void update(float dt) override;
             void applyToShader(Shader* shader) override;
     };

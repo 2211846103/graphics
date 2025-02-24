@@ -50,7 +50,7 @@ namespace Graphics {
             GLenum usage;
 
             OpenGLBuffer(BufferType type, void* data, size_t size, BufferUsage usage);
-            OpenGLBuffer(BufferType type);
+            OpenGLBuffer(BufferType type, BufferUsage usage);
             ~OpenGLBuffer();
 
             void bind() override;

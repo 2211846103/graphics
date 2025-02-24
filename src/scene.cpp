@@ -63,7 +63,6 @@ GameObject* Scene::createLight() {
     obj->addComponent<Light>();
 
     _gameObjects.push_back(obj);
-    _lights.push_back(obj);
     return obj;
 }
 
@@ -84,7 +83,12 @@ void Scene::setCameraActive(GameObject* camera) {
 }
 
 GameObject** Scene::getLights() {
-    return _lights.data();
+    std::vector<GameObject*> lights;
+    for (auto& obj : _gameObjects) {
+        Light* lightComp = obj->getComponent<Light>();
+        if (lightComp) lights.push_back(obj);
+    }
+    return lights.data();
 }
 
 void Scene::initGameObjects() {

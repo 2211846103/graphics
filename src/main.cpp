@@ -22,22 +22,6 @@ int main(int argc, char* argv[]) {
     Scene mainScene;
     SceneManager::setCurrentScene(&mainScene);
 
-    /*
-    std::vector<int> data(1024, 0);
-    ComputeShader* computeShader = graphics.createComputeShader("../res/shaders/light_compute.comp");
-    Buffer* buffer = graphics.createBuffer(ShaderStorageBuffer, data.data(), data.size() * sizeof(int), DynamicCopy);
-    buffer->setBindingPoint(0);
-    computeShader->dispatch((data.size() * 63) / 64);
-    int* newData = new int[data.size()];
-    buffer->getData(newData, data.size() * sizeof(int));
-    for (int i = 0; i < data.size(); i++) {
-        std::cout << newData[i] << std::endl;
-    }
-    delete newData;
-    delete buffer;
-    delete computeShader;
-    */
-
     Vec3 cameraPos = {0, 1, 2};
     GameObject* sphere = mainScene.createSphere();
     sphere->getComponent<Transform>()->position = {1, -1, 2};
