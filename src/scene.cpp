@@ -82,13 +82,13 @@ void Scene::setCameraActive(GameObject* camera) {
     this->_activeCamera = camera;
 }
 
-GameObject** Scene::getLights() {
+std::vector<GameObject*> Scene::getLights() {
     std::vector<GameObject*> lights;
     for (auto& obj : _gameObjects) {
         Light* lightComp = obj->getComponent<Light>();
         if (lightComp) lights.push_back(obj);
     }
-    return lights.data();
+    return lights;
 }
 
 void Scene::initGameObjects() {

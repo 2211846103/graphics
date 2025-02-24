@@ -26,7 +26,7 @@ namespace Engine {
             GameObject* getActiveCamera();
             void setCameraActive(GameObject* camera);
             
-            GameObject** getLights();
+            std::vector<GameObject*> getLights();
 
             void initGameObjects();
             void updateGameObjects(float dt);
