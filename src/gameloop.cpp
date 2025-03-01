@@ -38,7 +38,7 @@ void Engine::Start() {
         transform->rotation = Vec3(10 * i, 15 * i, 20 * i);
     }
 
-    GameObject* cameraObj = mainScene.createCamera();
+    GameObject* cameraObj = mainScene.createPersCamera();
     mainScene.setCameraActive(cameraObj);
 
     camera = cameraObj->getComponent<Camera>();

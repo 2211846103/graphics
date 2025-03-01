@@ -73,27 +73,59 @@ namespace Engine {
 
     class Camera : public Component {
         private:
-            Mat4 _view;
-            Mat4 _projection;
-            Vec3 _target;
-
-            void viewUpdate();
-            void projectionUpdate();
-
+        
+        virtual void projectionUpdate() {};
+        
         public:
-            Vec3 direction;
-            Vec3 right;
-            Vec3 up;
-            Vec3 front;
+        Mat4 _view;
+        Mat4 _projection;
+        Vec3 _target;
+        
+        Vec3 direction;
+        Vec3 right;
+        Vec3 up;
+        Vec3 front;
+        float near = 0.1;
+        float far = 100;
+        
+        Camera(GameObject* obj);
+        
+        void viewUpdate();
+
+        Mat4& getView();
+        Mat4& getProjection();
+        
+            //void update(float dt) override;
+            //void applyToShader(Shader* shader) override;
+    };
+
+    class PerspectiveCamera : public Camera {
+        private:
+            
+            void projectionUpdate() override;
+        
+        public:
             float fov = 45;
             float aspect = 16 / 9.0;
-            float near = 0.1;
-            float far = 100;
 
-            Camera(GameObject* obj);
+            PerspectiveCamera(GameObject* obj);
 
-            Mat4& getView();
-            Mat4& getProjection();
+            void update(float dt) override;
+            void applyToShader(Shader* shader) override;
+    };
+
+    class OrthographicCamera : public Camera {
+        private:
+            
+            void projectionUpdate() override;
+        
+        public:
+            float left = -1;
+            float right = 1;
+            float bottom = -1;
+            float top = 1;
+
+            OrthographicCamera(GameObject* obj);
 
             void update(float dt) override;
             void applyToShader(Shader* shader) override;

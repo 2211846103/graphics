@@ -22,7 +22,8 @@ namespace Engine {
             GameObject* createSphere();
             GameObject* createLight();
             
-            GameObject* createCamera();
+            GameObject* createPersCamera();
+            GameObject* createOrthoCamera();
             GameObject* getActiveCamera();
             void setCameraActive(GameObject* camera);
             

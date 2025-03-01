@@ -66,9 +66,17 @@ GameObject* Scene::createLight() {
     return obj;
 }
 
-GameObject* Scene::createCamera() {
+GameObject* Scene::createOrthoCamera() {
     GameObject* obj = new GameObject(SceneManager::api);
-    obj->addComponent<Camera>();
+    obj->addComponent<OrthographicCamera>();
+
+    _gameObjects.push_back(obj);
+    return obj;
+}
+
+GameObject* Scene::createPersCamera() {
+    GameObject* obj = new GameObject(SceneManager::api);
+    obj->addComponent<PerspectiveCamera>();
 
     _gameObjects.push_back(obj);
     return obj;

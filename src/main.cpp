@@ -24,13 +24,13 @@ int main(int argc, char* argv[]) {
 
     Vec3 cameraPos = {0, 1, 2};
     GameObject* sphere = mainScene.createSphere();
-    sphere->getComponent<Transform>()->position = {1, -1, 2};
+    sphere->getComponent<Transform>()->position = {1, -1, 0};
     GameObject* light = mainScene.createLight();
 
     // Camera
-    GameObject* cameraObj = mainScene.createCamera();
+    GameObject* cameraObj = mainScene.createPersCamera();
     mainScene.setCameraActive(cameraObj);
-    Camera* camera = cameraObj->getComponent<Camera>();
+    Camera* camera = cameraObj->getComponent<PerspectiveCamera>();
     Transform* cameraTrans = cameraObj->getComponent<Transform>();
     cameraTrans->position = cameraPos;
 

@@ -85,14 +85,7 @@ void Transform::applyToShader(Shader* shader) {
     shader->setUniform("normalModel", normalModel);
 }
 
-Camera::Camera(GameObject* obj) : Component{obj} {
-    this->_view = Mat4::identity();
-    this->_projection = Mat4::identity();
-    this->front = Vec3(0, 0, -1);
-    int width, height;
-    this->gameObject->api->getDimensions(&width, &height);
-    this->aspect = width / (float) height;
-}
+Camera::Camera(GameObject* obj) : Component{obj} {}
 
 Mat4& Camera::getView() {
     return this->_view;
@@ -112,7 +105,7 @@ void Camera::viewUpdate() {
     this->_view = Mat4::lookAt(transform->position, this->_target, this->up);
 }
 
-void Camera::projectionUpdate() {
+/*void Camera::projectionUpdate() {
     int width, height;
     this->gameObject->api->getDimensions(&width, &height);
     this->aspect = width / (float) height;
@@ -125,6 +118,64 @@ void Camera::update(float dt) {
 }
 
 void Camera::applyToShader(Shader* shader) {
+    Vec3 position = this->gameObject->getComponent<Transform>()->position;
+    Mat4 view = this->getView();
+    Mat4 projection = this->getProjection();
+
+    shader->setUniform("view", view);
+    shader->setUniform("projection", projection);
+    shader->setUniform("cameraPos", position);
+}*/
+
+PerspectiveCamera::PerspectiveCamera(GameObject* obj) : Camera{obj} {
+    this->_view = Mat4::identity();
+    this->_projection = Mat4::identity();
+    this->front = Vec3(0, 0, -1);
+    int width, height;
+    this->gameObject->api->getDimensions(&width, &height);
+    this->aspect = width / (float) height;
+}
+
+void PerspectiveCamera::projectionUpdate() {
+    int width, height;
+    this->gameObject->api->getDimensions(&width, &height);
+    this->aspect = width / (float) height;
+    this->_projection = glm::perspective(glm::radians(this->fov), this->aspect, this->near, this->far);
+}
+
+void PerspectiveCamera::update(float dt) {
+    this->viewUpdate();
+    this->projectionUpdate();
+}
+
+void PerspectiveCamera::applyToShader(Shader* shader) {
+    Vec3 position = this->gameObject->getComponent<Transform>()->position;
+    Mat4 view = this->getView();
+    Mat4 projection = this->getProjection();
+
+    shader->setUniform("view", view);
+    shader->setUniform("projection", projection);
+    shader->setUniform("cameraPos", position);
+}
+
+OrthographicCamera::OrthographicCamera(GameObject* obj) : Camera{obj} {
+    this->_view = Mat4::identity();
+    this->_projection = Mat4::identity();
+    this->front = Vec3(0, 0, -1);
+}
+
+void OrthographicCamera::projectionUpdate() {
+    int width, height;
+    this->gameObject->api->getDimensions(&width, &height);
+    this->_projection = glm::ortho(this->left, this->right, this->bottom, this->top, this->near, this->far);
+}
+
+void OrthographicCamera::update(float dt) {
+    this->viewUpdate();
+    this->projectionUpdate();
+}
+
+void OrthographicCamera::applyToShader(Shader* shader) {
     Vec3 position = this->gameObject->getComponent<Transform>()->position;
     Mat4 view = this->getView();
     Mat4 projection = this->getProjection();
