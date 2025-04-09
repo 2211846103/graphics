@@ -3,51 +3,51 @@
 #include <gameobject.hpp>
 
 namespace Engine {
-    using namespace Graphics;
-    class Scene {
-        private:
-            GameObject* _activeCamera;
-            std::vector<GameObject*> _gameObjects;
-            std::vector<GameObject*> _lights;
+using namespace Graphics;
+class Scene {
+private:
+  GameObject* _activeCamera;
+  std::vector<GameObject*> _gameObjects;
+  std::vector<GameObject*> _lights;
 
-        public:
-            Scene() = default;
-            ~Scene();
+public:
+  Scene() = default;
+  ~Scene();
 
-            GameObject* getGameObjectByID(int id);
+  GameObject* getGameObjectByID(int id);
 
-            GameObject* createGameObject();
-            GameObject* createCube();
-            GameObject* createPlane();
-            GameObject* createSphere();
-            GameObject* createLight();
-            
-            GameObject* createPersCamera();
-            GameObject* createOrthoCamera();
-            GameObject* getActiveCamera();
-            void setCameraActive(GameObject* camera);
-            
-            std::vector<GameObject*> getLights();
+  GameObject* createGameObject();
+  GameObject* createCube();
+  GameObject* createPlane();
+  GameObject* createSphere();
+  GameObject* createLight();
 
-            void initGameObjects();
-            void updateGameObjects(float dt);
-            void renderGameObjects();
-    };
+  GameObject* createPersCamera();
+  GameObject* createOrthoCamera();
+  GameObject* getActiveCamera();
+  void setCameraActive(GameObject* camera);
 
-    class SceneManager {
-        private:
-            static Scene* _currentScene;
-        
-        public:
-            static GraphicsAPI* api;
+  std::vector<GameObject*> getLights();
 
-            static void setGraphicsAPI(GraphicsAPI* api);
+  void initGameObjects();
+  void updateGameObjects(float dt);
+  void renderGameObjects();
+};
 
-            static void setCurrentScene(Scene* scene);
-            static Scene* getCurrentScene();
+class SceneManager {
+private:
+  static Scene* _currentScene;
 
-            static void initCurrentScene();
-            static void updateCurrentScene(float dt);
-            static void renderCurrentScene();
-    };
+public:
+  static GraphicsAPI* api;
+
+  static void setGraphicsAPI(GraphicsAPI* api);
+
+  static void setCurrentScene(Scene* scene);
+  static Scene* getCurrentScene();
+
+  static void initCurrentScene();
+  static void updateCurrentScene(float dt);
+  static void renderCurrentScene();
+};
 }

@@ -8,137 +8,135 @@
 #include <scene.hpp>
 
 namespace Engine {
-    using namespace Graphics;
-    using namespace Math;
+using namespace Graphics;
+using namespace Math;
 
-    class Component {
-        public:
-            GameObject* gameObject;
+class Component {
+public:
+  GameObject* gameObject;
 
-            Component(GameObject* obj);
-            virtual ~Component() = default;
+  Component(GameObject* obj);
+  virtual ~Component() = default;
 
-            virtual void init() {};
-            virtual void update(float dt) {};
-            virtual void applyToShader(Shader* shader) {};
-            virtual void render() {};
-    };
+  virtual void init() {};
+  virtual void update(float dt) {};
+  virtual void applyToShader(Shader* shader) {};
+  virtual void render() {};
+};
 
-    class Mesh : public Component {
-        private:
-            VertexArray* _vao;
-            
-        public:
-            Material* material;
+class Mesh : public Component {
+private:
+  VertexArray* _vao;
 
-            Mesh(GameObject* obj);
-            ~Mesh();
+public:
+  Material* material;
 
-            void setVertices(Vertex* vertices, size_t size);
-            void setIndices(int* indices, size_t size);
+  Mesh(GameObject* obj);
+  ~Mesh();
 
-            void applyToShader(Shader* shader) override;
-            void render() override;
-    };
+  void setVertices(Vertex* vertices, size_t size);
+  void setIndices(int* indices, size_t size);
 
-    class Renderer : public Component {
-        public:
-            Shader* shader = nullptr;
+  void applyToShader(Shader* shader) override;
+  void render() override;
+};
 
-            Renderer(GameObject* obj);
-            ~Renderer();
+class Renderer : public Component {
+public:
 
-            void setShader(const char* vPath, const char* fPath);
+  static Shader* shader;
 
-            void update(float dt) override;
-            void render() override;
-    };
+  Renderer(GameObject* obj);
+  ~Renderer();
 
-    class Transform : public Component {
-        private:
-            Mat4 _model;
+  void setShader(const char* vPath, const char* fPath);
 
-        public:
-            Vec3 position{0, 0, 0};
-            Vec3 rotation{0, 0, 0};
-            Vec3 scale{1, 1, 1};
+  void update(float dt) override;
+  void render() override;
+};
 
-            Transform(GameObject* obj);
+class Transform : public Component {
+private:
+  Mat4 _model;
 
-            Mat4& getModel();
+public:
+  Vec3 position{0, 0, 0};
+  Vec3 rotation{0, 0, 0};
+  Vec3 scale{1, 1, 1};
 
-            void update(float dt) override;
-            void applyToShader(Shader* shader) override;
-    };
+  Transform(GameObject* obj);
 
-    class Camera : public Component {
-        private:
-        
-        virtual void projectionUpdate() {};
-        
-        public:
-        Mat4 _view;
-        Mat4 _projection;
-        Vec3 _target;
-        
-        Vec3 direction;
-        Vec3 right;
-        Vec3 up;
-        Vec3 front;
-        float near = 0.1;
-        float far = 100;
-        
-        Camera(GameObject* obj);
-        
-        void viewUpdate();
+  Mat4& getModel();
 
-        Mat4& getView();
-        Mat4& getProjection();
-        
-            //void update(float dt) override;
-            //void applyToShader(Shader* shader) override;
-    };
+  void update(float dt) override;
+  void applyToShader(Shader* shader) override;
+};
 
-    class PerspectiveCamera : public Camera {
-        private:
-            
-            void projectionUpdate() override;
-        
-        public:
-            float fov = 45;
-            float aspect = 16 / 9.0;
+class Camera : public Component {
+private:
 
-            PerspectiveCamera(GameObject* obj);
+  virtual void projectionUpdate() {};
 
-            void update(float dt) override;
-            void applyToShader(Shader* shader) override;
-    };
+public:
+  Mat4 _view;
+  Mat4 _projection;
+  Vec3 _target;
 
-    class OrthographicCamera : public Camera {
-        private:
-            
-            void projectionUpdate() override;
-        
-        public:
-            float left = -1;
-            float right = 1;
-            float bottom = -1;
-            float top = 1;
+  Vec3 direction;
+  Vec3 right;
+  Vec3 up;
+  Vec3 front;
+  float near = 0.1;
+  float far = 100;
 
-            OrthographicCamera(GameObject* obj);
+  Camera(GameObject* obj);
 
-            void update(float dt) override;
-            void applyToShader(Shader* shader) override;
-    };
+  void viewUpdate();
 
-    class Light : public Component {
-        public:
-            Vec3 ambient;
-            Vec3 diffuse;
-            Vec3 specular;
+  Mat4& getView();
+  Mat4& getProjection();
+};
 
-            Light(GameObject* obj);
+class PerspectiveCamera : public Camera {
+private:
 
-            void applyToShader(Shader* shader) override;
-    };
+  void projectionUpdate() override;
+
+public:
+  float fov = 45;
+  float aspect = 16 / 9.0;
+
+  PerspectiveCamera(GameObject* obj);
+
+  void update(float dt) override;
+  void applyToShader(Shader* shader) override;
+};
+
+class OrthographicCamera : public Camera {
+private:
+
+  void projectionUpdate() override;
+
+public:
+  float left = -1;
+  float right = 1;
+  float bottom = -1;
+  float top = 1;
+
+  OrthographicCamera(GameObject* obj);
+
+  void update(float dt) override;
+  void applyToShader(Shader* shader) override;
+};
+
+class Light : public Component {
+public:
+  Vec3 ambient;
+  Vec3 diffuse;
+  Vec3 specular;
+
+  Light(GameObject* obj);
+
+  void applyToShader(Shader* shader) override;
+};
 }
