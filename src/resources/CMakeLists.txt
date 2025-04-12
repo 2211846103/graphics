@@ -1,1 +1,1 @@
-add_library(resources)
+#add_library(resources)

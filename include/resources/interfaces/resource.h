@@ -5,17 +5,15 @@
 
 namespace engine::resources {
 
-enum class ResourceType {};
-
-enum class LoadState {
-  Unloaded, Loading, Loaded, Failed
+enum class ResourceType {
+  Shader
 };
 
 class Resource {
-  // int or string identifier
-  ResourceType type;
+public:
+  size_t id;
   std::string path;
-  LoadState load_state;
+  ResourceType type;
 };
 
 }
