@@ -7,9 +7,11 @@ using namespace engine::rendering;
 int main() {
   OpenGLWindow window(800, 600, "OpenGL Window");
   window.initWindow();
-  
+
+  float dt = 0;
+
   while (!window.shouldClose()) {
-    window.update();
+    dt = window.update();
   }
 
   glfwTerminate();
