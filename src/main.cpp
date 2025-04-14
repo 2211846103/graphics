@@ -1,11 +1,11 @@
-#include <window.hpp>
+#include <renderer/window.hpp>
 
 #include <iostream>
 
-using namespace Window;
+using namespace engine::rendering;
 
 int main() {
-  Window::OpenGLWindow window(800, 600, "OpenGL Window");
+  OpenGLWindow window(800, 600, "OpenGL Window");
   window.initWindow();
   
   while (!window.shouldClose()) {

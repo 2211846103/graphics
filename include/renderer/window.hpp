@@ -3,18 +3,18 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-namespace Window {
+namespace engine::rendering {
 
-    class IWindow {
+    class Window {
         public:
-            virtual ~IWindow() = default;
+            virtual ~Window() = default;
 
             virtual void initWindow() = 0;
             virtual bool shouldClose() = 0;
             virtual float update() = 0;
     };
 
-    class OpenGLWindow : public IWindow {
+    class OpenGLWindow : public Window {
         public:
             OpenGLWindow(int width, int height, const char* name);
             ~OpenGLWindow() override;
@@ -30,7 +30,7 @@ namespace Window {
             float _lastFrame;
     };
 
-    class VulkanWindow : public IWindow {
+    class VulkanWindow : public Window {
         public:
             VulkanWindow(int width, int height, const char* name);
             ~VulkanWindow() override;

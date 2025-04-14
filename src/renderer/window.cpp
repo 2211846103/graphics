@@ -1,6 +1,6 @@
-#include <window.hpp>
+#include <renderer/window.hpp>
 
-using namespace Window;
+using namespace engine::rendering;
 
 OpenGLWindow::OpenGLWindow(int w, int h, const char* name) : _width(w), _height(h), _windowName(name) {}
 
