@@ -1,11 +1,11 @@
 #include <renderer/window.hpp>
-
-#include <iostream>
+#include <resources/resource_manager.hpp>
 
 using namespace engine::rendering;
+using namespace engine::resources;
 
 int main() {
-  OpenGLWindow window(800, 600, "OpenGL Window");
+  /*OpenGLWindow window(800, 600, "OpenGL Window");
   window.initWindow();
 
   float dt = 0;
@@ -16,6 +16,10 @@ int main() {
 
   glfwTerminate();
   std::cout << "Window closed successfully." << std::endl;
+  */
+
+  ResourceManager::shader_storage.load("vertexShader", "shader.vert");
+  ResourceManager::shader_storage.load("vertexShader", "shade.vert");
 
   return 0;
 }
