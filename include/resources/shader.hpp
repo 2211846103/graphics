@@ -4,13 +4,6 @@
 #include <memory>
 #include <resources/resource.hpp>
 
-#ifdef ENGINE_VULKAN
-#include <vulkan/vulkan.hpp>
-#endif
-
-#ifdef ENGINE_DIRECTX
-#endif
-
 
 namespace engine::resources {
 
