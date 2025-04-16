@@ -4,6 +4,15 @@
 #include <GLFW/glfw3.h>
 
 
+#ifdef __OBJC__
+    #import <Cocoa/Cocoa.h>
+    #import <QuartzCore/CAMetalLayer.h>
+#else
+    class NSWindow;
+    class NSView;
+    class CAMetalLayer;
+#endif
+
 namespace engine::rendering {
 
     class Window {
@@ -49,4 +58,26 @@ namespace engine::rendering {
             const char* _windowName;
     };
 #endif
+
+#ifdef ENGINE_COMPILE_METAL
+    class MetalWindow : public Window {
+        public:
+            MetalWindow(int width, int height, const char* name);
+            ~MetalWindow() override;
+
+            void initWindow() override;
+            bool shouldClose() override;
+            float update() override;
+
+        private:
+            int _width;                  
+            int _height;                 
+            const char* _windowName;    
+
+            NSWindow* _window;
+            NSView* _contentView;
+            CAMetalLayer* _metalLayer;
+    };
+#endif
+
 }
