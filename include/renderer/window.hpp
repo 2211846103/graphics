@@ -3,7 +3,6 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-#include <iostream>
 
 namespace engine::rendering {
 
@@ -16,6 +15,7 @@ namespace engine::rendering {
             virtual float update() = 0;
     };
 
+#ifdef ENGINE_COMPILE_OPENGL
     class OpenGLWindow : public Window {
         public:
             OpenGLWindow(int width, int height, const char* name);
@@ -31,7 +31,9 @@ namespace engine::rendering {
             const char* _windowName;
             float _lastFrame;
     };
+#endif
 
+#ifdef ENGINE_COMPILE_VULKAN
     class VulkanWindow : public Window {
         public:
             VulkanWindow(int width, int height, const char* name);
@@ -46,4 +48,5 @@ namespace engine::rendering {
             int _width, _height;
             const char* _windowName;
     };
+#endif
 }

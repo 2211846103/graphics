@@ -1,7 +1,10 @@
 #include <renderer/window.hpp>
+#include <iostream>
+
 
 using namespace engine::rendering;
 
+#ifdef ENGINE_COMPILE_OPENGL
 OpenGLWindow::OpenGLWindow(int width, int height, const char* name) : _width(width), _height(height), _windowName(name) {}
 
 OpenGLWindow::~OpenGLWindow() {
@@ -42,3 +45,4 @@ float OpenGLWindow::update() {
 bool OpenGLWindow::shouldClose() {
     return glfwWindowShouldClose(_window);
 }
+#endif

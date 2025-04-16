@@ -1,11 +1,12 @@
 #include <renderer/window.hpp>
-#include <resources/resource_manager.hpp>
+#include <iostream>
+
 
 using namespace engine::rendering;
-using namespace engine::resources;
 
 int main() {
-  OpenGLWindow window(800, 600, "OpenGL Window");
+#ifdef ENGINE_COMPILE_DIRECTX
+  VulkanWindow window(800, 600, "OpenGL Window");
   window.initWindow();
 
   float dt = 0;
@@ -16,6 +17,7 @@ int main() {
 
   glfwTerminate();
   std::cout << "Window closed successfully." << std::endl;
+#endif
 
   return 0;
 }
