@@ -12,19 +12,10 @@ Resource(ResourceType::Shader, name) {
   this->shader_type = type;
 }
 
-ShaderPipeline::ShaderPipeline(std::string name) :
-Resource(ResourceType::ShaderPipeline, name) {}
-void ShaderPipeline::setShader(std::shared_ptr<Shader> shader) {
-  switch (shader->shader_type) {
-    case ShaderType::Vertex:
-      vertex_shader = shader;
-      break;
-    case ShaderType::Fragment:
-      fragment_shader = shader;
-      break;
-  }
-
-  this->reload();
+ShaderPipeline::ShaderPipeline(std::shared_ptr<Shader> vertex, std::shared_ptr<Shader> fragment, std::string name) :
+Resource(ResourceType::ShaderPipeline, name) {
+  this->vertex_shader = vertex;
+  this->fragment_shader = fragment;
 }
 
 #ifdef ENGINE_COMPILE_OPENGL
@@ -42,8 +33,8 @@ void OpenGLShader::unload() {
   std::cout << "Unloading OpenGLShader" << std::endl;
 }
 
-OpenGLShaderPipeline::OpenGLShaderPipeline(std::string name) :
-ShaderPipeline(name) {
+OpenGLShaderPipeline::OpenGLShaderPipeline(std::shared_ptr<Shader> vertex, std::shared_ptr<Shader> fragment, std::string name) :
+ShaderPipeline(vertex, fragment, name) {
   this->load();
 }
 OpenGLShaderPipeline::~OpenGLShaderPipeline() {

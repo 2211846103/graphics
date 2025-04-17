@@ -36,7 +36,7 @@ void FactoryManager::setGraphicsAPI(core::GraphicsAPI api) {
 std::shared_ptr<Shader> OpenGLGraphicsFactory::createShader(std::string path, ShaderType type, std::string name) {
   return std::make_shared<OpenGLShader>(path, type, name);
 }
-std::shared_ptr<ShaderPipeline> OpenGLGraphicsFactory::createShaderPipeline(std::string name) {
-  return std::make_shared<OpenGLShaderPipeline>(name);
+std::shared_ptr<ShaderPipeline> OpenGLGraphicsFactory::createShaderPipeline(std::shared_ptr<Shader> vertex, std::shared_ptr<Shader> fragment, std::string name) {
+  return std::make_shared<OpenGLShaderPipeline>(vertex, fragment, name);
 }
 #endif

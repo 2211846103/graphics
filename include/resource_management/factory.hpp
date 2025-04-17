@@ -11,14 +11,14 @@ namespace engine::resource_management {
 class GraphicsFactory {
 public:
   virtual std::shared_ptr<Shader> createShader(std::string path, ShaderType type, std::string name = "") = 0;
-  virtual std::shared_ptr<ShaderPipeline> createShaderPipeline(std::string name = "") = 0;
+  virtual std::shared_ptr<ShaderPipeline> createShaderPipeline(std::shared_ptr<Shader> vertex, std::shared_ptr<Shader> fragment, std::string name = "") = 0;
 };
 
 #ifdef ENGINE_COMPILE_OPENGL
 class OpenGLGraphicsFactory : public GraphicsFactory {
 public:
   std::shared_ptr<Shader> createShader(std::string path, ShaderType type, std::string name = "") override;
-  std::shared_ptr<ShaderPipeline> createShaderPipeline(std::string name = "") override;
+  std::shared_ptr<ShaderPipeline> createShaderPipeline(std::shared_ptr<Shader> vertex, std::shared_ptr<Shader> fragment, std::string name = "") override;
 };
 #endif
 

@@ -27,11 +27,11 @@ std::shared_ptr<ShaderPipeline> ShaderPipelineStorage::get(std::string name) {
   return nullptr;
 }
 
-std::shared_ptr<ShaderPipeline> ShaderPipelineStorage::load(std::string name) {
+std::shared_ptr<ShaderPipeline> ShaderPipelineStorage::load(std::shared_ptr<Shader> vertex, std::shared_ptr<Shader> fragment, std::string name) {
   std::shared_ptr<ShaderPipeline> pipeline = this->get(name);
   if (pipeline) return pipeline;
 
-  pipeline = FactoryManager::graphics_factory->createShaderPipeline(name);
+  pipeline = FactoryManager::graphics_factory->createShaderPipeline(vertex, fragment, name);
   _storage[pipeline->name] = pipeline;
   return pipeline;
 }
