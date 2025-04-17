@@ -1,8 +1,7 @@
 #include <renderer/window.hpp>
-#include <iostream>
 
 
-using namespace engine::rendering;
+using namespace engine;
 
 int main() {
 #ifdef ENGINE_COMPILE_DIRECTX
