@@ -1,11 +1,7 @@
 #include <renderer/window.hpp>
+#include <iostream>
 
-<<<<<<< Updated upstream
-
-using namespace engine;
-=======
 using namespace engine::rendering;
->>>>>>> Stashed changes
 
 int main() {
 #ifdef ENGINE_COMPILE_METAL
