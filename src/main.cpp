@@ -4,10 +4,10 @@
 using namespace engine::rendering;
 
 int main() {
-#ifdef ENGINE_COMPILE_METAL
-    std::cout << "Initializing Metal window..." << std::endl;
+#ifdef ENGINE_COMPILE_VULKAN
+    std::cout << "Initializing Vulkan window..." << std::endl;
 
-    MetalWindow window(800, 600, "Metal Window");
+    VulkanWindow window(800, 600, "Vulkan Window");
     window.initWindow();
 
     float dt = 0;
