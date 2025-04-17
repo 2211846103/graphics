@@ -7,7 +7,7 @@ option(ENABLE_CLANGD "Export Compile Command" OFF)
 option(ENABLE_OPENGL "Enable OpenGL backend" ON)
 option(ENABLE_VULKAN "Enable Vulkan backend" OFF)
 option(ENABLE_DIRECTX "Enable DirectX backend" OFF)
-option(ENABLE_METAL "Enable Metal backend" OFF)
+option(ENABLE_METAL "Enable Metal backend" ON)
 
 # Settings
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
@@ -17,6 +17,13 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 include_directories(
   "include"
   "libs/headers"
+)
+
+# Includes
+include_directories(
+  "include"
+  "libs/headers"
+  "src/resources"   
 )
 
 # Definitions
