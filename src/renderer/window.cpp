@@ -20,12 +20,6 @@ void OpenGLWindow::initWindow() {
 
     _window = glfwCreateWindow(_width, _height, _windowName, nullptr, nullptr);
 
-    if (_window == nullptr) {
-        std::cerr << "Failed to create GLFW window" << std::endl;
-        glfwTerminate();
-        return;
-    }
-
     glfwMakeContextCurrent(_window);
 
     glfwSetWindowUserPointer(this->_window, this);
@@ -43,6 +37,30 @@ float OpenGLWindow::update() {
 }
 
 bool OpenGLWindow::shouldClose() {
+    return glfwWindowShouldClose(_window);
+}
+#endif
+
+#ifdef ENGINE_COMPILE_VULKAN
+VulkanWindow::VulkanWindow(int width, int height, const char* name) : _width(width), _height(height), _windowName(name) {}
+
+VulkanWindow::~VulkanWindow(){
+    glfwDestroyWindow(_window);
+    glfwTerminate();
+}
+
+void VulkanWindow::initWindow(){
+    glfwInit();
+    glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
+
+    _window = glfwCreateWindow(_width, _height, _windowName, nullptr, nullptr);
+}
+
+float VulkanWindow::update(){
+    glfwPollEvents();
+}
+
+bool VulkanWindow::shouldClose(){
     return glfwWindowShouldClose(_window);
 }
 #endif
