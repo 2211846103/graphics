@@ -5,7 +5,7 @@ project(graphics)
 # Options
 option(ENABLE_CLANGD "Export Compile Command" OFF)
 option(ENABLE_OPENGL "Enable OpenGL backend" ON)
-option(ENABLE_VULKAN "Enable Vulkan backend" OFF)
+option(ENABLE_VULKAN "Enable Vulkan backend" ON)
 option(ENABLE_DIRECTX "Enable DirectX backend" OFF)
 option(ENABLE_METAL "Enable Metal backend" ON)
 
