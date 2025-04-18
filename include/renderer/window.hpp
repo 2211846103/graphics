@@ -4,6 +4,7 @@
 #include <GLFW/glfw3.h>
 
 
+
 #ifdef __OBJC__
     #import <Cocoa/Cocoa.h>
     #import <QuartzCore/CAMetalLayer.h>
@@ -80,4 +81,29 @@ namespace engine::rendering {
     };
 #endif
 
+#ifdef ENGINE_COMPILE_DIRECTX
+#define GLFW_EXPOSE_NATIVE_WIN32
+#include <GLFW/glfw3native.h>
+#include <d3d11.h>
+#pragma comment(lib, "d3d11.lib")
+
+extern ID3D11Device* device;
+extern ID3D11DeviceContext* context;
+extern IDXGISwapChain* swapChain;
+    class DirectXWindow : public Window {
+        public:
+            DirectXWindow(int width, int height, const char* name);
+            ~DirectXWindow() override;
+
+            void initWindow() override;
+            bool shoudlClose() override;
+            float update() override;
+
+        private:
+            int _width;
+            int _height;
+            const char* _windowName;
+            
+    };
+#endif
 }

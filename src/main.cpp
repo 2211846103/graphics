@@ -4,10 +4,10 @@
 using namespace engine::rendering;
 
 int main() {
-#ifdef ENGINE_COMPILE_VULKAN
+#ifdef ENGINE_COMPILE_DIRECTX
     std::cout << "Initializing Vulkan window..." << std::endl;
 
-    VulkanWindow window(800, 600, "Vulkan Window");
+    DirectXWindow window(800, 600, "Vulkan Window");
     window.initWindow();
 
     float dt = 0;
