@@ -4,7 +4,7 @@
 #include <GLFW/glfw3.h>
 
 
-
+#ifdef ENGINE_COMPILE_METAL
 #ifdef __OBJC__
     #import <Cocoa/Cocoa.h>
     #import <QuartzCore/CAMetalLayer.h>
@@ -12,6 +12,7 @@
     class NSWindow;
     class NSView;
     class CAMetalLayer;
+#endif
 #endif
 
 namespace engine::rendering {

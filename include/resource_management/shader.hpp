@@ -24,10 +24,10 @@ public:
   std::shared_ptr<Shader> vertex_shader;
   std::shared_ptr<Shader> fragment_shader;
 
-  ShaderPipeline(std::string name = "");
+  ShaderPipeline(std::shared_ptr<Shader> vertex, std::shared_ptr<Shader> fragment, std::string name = "");
   ~ShaderPipeline() = default;
 
-  void setShader(std::shared_ptr<Shader> shader);
+  void linkDependencies() override;
 };
 
 #ifdef ENGINE_COMPILE_OPENGL
@@ -47,7 +47,7 @@ private:
   void unload() override;
 
 public:
-  OpenGLShaderPipeline(std::string name = "");
+  OpenGLShaderPipeline(std::shared_ptr<Shader> vertex, std::shared_ptr<Shader> fragment, std::string name = "");
   ~OpenGLShaderPipeline();
 };
 #endif

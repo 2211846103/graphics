@@ -22,8 +22,10 @@ private:
   std::map<std::string, std::shared_ptr<ShaderPipeline>> _storage;
 
 public:
-  std::shared_ptr<ShaderPipeline> load(std::string name = "");
+  std::shared_ptr<ShaderPipeline> load(std::shared_ptr<Shader> vertex, std::shared_ptr<Shader> fragment, std::string name = "");
   std::shared_ptr<ShaderPipeline> get(std::string name);
+
+  int get_size() {return _storage.size();}
 };
 
 }
