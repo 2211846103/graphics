@@ -6,33 +6,36 @@
 
 using namespace engine::resource_management;
 
-std::shared_ptr<Shader> ShaderStorage::get(std::string path) {
-  auto shader = _storage.find(path);
+std::map<std::string, std::shared_ptr<File>> FileStorage::_storage = {};
+std::map<std::string, std::shared_ptr<Shader>> ShaderStorage::_storage = {};
+
+std::shared_ptr<File> FileStorage::get(std::string name) {
+  auto file = _storage.find(name);
+  if (file != _storage.end()) return file->second;
+  return nullptr;
+}
+
+std::shared_ptr<File> FileStorage::load(std::string path, std::string name, bool hot_reload) {
+  std::shared_ptr<File> file = this->get(name);
+  if (file) return file;
+
+  file = std::make_shared<File>(path, name, hot_reload);
+  _storage[file->name] = file;
+  return file;
+}
+
+std::shared_ptr<Shader> ShaderStorage::get(std::string name) {
+  auto shader = _storage.find(name);
   if (shader != _storage.end()) return shader->second;
   return nullptr;
 }
 
-std::shared_ptr<Shader> ShaderStorage::load(std::string path, ShaderType type, std::string name) {
-  std::shared_ptr<Shader> shader = this->get(path);
+std::shared_ptr<Shader> ShaderStorage::load(std::shared_ptr<File> vertex, std::shared_ptr<File> fragment, std::string name) {
+  std::shared_ptr<Shader> shader = this->get(name);
   if (shader) return shader;
 
-  shader = FactoryManager::graphics_factory->createShader(path, type, name);
-  _storage[shader->path] = shader;
+  shader = FactoryManager::graphics_factory->createShader(vertex, fragment, name);
+  shader->linkDependencies();
+  _storage[shader->name] = shader;
   return shader;
-}
-
-std::shared_ptr<ShaderPipeline> ShaderPipelineStorage::get(std::string name) {
-  auto pipeline = _storage.find(name);
-  if (pipeline != _storage.end()) return pipeline->second;
-  return nullptr;
-}
-
-std::shared_ptr<ShaderPipeline> ShaderPipelineStorage::load(std::shared_ptr<Shader> vertex, std::shared_ptr<Shader> fragment, std::string name) {
-  std::shared_ptr<ShaderPipeline> pipeline = this->get(name);
-  if (pipeline) return pipeline;
-
-  pipeline = FactoryManager::graphics_factory->createShaderPipeline(vertex, fragment, name);
-  pipeline->linkDependencies();
-  _storage[pipeline->name] = pipeline;
-  return pipeline;
 }

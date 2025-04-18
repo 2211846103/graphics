@@ -10,7 +10,7 @@
 namespace engine::resource_management {
 
 enum class ResourceType {
-  Shader, ShaderPipeline
+  Shader, File
 };
 
 class Resource : public std::enable_shared_from_this<Resource> {
@@ -29,7 +29,6 @@ public:
   time_t last_used;
   size_t memory_size;
   std::vector<std::weak_ptr<Resource>> dependents;
-
 
   Resource(ResourceType type, std::string name = "");
   ~Resource() = default;
