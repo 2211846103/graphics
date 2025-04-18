@@ -11,7 +11,7 @@ option(ENABLE_METAL "Enable Metal backend" ON)
 
 # Settings
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ${ENABLE_CLANGD})
 
 # Includes
 include_directories(
@@ -19,12 +19,10 @@ include_directories(
   "libs/headers"
 )
 
-# Includes
-include_directories(
-  "include"
-  "libs/headers"
-  "src/resources"   
-)
+# Globals
+set(METAL_LIBS "-framework Cocoa" "-framework QuartzCore" "-framework Metal")
+set(OPENGL_LIBS glfw glad)
+set(DIRECTX_LIBS ON)
 
 # Definitions
 if (ENABLE_OPENGL)

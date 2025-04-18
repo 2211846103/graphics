@@ -32,6 +32,7 @@ std::shared_ptr<ShaderPipeline> ShaderPipelineStorage::load(std::shared_ptr<Shad
   if (pipeline) return pipeline;
 
   pipeline = FactoryManager::graphics_factory->createShaderPipeline(vertex, fragment, name);
+  pipeline->linkDependencies();
   _storage[pipeline->name] = pipeline;
   return pipeline;
 }

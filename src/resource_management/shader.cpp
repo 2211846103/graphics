@@ -18,6 +18,11 @@ Resource(ResourceType::ShaderPipeline, name) {
   this->fragment_shader = fragment;
 }
 
+void ShaderPipeline::linkDependencies() {
+  vertex_shader->dependents.push_back(weak_from_this());
+  fragment_shader->dependents.push_back(weak_from_this());
+}
+
 #ifdef ENGINE_COMPILE_OPENGL
 OpenGLShader::OpenGLShader(std::string path, ShaderType type, std::string name) :
 Shader(path, type, name) {

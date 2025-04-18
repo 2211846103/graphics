@@ -26,6 +26,8 @@ public:
 
   ShaderPipeline(std::shared_ptr<Shader> vertex, std::shared_ptr<Shader> fragment, std::string name = "");
   ~ShaderPipeline() = default;
+
+  void linkDependencies() override;
 };
 
 #ifdef ENGINE_COMPILE_OPENGL

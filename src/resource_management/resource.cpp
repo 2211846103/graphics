@@ -1,6 +1,7 @@
 #include <chrono>
 #include <resource_management/resource.hpp>
 #include <string>
+#include <iostream>
 
 
 using namespace engine::resource_management;
@@ -19,4 +20,10 @@ resource_type(type) {
 void Resource::reload() {
   this->unload();
   this->load();
+
+  for (std::weak_ptr<Resource>& resource : dependents) {
+    if (auto dep = resource.lock()) {
+      dep->reload();
+    }
+  }
 }

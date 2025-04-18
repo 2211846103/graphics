@@ -24,6 +24,8 @@ private:
 public:
   std::shared_ptr<ShaderPipeline> load(std::shared_ptr<Shader> vertex, std::shared_ptr<Shader> fragment, std::string name = "");
   std::shared_ptr<ShaderPipeline> get(std::string name);
+
+  int get_size() {return _storage.size();}
 };
 
 }
