@@ -1,4 +1,3 @@
-#include "resource_management/file.hpp"
 #include <core/types.hpp>
 #include <renderer/window.hpp>
 #include <resource_management/resource_manager.hpp>
@@ -16,7 +15,7 @@ int main() {
   ResourceManager manager(true);
 
   //std::cout << "\nTesting\n" << std::endl;
-  //Shader* shader = manager.loadShader("/home/Zenjar/Documents/projects/graphics_assets/shader.vert", "/home/Zenjar/Documents/projects/graphics_assets/shader.frag").get();
+  Shader* shader = manager.loadShader("/home/Zenjar/Documents/projects/graphics_assets/shader.vert", "/home/Zenjar/Documents/projects/graphics_assets/shader.frag").get();
   //std::cout << "\nEnd Testing\n" << std::endl;
 
 

@@ -19,7 +19,7 @@ public:
   std::string path;
   bool hot_reload = false;
 
-  File(const std::string path, std::string name = "", bool hot_reload = false);
+  File(const std::string path, std::string name = "", bool hot_reload = false, bool lazy = true);
   ~File();
 
   // Hot Reloading Methods

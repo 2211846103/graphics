@@ -12,7 +12,7 @@ public:
   std::shared_ptr<File> vertex_shader;
   std::shared_ptr<File> fragment_shader;
 
-  Shader(std::shared_ptr<File> vertex, std::shared_ptr<File> fragment, std::string name = "");
+  Shader(std::shared_ptr<File> vertex, std::shared_ptr<File> fragment, std::string name = "", bool lazy = true);
   ~Shader() = default;
 
   void linkDependencies() override;
@@ -25,7 +25,7 @@ private:
   void unload() override;
 
 public:
-  OpenGLShader(std::shared_ptr<File> vertex, std::shared_ptr<File> fragment, std::string name = "");
+  OpenGLShader(std::shared_ptr<File> vertex, std::shared_ptr<File> fragment, std::string name = "", bool lazy = true);
   ~OpenGLShader();
 };
 #endif

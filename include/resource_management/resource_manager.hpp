@@ -20,8 +20,8 @@ public:
   std::shared_ptr<File> getFile(std::string name);
   std::shared_ptr<Shader> getShader(std::string name);
 
-  std::shared_ptr<File> loadFile(std::string path, std::string name = "");
-  std::shared_ptr<Shader> loadShader(std::string vertex_path, std::string fragment_path, std::string name = "");
+  std::shared_ptr<File> loadFile(std::string path, std::string name = "", bool lazy = true);
+  std::shared_ptr<Shader> loadShader(std::string vertex_path, std::string fragment_path, std::string name = "", bool lazy = true);
 };
 
 }

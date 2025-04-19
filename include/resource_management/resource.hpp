@@ -22,15 +22,12 @@ public:
   int resource_id;
   std::string name;
   bool loaded;
-  uint32_t version;
-  int ref_count;
+  bool lazy;
+  uint32_t version = 0;
   ResourceType resource_type;
-  bool dirty;
-  time_t last_used;
-  size_t memory_size;
   std::vector<std::weak_ptr<Resource>> dependents;
 
-  Resource(ResourceType type, std::string name = "");
+  Resource(ResourceType type, std::string name = "", bool lazy = true);
   ~Resource() = default;
 
   virtual void linkDependencies() {};

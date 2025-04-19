@@ -1,13 +1,12 @@
 #include <chrono>
 #include <resource_management/resource.hpp>
 #include <string>
-#include <iostream>
 
 
 using namespace engine::resource_management;
 
-Resource::Resource(ResourceType type, std::string name) :
-resource_type(type) {
+Resource::Resource(ResourceType type, std::string name, bool lazy) :
+resource_type(type), lazy(lazy) {
   this->name = name.empty() ? std::to_string(
     std::hash<std::string>{}(
       std::to_string(
