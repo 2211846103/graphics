@@ -3,16 +3,16 @@
 #include <resource_management/resource_manager.hpp>
 #include <renderer/helloTriangle.hpp>
 
+using namespace engine;
 using namespace engine::rendering;
 
 int main() {
 
   /* Resource Management Shit */
   using namespace engine::resource_management;
-  using namespace engine::core;
 
-  FactoryManager::setGraphicsAPI(GraphicsAPI::OpenGL);
   ResourceManager manager(true);
+  manager.setGraphicsLoader(core::GraphicsAPI::OpenGL);
 
   //std::cout << "\nTesting\n" << std::endl;
   //Shader* shader = manager.loadShader("/home/Zenjar/Documents/projects/graphics_assets/shader.vert", "/home/Zenjar/Documents/projects/graphics_assets/shader.frag").get();

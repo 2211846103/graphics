@@ -1,6 +1,5 @@
 #pragma once
 
-#include "resource_management/file.hpp"
 #include <memory>
 #include <resource_management/resource_storage.hpp>
 
@@ -16,6 +15,8 @@ private:
 public:
   ResourceManager(bool hot_reload = false);
   ~ResourceManager() = default;
+
+  void setGraphicsLoader(core::GraphicsAPI api);
 
   std::shared_ptr<File> getFile(std::string name);
   std::shared_ptr<Shader> getShader(std::string name);

@@ -1,4 +1,3 @@
-#include "resource_management/file.hpp"
 #include <memory>
 #include <resource_management/resource_manager.hpp>
 
@@ -6,6 +5,10 @@
 using namespace engine::resource_management;
 
 ResourceManager::ResourceManager(bool hot_reload) : _hot_reload(hot_reload) {}
+
+void ResourceManager::setGraphicsLoader(core::GraphicsAPI api) {
+  FactoryManager::setGraphicsAPI(api);
+}
 
 std::shared_ptr<File> ResourceManager::getFile(std::string name) {
   return _file_storage.get(name);

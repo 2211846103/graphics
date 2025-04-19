@@ -21,6 +21,7 @@ void Shader::linkDependencies() {
 }
 
 #ifdef ENGINE_COMPILE_OPENGL
+#include <glad/glad.h>
 OpenGLShader::OpenGLShader(std::shared_ptr<File> vertex, std::shared_ptr<File> fragment, std::string name, bool lazy) :
 Shader(vertex, fragment, name, lazy) {
   if (!lazy) this->load();
@@ -40,12 +41,11 @@ void OpenGLShader::load() {
 
   std::string vertex_source = vertex_shader->read();
   std::string fragment_source = fragment_shader->read();
+  const char* vertex_source_c = vertex_source.c_str();
+  const char* fragment_source_c = fragment_source.c_str();
 
-  const char* vertex_source_cstr = vertex_source.c_str();
-  const char* fragment_source_cstr = fragment_source.c_str();
-
-  glShaderSource(vertex_shader_id, 1, &vertex_source_cstr, NULL);
-  glShaderSource(fragment_shader_id, 1, &fragment_source_cstr, NULL);
+  glShaderSource(vertex_shader_id, 1, &vertex_source_c, NULL);
+  glShaderSource(fragment_shader_id, 1, &fragment_source_c, NULL);
 
   glCompileShader(vertex_shader_id);
   glCompileShader(fragment_shader_id);
