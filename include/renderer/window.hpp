@@ -1,8 +1,19 @@
 #pragma once
 
+#ifdef ENGINE_COMPILE_DIRECTX
+#define GLFW_EXPOSE_NATIVE_WIN32
+#include <d3d11.h>
+#include <GLFW/glfw3native.h>
+#include <GLFW/glfw3.h>
+#endif
+
+#ifdef ENGINE_COMPILE_OPENGL
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#endif
 
+#ifdef ENGINE_COMPILE_VULKAN
+#endif
 
 #ifdef ENGINE_COMPILE_METAL
 #ifdef __OBJC__
@@ -83,11 +94,6 @@ namespace engine::rendering {
 #endif
 
 #ifdef ENGINE_COMPILE_DIRECTX
-#define GLFW_EXPOSE_NATIVE_WIN32
-#include <GLFW/glfw3native.h>
-#include <d3d11.h>
-#pragma comment(lib, "d3d11.lib")
-
 extern ID3D11Device* device;
 extern ID3D11DeviceContext* context;
 extern IDXGISwapChain* swapChain;

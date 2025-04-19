@@ -12,11 +12,13 @@ option(ENABLE_METAL "Enable Metal backend" ON)
 # Settings
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ${ENABLE_CLANGD})
+set(CMAKE_CXX_STANDARD 17)
 
 # Includes
 include_directories(
   "include"
   "libs/headers"
+  ${WIN_HEADERS}
 )
 
 # Globals
