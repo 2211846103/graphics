@@ -1,18 +1,20 @@
 #pragma once
 
+#ifdef ENGINE_COMPILE_OPENGL
+#include <glad/glad.h>
+#endif
+
 #ifdef ENGINE_COMPILE_DIRECTX
 #define GLFW_EXPOSE_NATIVE_WIN32
 #include <d3d11.h>
-#include <GLFW/glfw3native.h>
-#include <GLFW/glfw3.h>
-#endif
-
-#ifdef ENGINE_COMPILE_OPENGL
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
 #endif
 
 #ifdef ENGINE_COMPILE_VULKAN
+#endif
+
+#if defined(ENGINE_COMPILE_OPENGL) || defined(ENGINE_COMPILE_VULKAN) || defined(ENGINE_COMPILE_DIRECTX)
+#include <GLFW/glfw3.h>
+#include <GLFW/glfw3native.h>
 #endif
 
 #ifdef ENGINE_COMPILE_METAL
@@ -94,22 +96,23 @@ namespace engine::rendering {
 #endif
 
 #ifdef ENGINE_COMPILE_DIRECTX
-extern ID3D11Device* device;
-extern ID3D11DeviceContext* context;
-extern IDXGISwapChain* swapChain;
     class DirectXWindow : public Window {
         public:
             DirectXWindow(int width, int height, const char* name);
             ~DirectXWindow() override;
 
             void initWindow() override;
-            bool shoudlClose() override;
+            bool shouldClose() override;
             float update() override;
 
         private:
             int _width;
             int _height;
             const char* _windowName;
+            GLFWwindow* _window;
+            IDXGISwapChain* swapChain = nullptr;
+            ID3D11DeviceContext* context = nullptr;
+            ID3D11Device* device = nullptr;
             
     };
 #endif

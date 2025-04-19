@@ -67,10 +67,6 @@ bool VulkanWindow::shouldClose(){
 
 #ifdef ENGINE_COMPILE_DIRECTX
 
-device = nullptr;
-context = nullptr;
-swampChain = nullptr;
-
 DirectXWindow::DirectXWindow(int width, int height, const char* name) : _width(width), _height(height), _windowName(name) {}
 
 DirectXWindow::~DirectXWindow(){
@@ -103,7 +99,7 @@ void DirectXWindow::initWindow(){
     );
 }
 
-float DirextXWindow::update(){
+float DirectXWindow::update(){
     glfwPollEvents();
 
     float clearColor[] = {0.1f, 0.2f, 0.3f, 1.0f};
@@ -111,7 +107,7 @@ float DirextXWindow::update(){
     swapChain->Present(1,0);
 }
 
-bool DirextXWindow::shouldClose(){
+bool DirectXWindow::shouldClose(){
     return glfwWindowShouldClose(_window);
 }
 #endif
