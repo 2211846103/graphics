@@ -16,6 +16,8 @@ public:
   ~Shader() = default;
 
   void linkDependencies() override;
+
+  virtual void useShader() {};
 };
 
 #ifdef ENGINE_COMPILE_OPENGL
@@ -27,6 +29,8 @@ private:
 public:
   OpenGLShader(std::shared_ptr<File> vertex, std::shared_ptr<File> fragment, std::string name = "", bool lazy = true);
   ~OpenGLShader();
+
+  void useShader() override;
 };
 #endif
 
