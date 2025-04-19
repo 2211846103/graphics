@@ -24,7 +24,7 @@ class OpenGLShader : public Shader {
 private:
   unsigned int vertex_shader_id;
   unsigned int fragment_shader_id;
-  unsigned int shader_program;
+  unsigned int shader_program_id;
 
   void load() override;
   void unload() override;
