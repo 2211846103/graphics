@@ -66,7 +66,7 @@ bool VulkanWindow::shouldClose(){
 }
 #endif
 
-/*
+
 #ifdef ENGINE_COMPILE_DIRECTX
 
 DirectXWindow::DirectXWindow(int width, int height, const char* name) : _width(width), _height(height), _windowName(name) {}
@@ -80,37 +80,45 @@ void DirectXWindow::initWindow(){
     glfwInit();
     glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
 
-    _window = glfwCreateWindow(_width, _height, _windowName, nullptr, nullptr);
-    HWND hwnd = glfwGetWin32Window(_window);
+    _window = glfwCreateWindow(_width, _height, _windowName, nullptr, nullptr); //basic glfw window creation
+    HWND hwnd = glfwGetWin32Window(_window); //changes the glfw window to a win32 window to output dx onto it
     
-    DXGI_SWAP_CHAIN_DESC scd = {};
-    scd.BufferCount = 1;
-    scd.BufferDesc.Width = 800;
-    scd.BufferDesc.Height = 600;
-    scd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-    scd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-    scd.OutputWindow = hwnd;
-    scd.SampleDesc.Count = 1;
-    scd.Windowed = TRUE;
-    scd.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
+    DXGI_SWAP_CHAIN_DESC scd = {}; //initializes the backbuffer with default values
+    scd.BufferCount = 1; //creates 1 backbuffer that will drawn on and shown then switches back and forht
+    scd.BufferDesc.Width = _width; //width of the backbuffer
+    scd.BufferDesc.Height = _height; //height of the backbuffer
+    scd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM; //color format for the window 8red 8green 8blue
+    scd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT; //specifes where the buffer will be used
+    scd.OutputWindow = hwnd; //link to the output window duh
+    scd.SampleDesc.Count = 1; //uhhhh weird ass anti aliasing  stuff
+    scd.Windowed = TRUE; //forces it to be windowed mode
+    scd.SwapEffect = DXGI_SWAP_EFFECT_DISCARD; //discards after swap i think
 
     HRESULT hr = D3D11CreateDeviceAndSwapChain(
         nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, 0,
         nullptr, 0, D3D11_SDK_VERSION,
         &scd, &swapChain, &device, nullptr, &context
-    );
+    ); //creates the dx device and the swap chain and the context
+
+    ID3D11Texture2D* backBuffer; //creates the actual backbuffer (empty atm)
+    swapChain->GetBuffer(0, _uuidof(ID3D11Texture2D), (void**)&backBuffer); //gets the buffer pointer and casts into the backbuffer
+    device->CreateRenderTargetView(backBuffer, nullptr, &renderTargetView); //this gives the destination as to where the gpu is supposed to draw (i think)
+    backBuffer->Release(); //release the backbuffer (the render target view holds the refrence now so its useless to hold it any longer)
 }
 
 float DirectXWindow::update(){
     glfwPollEvents();
 
-    float clearColor[] = {0.1f, 0.2f, 0.3f, 1.0f};
-    context->ClearRenderTargetView(renderTargetView, clearColor);
-    swapChain->Present(1,0);
+    context->OMSetRenderTargets(1, &renderTargetView, nullptr); //tells dx to actually draw on the RT
+
+    float clearColor[] = {0.1f, 0.2f, 0.3f, 1.0f}; //the color format for the window (rgba) you can change it to whatever color
+    context->ClearRenderTargetView(renderTargetView, clearColor); //clears the backbuffer which is now the RTV to the clearColor format (blue atm)
+    swapChain->Present(1,0); //presents the backbuffer after its "drawn" on
+
+    return glfwGetTime();
 }
 
 bool DirectXWindow::shouldClose(){
     return glfwWindowShouldClose(_window);
 }
 #endif
-*/

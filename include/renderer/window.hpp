@@ -7,6 +7,9 @@
 #ifdef ENGINE_COMPILE_DIRECTX
 #define GLFW_EXPOSE_NATIVE_WIN32
 #include <d3d11.h>
+#include <dxgi.h>
+#pragma comment(lib, "d3d11.lib")
+#pragma comment(lib, "dxgi.lib")
 #endif
 
 #ifdef ENGINE_COMPILE_VULKAN
@@ -113,6 +116,7 @@ namespace engine::rendering {
             IDXGISwapChain* swapChain = nullptr;
             ID3D11DeviceContext* context = nullptr;
             ID3D11Device* device = nullptr;
+            ID3D11RenderTargetView* renderTargetView = nullptr;
             
     };
 #endif

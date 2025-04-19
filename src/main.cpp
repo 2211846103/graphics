@@ -19,22 +19,16 @@ int main() {
   //std::cout << "\nEnd Testing\n" << std::endl;
 
 
-#ifdef ENGINE_COMPILE_OPENGL
-    std::cout << "Initializing Metal window..." << std::endl;
+#ifdef ENGINE_COMPILE_DIRECTX
+    std::cout << "Initializing DX window..." << std::endl;
 
-    OpenGLWindow window(800, 600, "Metal Window");
+    DirectXWindow window(800, 600, "DX Window");
     window.initWindow();
 
     float dt = 0;
 
-    openGLTriangleTest();
-
     while (!window.shouldClose()) {
         dt = window.update();
-
-        glBindVertexArray(VAO);
-
-        shader.useShader();
     }
 
     std::cout << "Window closed successfully." << std::endl;
