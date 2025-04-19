@@ -3,6 +3,9 @@
 #include <resource_management/shader.hpp>
 #include <string>
 
+#ifdef ENGINE_COMPILE_OPENGL
+#include <glad/glad.h>
+#endif
 
 using namespace engine::resource_management;
 
@@ -32,11 +35,17 @@ void OpenGLShader::load() {
 
   std::cout << "Loading OpenGLShader" << std::endl;
 
-  unsigned int vertex_shader_id = glCreateShader(GL_VERTEX_SHADER);
-  unsigned int fragment_shader_id = glCreateShader(GL_FRAGMENT_SHADER);
+  vertex_shader_id = glCreateShader(GL_VERTEX_SHADER);
+  fragment_shader_id = glCreateShader(GL_FRAGMENT_SHADER);
 
-  glShaderSourse(vertex_shader_id, 1, &vertex_shader->read(), NULL);
-  glShaderSourse(fragment_shader_id, 1, &fragment_shader->read(), NULL);
+  std::string vertex_source = vertex_shader->read();
+  std::string fragment_source = fragment_shader->read();
+
+  const char* vertex_source_cstr = vertex_source.c_str();
+  const char* fragment_source_cstr = fragment_source.c_str();
+
+  glShaderSource(vertex_shader_id, 1, &vertex_source_cstr, NULL);
+  glShaderSource(fragment_shader_id, 1, &fragment_source_cstr, NULL);
 
   glCompileShader(vertex_shader_id);
   glCompileShader(fragment_shader_id);
@@ -56,14 +65,14 @@ void OpenGLShader::load() {
     std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << std::endl;
   }
 
-  unsigned int shader_program = glCreateProgram();
-  glAttachShader(shader_program, vertex_shader_id);
-  glAttachShader(shader_program, fragment_shader_id);
-  glLinkProgram(shader_program);
+  shader_program_id = glCreateProgram();
+  glAttachShader(shader_program_id, vertex_shader_id);
+  glAttachShader(shader_program_id, fragment_shader_id);
+  glLinkProgram(shader_program_id);
 
-  glGetProgramiv(shader_program, GL_LINK_STATUS, &success);
+  glGetProgramiv(shader_program_id, GL_LINK_STATUS, &success);
   if (!success) {
-    glGetProgramInfoLog(shader_program, 512, NULL, infoLog);
+    glGetProgramInfoLog(shader_program_id, 512, NULL, infoLog);
     std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
   }
 
@@ -75,7 +84,7 @@ void OpenGLShader::unload() {
 
   glDeleteShader(vertex_shader_id);
   glDeleteShader(fragment_shader_id);
-  glDeleteProgram(shader_program);
+  glDeleteProgram(shader_program_id);
 
   std::cout << "Unloading OpenGLShader" << std::endl;
 
@@ -83,6 +92,7 @@ void OpenGLShader::unload() {
 }
 
 void OpenGLShader::useShader() {
-  glUseProgram(shader_program);
+  this->load();
+  glUseProgram(shader_program_id);
 }
 #endif

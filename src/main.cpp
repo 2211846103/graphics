@@ -1,7 +1,7 @@
 #include <core/types.hpp>
 #include <renderer/window.hpp>
 #include <resource_management/resource_manager.hpp>
-#include <unistd.h>
+#include <renderer/helloTriangle.hpp>
 
 using namespace engine::rendering;
 
@@ -27,8 +27,14 @@ int main() {
 
     float dt = 0;
 
+    openGLTriangleTest();
+
     while (!window.shouldClose()) {
         dt = window.update();
+
+        glBindVertexArray(VAO);
+
+        shader.useShader();
     }
 
     std::cout << "Window closed successfully." << std::endl;

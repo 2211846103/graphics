@@ -58,6 +58,7 @@ void VulkanWindow::initWindow(){
 
 float VulkanWindow::update(){
     glfwPollEvents();
+    return glfwGetTime();
 }
 
 bool VulkanWindow::shouldClose(){
@@ -65,6 +66,7 @@ bool VulkanWindow::shouldClose(){
 }
 #endif
 
+/*
 #ifdef ENGINE_COMPILE_DIRECTX
 
 DirectXWindow::DirectXWindow(int width, int height, const char* name) : _width(width), _height(height), _windowName(name) {}
@@ -111,3 +113,4 @@ bool DirectXWindow::shouldClose(){
     return glfwWindowShouldClose(_window);
 }
 #endif
+*/

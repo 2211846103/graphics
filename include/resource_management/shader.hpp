@@ -27,6 +27,10 @@ private:
   void unload() override;
 
 public:
+  unsigned int vertex_shader_id;
+  unsigned int fragment_shader_id;
+  unsigned int shader_program_id;
+
   OpenGLShader(std::shared_ptr<File> vertex, std::shared_ptr<File> fragment, std::string name = "", bool lazy = true);
   ~OpenGLShader();
 
